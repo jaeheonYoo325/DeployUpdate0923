@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="EmployeeDao">
+  	<insert id="insertOneEmployeeDao" parameterType="EmployeeDto">  								
+		INSERT INTO EMPLOYEE	(
+									empNo
+		                            , empName
+		                            , empPw
+		                            , empPh
+									, empPc
+		                            , empCad
+		                            , empDad
+		                            , empCph
+		                            , empEmail
+		                            , empJoinDate
+		                            , empRegDate
+		                            , empModDate
+		                            , salt
+		                            , depNo
+		                            , positionNo
+								)
+		VALUES					(
+									#{empNo}
+		                            , #{empName}
+		                            , #{empPw}
+		                            , #{empPh}
+		                            , #{empPc}
+		                            , #{empCad}
+		                            , #{empDad}
+		                            , #{empCph}
+		                            , #{empEmail}
+		                            , #{empJoinDate}
+		                            , now()
+		                            , now()
+		                            , #{salt}
+		                            , #{depNo}
+		                            , #{positionNo}
+		                        )	  								
+  	</insert>
+  	
+  	<select id="selectOneEmployeeDao" parameterType="EmployeeDto" resultType="EmployeeDto">
+  		SELECT	empNo      
+				, empName  
+				, empPw     
+				, empPh     
+				, empPc     
+				, empCad    
+				, empDad    
+				, empCph    
+				, empEmail 
+				, empjoinDate
+				, empRegDate 
+				, empModDate 
+  		FROM	EMPLOYEE
+  		WHERE	empNo = #{empNo}
+  		AND		empPw = #{empPw}
+  	</select>
+  	
+  	<select id="getSaltByEmployeeNumber" parameterType="EmployeeDto" resultType="string">
+  		SELECT	SALT
+  		FROM	EMPLOYEE
+  		WHERE	empNo = #{empNo}
+  	</select>
+  </mapper>
