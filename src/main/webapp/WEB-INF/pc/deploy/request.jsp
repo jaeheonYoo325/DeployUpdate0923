@@ -19,7 +19,6 @@
       
    });
 </script>
-
 <script>
 function searchEmp(str){
    window.open("/search/searchEmp.do?str="+str,"Employee검색", "width=1000, height=800");
@@ -28,7 +27,8 @@ function searchChain(){
    window.open("/search/searchChain.do","Chain검색", "width=1000, height=800");
 }
 function searchProgram(){
-   window.open("/search/searchProgram.do","Program검색", "width=1000, height=800");
+	var str=document.requestFrm.d_chainId.value;
+   window.open("/search/searchProgram.do?paramChainId="+str,"Program검색", "width=1000, height=800");
 }
 function searchSeq(){
    window.open("/search/searchSeq.do","Seq검색", "width=1000, height=800");
@@ -39,12 +39,8 @@ function searchSeq(){
 <body>
 
 <h1>request</h1>
-<form:form id="requestFrm" modelAttribute="deployDto">
-seqNo : <input type="text" name="seqtableNo" id="seqtableNo" readonly="readonly">
-      <input type="text" name="seqNo" id="seqNo" readonly="readonly">
-      <input type="text" name="chainId" id="chainId" readonly="readonly">
-      <input type="button" value="검색" onclick="searchSeq()"><br>
-부문 : <input type="text" name="chainID" id="chainID" readonly="readonly">
+<form:form id="requestFrm" modelAttribute="deployDto" name="requestFrm">
+부문 : <input type="text" name="d_chainId" id="d_chainId" readonly="readonly">
      <input type="text" name="chainName" id="chainName" readonly="readonly">
      <input type="button" value="검색" onclick="searchChain()"><br>
 작업유형 : <select name="wtype" id="wtype">
@@ -59,8 +55,11 @@ seqNo : <input type="text" name="seqtableNo" id="seqtableNo" readonly="readonly"
 작업자 : <input type="text" name="wEmpNo" id="wEmpNo" readonly="readonly">
        <input type="button" value="검색" onclick="searchEmp('wEmp')"><br>
 변경내역 : <input type="text" name="wContent"><br>
-변경프로그램목록 : <input type="text" name="wProgram" id="wProgram" readonly="readonly">
-             <input type="text" name="pageName" id="pageName" readonly="readonly">
+변경프로그램목록 : 
+			 <textarea name="wProgram" id="wProgram" rows="10" readonly="readonly"></textarea>
+			 <textarea name="pageName" id="pageName" rows="10" cols="40" readonly="readonly"></textarea>
+<!--              <input type="text" name="" id="" readonly="readonly"> -->
+<!--              <input type="text" name="pageName" id="pageName" readonly="readonly"> -->
              <input type="button" value="검색" onclick="searchProgram()"><br>
 변경소스명 : <input type="text" name="wSource"><br>
 요청자 : <input type="text" name="reqEmpNo" id="reqEmpNo" readonly="readonly">

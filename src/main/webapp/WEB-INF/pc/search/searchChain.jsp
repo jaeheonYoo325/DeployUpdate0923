@@ -26,7 +26,7 @@
 
 <script>
 function useChain(chainId,chainName){
-      opener.document.getElementById("chainID").value=chainId
+      opener.document.getElementById("d_chainId").value=chainId
       opener.document.getElementById("chainName").value=chainName
       window.close();
    }

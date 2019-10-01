@@ -26,8 +26,8 @@
 
 <script>
 function useChain(pageId,pageName){
-      opener.document.getElementById("wProgram").value=pageId
-      opener.document.getElementById("pageName").value=pageName
+      opener.document.getElementById("wProgram").value+=pageId+"\n"
+      opener.document.getElementById("pageName").value+=pageName+"\n"
       window.close();
    }
 </script>
@@ -38,6 +38,7 @@ function useChain(pageId,pageName){
 
 <form:form id="searchProgramFrm" modelAttribute="programTableDto">
 ProgramName : <input type="text" name="pageName" id="pageName"><input type="button" id="searchBtn" value="검색"><br><br>
+paramChainId : <input type="text" name="paramChainId" id="paramChainId" value="${paramChainId}">
 </form:form>
 
 <table border="1" class="table table-hover">

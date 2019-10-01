@@ -10,6 +10,6 @@
  			<typeAlias type="com.springproject.department.dto.DepartmentDto" alias="DepartmentDto"/>
  			<typeAlias type="com.springproject.chain.dto.ChainTableDto" alias="ChainTableDto"/>
 			<typeAlias type="com.springproject.program.dto.ProgramTableDto" alias="ProgramTableDto"/>
-			<typeAlias type="com.springproject.seqtable.dto.SeqTableDto" alias="SeqTableDto"/>
+			<typeAlias type="com.springproject.wprogramtable.dto.WProgramTableDto" alias="WProgramTableDto"/>
  		</typeAliases>        
     </configuration>

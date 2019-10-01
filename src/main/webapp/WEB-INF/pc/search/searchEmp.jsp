@@ -67,7 +67,6 @@ function test(){
 EmpName : <input type="text" name="empName" id="empName"><input type="button" id="searchBtn" value="검색"><br><br>
 </form:form>
 
-<input type="button" value="테스트" onclick="test()">
 <table border="1" class="table table-hover">
             <tr>
                <td>사원번호</td>

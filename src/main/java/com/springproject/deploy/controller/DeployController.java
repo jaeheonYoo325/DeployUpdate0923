@@ -1,7 +1,9 @@
 package com.springproject.deploy.controller;
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +31,7 @@ import com.springproject.deploy.dto.DeployDto;
 import com.springproject.deploy.service.DeployService;
 import com.springproject.employee.dto.EmployeeDto;
 import com.springproject.program.dto.ProgramTableDto;
-import com.springproject.seqtable.dto.SeqTableDto;
+import com.springproject.wprogramtable.dto.WProgramTableDto;
 
 @Controller
 public class DeployController {
@@ -60,19 +62,22 @@ public class DeployController {
 	}
 
 	@GetMapping("/search/searchChain.do")
-	public String viewsearchChainPage() {
-		return HttpRequestHelper.getJspPath();
+	public ModelAndView viewsearchChainPage() {
+		ModelAndView mv=new ModelAndView(HttpRequestHelper.getJspPath());
+		List<ChainTableDto> chainTableDtoList=this.deployService.selectAllChainService();
+		mv.addObject("chainTableDtoList",chainTableDtoList);
+		return mv;
 	}
 
 	@GetMapping("/search/searchProgram.do")
-	public String viewsearchProgramPage() {
-		return HttpRequestHelper.getJspPath();
-	}
+	   public ModelAndView viewsearchProgramPage(@RequestParam("paramChainId") String paramChainId) {	   
+	      ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+	      List<ProgramTableDto> programTableDtoList=this.deployService.selctAllProgramService(paramChainId);
+	      mv.addObject("paramChainId",paramChainId);
+	      mv.addObject("programTableDtoList",programTableDtoList);
+	      return mv;
+	   }
 
-	@GetMapping("/search/searchSeq.do")
-	public String viewsearchSeqpage() {
-		return HttpRequestHelper.getJspPath();
-	}
 
 	@PostMapping("/search/searchEmp.do")
 	public ModelAndView doSearchEmpAction(@RequestParam("str") String str, @ModelAttribute EmployeeDto employeeDto) {
@@ -83,14 +88,7 @@ public class DeployController {
 		mv.addObject("employeeDtoList", employeeDtoList);
 		return mv;
 	}
-
-	@PostMapping("/search/searchSeq.do")
-	public ModelAndView doSearchSeqAction(@ModelAttribute SeqTableDto seqTableDto) {
-		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
-		List<SeqTableDto> seqTableDtoList = this.deployService.selectSomeProgramService(seqTableDto);
-		mv.addObject("seqTableDtoList", seqTableDtoList);
-		return mv;
-	}
+//
 
 	@PostMapping("/search/searchChain.do")
 	public ModelAndView doSearchChainAction(@ModelAttribute ChainTableDto chainTableDto) {
@@ -99,68 +97,70 @@ public class DeployController {
 		mv.addObject("chainTableDtoList", chainTableDtoList);
 		return mv;
 	}
-
+//
 	@PostMapping("/search/searchProgram.do")
-	public ModelAndView doSearchProgramAction(@ModelAttribute ProgramTableDto programTableDto) {
+	public ModelAndView doSearchProgramAction(@ModelAttribute ProgramTableDto programTableDto, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+		String paramChainId=request.getParameter("paramChainId");
 		List<ProgramTableDto> programTableDtoList = this.deployService.selectSomeProgramService(programTableDto);
-		mv.addObject("programTableDtoList", programTableDtoList);
+		mv.addObject("paramChainId",paramChainId);
+		mv.addObject("programTableDtoList", programTableDtoList);	
 		return mv;
 	}
+	
 
 	@PostMapping("/deploy/request.do")
-	public ModelAndView doDeployAction(@ModelAttribute DeployDto deployDto) {
-
+	public ModelAndView doDeployAction(@ModelAttribute DeployDto deployDto, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("redirect:/deploy/deployList.do");
-
-		boolean isSuccess = this.deployService.insertOneDeployService(deployDto);
-
+		String wProgram=request.getParameter("wProgram");
+		String[] wProgramArray=wProgram.split("\n");
+		boolean success = this.deployService.insertOneDeployService(deployDto, wProgramArray);
 		return mv;
 	}
 
-	@RequestMapping("/deploy/deployList.do")
-	public ModelAndView doDeployListAction() {
-
-		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
-		List<DeployDto> deployDtoList = this.deployService.selectAllDeployService();
-
-		mv.addObject("deployDtoList", deployDtoList);
-
-		return mv;
-
-	}
-
-	@GetMapping("/deploy/deployUpdate.do/{deployNo}")
-	public ModelAndView viewDeployUpdatePage(@PathVariable int deployNo) {
-
-		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
-		DeployDto deployDto = this.deployService.selectOneDeployService(deployNo);
-
-		mv.addObject("deployDto", deployDto);
-
-		return mv;
-	}
-
-	@ResponseBody
-	@RequestMapping("/deploy/deployUpdateAjax.do")
-	public Map<Object, Object> viewDeployUpdateAjax(@RequestParam("seqNo") int seqNo) {
-
-		logger.info("deployUpdateAjax!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		Map<Object, Object> map = new HashMap<Object, Object>();
-
-		DeployDto userDeployDto = this.deployService.selectOneDeployService(seqNo);
-
-		if (userDeployDto == null) {
-			logger.info("error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			String error = "error";
-			map.put("error", error);
-			return map;
-		}
-		logger.info("success!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		map.put("userDeployDto", userDeployDto);
-		return map;
-
-	}
+//	@RequestMapping("/deploy/deployList.do")
+//	public ModelAndView doDeployListAction() {
+//
+//		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+//		List<DeployDto> deployDtoList = this.deployService.selectAllDeployService();
+//
+//		mv.addObject("deployDtoList", deployDtoList);
+//
+//		return mv;
+//
+//	}
+//
+//	@GetMapping("/deploy/deployUpdate.do/{deployNo}")
+//	public ModelAndView viewDeployUpdatePage(@PathVariable int deployNo) {
+//
+//		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+//		DeployDto deployDto = this.deployService.selectOneDeployService(deployNo);
+//
+//		mv.addObject("deployDto", deployDto);
+//
+//		return mv;
+//	}
+//
+//	@ResponseBody
+//	@RequestMapping("/deploy/deployUpdateAjax.do")
+//	public Map<Object, Object> viewDeployUpdateAjax(@RequestParam("seqNo") int seqNo) {
+//
+//		logger.info("deployUpdateAjax!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//		Map<Object, Object> map = new HashMap<Object, Object>();
+//
+//		DeployDto userDeployDto = this.deployService.selectOneDeployService(seqNo);
+//
+//		if (userDeployDto == null) {
+//			logger.info("error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//			String error = "error";
+//			map.put("error", error);
+//			return map;
+//		}
+//		logger.info("success!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//		map.put("userDeployDto", userDeployDto);
+//		return map;
+//
+//	}
 
 	/*
 	 * @PostMapping("/deploy/deployUpdate.do/{seqNo}") public ModelAndView
@@ -174,40 +174,41 @@ public class DeployController {
 	 * return mv; }
 	 */
 
-	@PostMapping("/deploy/deployUpdate.do")
-	public void doDeployUpdateAction(@PathVariable int deployNo, @ModelAttribute DeployDto deployDto,
-			HttpServletResponse response) {
-		boolean isSuccess = this.deployService.updateOneDeployService(deployDto);
-		PrintWriter out;
-		if (isSuccess) {
-			response.setContentType("text/html;charset=UTF-8");
+//	@PostMapping("/deploy/deployUpdate.do")
+//	public void doDeployUpdateAction(@PathVariable int deployNo, @ModelAttribute DeployDto deployDto,
+//			HttpServletResponse response) {
+//		boolean isSuccess = this.deployService.updateOneDeployService(deployDto);
+//		PrintWriter out;
+//		if (isSuccess) {
+//			response.setContentType("text/html;charset=UTF-8");
+//
+//			try {
+//				out = response.getWriter();
+//				out.println("<script>");
+//				out.println("alert('수정완료')");
+//				out.println("window.close()");
+//				out.println("</script>");
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		} else {
+//			try {
+//				out = response.getWriter();
+//				out.println("<script>");
+//				out.println("alert('수정실패')");
+//				out.println("history.back()");
+//				out.println("</script>");
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 
-			try {
-				out = response.getWriter();
-				out.println("<script>");
-				out.println("alert('수정완료')");
-				out.println("window.close()");
-				out.println("</script>");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else {
-			try {
-				out = response.getWriter();
-				out.println("<script>");
-				out.println("alert('수정실패')");
-				out.println("history.back()");
-				out.println("</script>");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	@RequestMapping("/deploy/deployDelete.do/{deployNo}")
-	public String doDeployDeleteAction(@PathVariable int deployNo) {
-
-		boolean isSuccess = this.deployService.deleteOneDeployService(deployNo);
-		return "redirect:/deploy/deployList.do";
-	}
+//	@RequestMapping("/deploy/deployDelete.do/{deployNo}")
+//	public String doDeployDeleteAction(@PathVariable int deployNo) {
+//
+//		boolean isSuccess = this.deployService.deleteOneDeployService(deployNo);
+//		return "redirect:/deploy/deployList.do";
+//	}
 }
+

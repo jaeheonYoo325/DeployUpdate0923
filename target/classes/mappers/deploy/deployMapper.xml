@@ -6,16 +6,13 @@
 <mapper namespace="DeployDao">
 	<insert id="insertOneDeployDao" parameterType="DeployDto">
       INSERT INTO DEPLOY (
-
-                        seqtableNo
-                        , chainID
+                         d_chainId
                         , wtype
                         , reqDate
                         , reqTime
                         , reqserviceId
                         , wEmpNo
                         , wContent
-                        , wProgram
                         , wSource
                         , reqEmpNo
                         , deployEmpNo
@@ -26,15 +23,13 @@
                         
                      )
       VALUES            (
-                        #{seqtableNo}
-                        , #{chainID}
+                         #{d_chainId}
                         , #{wtype}
                         , #{reqDate}
                         , #{reqTime}
                         , #{reqServiceId}
                         , #{wEmpNo}
                         , #{wContent}
-                        , #{wProgram}
                         , #{wSource}
                         , #{reqEmpNo}
                         , #{deployEmpNo}
@@ -44,89 +39,101 @@
                         , #{division}
                      )   
    </insert>
+   
+   
+   <insert id="insertOneDeploy2" parameterType="java.util.ArrayList">
+   INSERT INTO WPROGRAMTABLE(wProNo_pageId,wProNo_deployNo)
+   VALUES
+   <foreach collection="list" item="item" index="index">
+   (#{item.value)
+   </foreach>
+                           
+   
+                        
+   </insert>
 	
-	<select id="selectAllDeployDao" resultType="DeployDto">
-		SELECT 
-	         d.deployNo
-	         , s.seqNo
-	         , s.seqTableNo
-	         , c.chainName
-	         , c.chainID
-	         , d.wtype
-	         , d.reqDate
-	         , d.reqTime
-	         , d.reqServiceId
-	         , d.wContent
-	         , d.wProgram
-	         , p.pageName
-	         , d.wSource
-	         , d.reqEmpNo
-	         , d.wEmpNo
-	         , d.deployEmpNo
-	         , d.devEmpNo
-	         , d.testEmpNo
-	         , d.prdEmpNo
-	         , d.division  
-		 FROM deploy d 
-		 JOIN CHAINTABLE c
-		 JOIN PROGRAMTABLE p 
-		 JOIN SEQTABLE s 
-		 ON(d.seqtableNo=s.seqtableNo) AND (d.chainID=c.chainID) AND(d.wProgram=p.pageId)
-	</select>
+<!-- 	<select id="selectAllDeployDao" resultType="DeployDto"> -->
+<!-- 		SELECT  -->
+<!-- 	         d.deployNo -->
+<!-- 	         , s.seqNo -->
+<!-- 	         , s.seqTableNo -->
+<!-- 	         , c.chainName -->
+<!-- 	         , c.chainID -->
+<!-- 	         , d.wtype -->
+<!-- 	         , d.reqDate -->
+<!-- 	         , d.reqTime -->
+<!-- 	         , d.reqServiceId -->
+<!-- 	         , d.wContent -->
+<!-- 	         , d.wProgram -->
+<!-- 	         , p.pageName -->
+<!-- 	         , d.wSource -->
+<!-- 	         , d.reqEmpNo -->
+<!-- 	         , d.wEmpNo -->
+<!-- 	         , d.deployEmpNo -->
+<!-- 	         , d.devEmpNo -->
+<!-- 	         , d.testEmpNo -->
+<!-- 	         , d.prdEmpNo -->
+<!-- 	         , d.division   -->
+<!-- 		 FROM deploy d  -->
+<!-- 		 JOIN CHAINTABLE c -->
+<!-- 		 JOIN PROGRAMTABLE p  -->
+<!-- 		 JOIN SEQTABLE s  -->
+<!-- 		 ON(d.seqtableNo=s.seqtableNo) AND (d.chainID=c.chainID) AND(d.wProgram=p.pageId) -->
+<!-- 	</select> -->
 	
-	<select id="selectOneDeployDao" parameterType="_int" resultType="DeployDto">
-		SELECT 
-	         d.deployNo
-	         , s.seqNo
-	         , c.chainName
-	         , d.wtype
-	         , d.reqDate
-	         , d.reqTime
-	         , d.reqServiceId
-	         , d.wContent
-	         , p.pageId
-	         , d.wSource
-	         , d.reqEmpNo
-	         , d.wEmpNo
-	         , d.deployEmpNo
-	         , d.devEmpNo
-	         , d.testEmpNo
-	         , d.prdEmpNo
-	         , d.division  
-		 FROM deploy d 
-		 JOIN CHAINTABLE c
-		 JOIN PROGRAMTABLE p 
-		 JOIN SEQTABLE s 
-		 ON(d.seqtableNo=s.seqtableNo) AND (d.chainID=c.chainID) AND(d.wProgram=p.pageId)
-		 WHERE d.deployNo=#{deployNo}
-	</select>
+<!-- 	<select id="selectOneDeployDao" parameterType="_int" resultType="DeployDto"> -->
+<!-- 		SELECT  -->
+<!-- 	         d.deployNo -->
+<!-- 	         , s.seqNo -->
+<!-- 	         , c.chainName -->
+<!-- 	         , d.wtype -->
+<!-- 	         , d.reqDate -->
+<!-- 	         , d.reqTime -->
+<!-- 	         , d.reqServiceId -->
+<!-- 	         , d.wContent -->
+<!-- 	         , p.pageId -->
+<!-- 	         , d.wSource -->
+<!-- 	         , d.reqEmpNo -->
+<!-- 	         , d.wEmpNo -->
+<!-- 	         , d.deployEmpNo -->
+<!-- 	         , d.devEmpNo -->
+<!-- 	         , d.testEmpNo -->
+<!-- 	         , d.prdEmpNo -->
+<!-- 	         , d.division   -->
+<!-- 		 FROM deploy d  -->
+<!-- 		 JOIN CHAINTABLE c -->
+<!-- 		 JOIN PROGRAMTABLE p  -->
+<!-- 		 JOIN SEQTABLE s  -->
+<!-- 		 ON(d.seqtableNo=s.seqtableNo) AND (d.chainID=c.chainID) AND(d.wProgram=p.pageId) -->
+<!-- 		 WHERE d.deployNo=#{deployNo} -->
+<!-- 	</select> -->
 	
-	<update id="updateOneDeployDao" parameterType="DeployDto">
-	  UPDATE    DEPLOY
-      SET   seqNo = #{seqNo}
-            , chainID = #{chainID}       
-            , wtype  = #{wtype}     
-            , reqDate = #{reqDate}    
-            , reqTime = #{reqTime}    
-            , reqServiceId = #{reqServiceId}
-            , wEmpNo = #{wEmpNo}
-            , wContent = #{wContent}    
-            , wProgram = #{wProgram}   
-            , wSource = #{wSource}   
-            , reqempNo = #{reqEmpNo}  
-            , deployempNo = #{deployEmpNo}
-            , devempNo = #{devEmpNo}  
-            , testempNo = #{testEmpNo} 
-            , prdempNo = #{prdEmpNo}  
-            , division = #{division}
-      WHERE   deployNo = #{deployNo}
-	</update>
+<!-- 	<update id="updateOneDeployDao" parameterType="DeployDto"> -->
+<!-- 	  UPDATE    DEPLOY -->
+<!--       SET   seqNo = #{seqNo} -->
+<!--             , chainID = #{chainID}        -->
+<!--             , wtype  = #{wtype}      -->
+<!--             , reqDate = #{reqDate}     -->
+<!--             , reqTime = #{reqTime}     -->
+<!--             , reqServiceId = #{reqServiceId} -->
+<!--             , wEmpNo = #{wEmpNo} -->
+<!--             , wContent = #{wContent}     -->
+<!--             , wProgram = #{wProgram}    -->
+<!--             , wSource = #{wSource}    -->
+<!--             , reqempNo = #{reqEmpNo}   -->
+<!--             , deployempNo = #{deployEmpNo} -->
+<!--             , devempNo = #{devEmpNo}   -->
+<!--             , testempNo = #{testEmpNo}  -->
+<!--             , prdempNo = #{prdEmpNo}   -->
+<!--             , division = #{division} -->
+<!--       WHERE   deployNo = #{deployNo} -->
+<!-- 	</update> -->
 	
-	<delete id="deleteOneDeployDao" parameterType="_int">
-		DELETE
-		FROM	DEPLOY
-		WHERE	deployNo = #{deployNo}
-	</delete>
+<!-- 	<delete id="deleteOneDeployDao" parameterType="_int"> -->
+<!-- 		DELETE -->
+<!-- 		FROM	DEPLOY -->
+<!-- 		WHERE	deployNo = #{deployNo} -->
+<!-- 	</delete> -->
 	<select id="selectSomeDeployDao" parameterType="EmployeeDto" resultType="EmployeeDto">
       SELECT
             empNo
@@ -146,17 +153,36 @@
       SELECT
             pageId
            , pageName
+           , p_chainId
        FROM  PROGRAMTABLE
        WHERE pageName LIKE CONCAT('%',#{pageName},'%')
-   </select>        
+       AND p_chainId=#{paramChainId}
+   </select>   
    
-   <select id="selectSomeSeqDao" parameterType="SeqTableDto" resultType="SeqTableDto">
-      SELECT
-            seqtableNo
-           , seqNo
-           , chainId
-       FROM SEQTABLE
-       WHERE seqNo LIKE CONCAT('%',#{seqNo},'%')
-   </select>                      
+   <select id="selectAllChainDao" resultType="ChainTableDto">
+   SELECT
+   		 chainId
+   	   , chainName
+   FROM CHAINTABLE
+   </select> 
+   
+   <select id="selectAllProgramDao" parameterType="ProgramTableDto" resultType="ProgramTableDto">
+   SELECT
+          pageId
+         ,pageName
+         ,p_chainId
+   FROM  PROGRAMTABLE      
+   WHERE p_chainId=#{paramChainId}
+   </select>  
+   
+   <select id="selectMaxDeployNo" resultType="_int">
+   SELECT
+         MAX(deployNo)
+   FROM DEPLOY
+   </select>
+   
+   <insert id="insertOneWProgram" parameterType="WProgramTableDto">
+   INSERT INTO WPROGRAMTABLE VALUES(#{wProNo_pageId},#{wProNo_deployNo})
+   </insert>
 </mapper>                         
                                   

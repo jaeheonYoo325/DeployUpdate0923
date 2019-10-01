@@ -4,7 +4,15 @@ public class ProgramTableDto {
 
 	private String pageId;
 	private String pageName;
-	private String chainId;
+	private String p_chainId;
+    private String paramChainId;
+	public String getParamChainId() {
+		return paramChainId;
+	}
+
+	public void setParamChainId(String paramChainId) {
+		this.paramChainId = paramChainId;
+	}
 
 	public String getPageId() {
 		return pageId;
@@ -22,12 +30,14 @@ public class ProgramTableDto {
 		this.pageName = pageName;
 	}
 
-	public String getChainId() {
-		return chainId;
+	public String getP_chainId() {
+		return p_chainId;
 	}
 
-	public void setChainId(String chainId) {
-		this.chainId = chainId;
+	public void setP_chainId(String p_chainId) {
+		this.p_chainId = p_chainId;
 	}
+
+
 
 }
