@@ -23,7 +23,7 @@ public class DeployServiceImpl implements DeployService {
 	private DeployDao deployDao;
 
 	@Override
-	public boolean insertOneDeployService(DeployDto deployDto,String[] wProgramArray) {
+	public boolean insertOneDeployService(DeployDto deployDto,String[] wProgramArray, String[] pageNameArray) {
 		boolean isSuccess=this.deployDao.insertOneDeployDao(deployDto) > 0;
 		boolean isSuccess2=true;
 		int deployNo=this.deployDao.selectMaxDeployNo();
@@ -33,6 +33,7 @@ public class DeployServiceImpl implements DeployService {
 			wProgramTableDto.setwProNo_pageId(wProgramArray[i]);
 			System.out.println("서비스안에서 String[i]값 : " + wProgramArray[i]);
 			wProgramTableDto.setwProNo_deployNo(deployNo);
+			wProgramTableDto.setwProNo_pageName(pageNameArray[i]);
 			System.out.println(wProgramTableDto.getwProNo_pageId()+"/"+wProgramTableDto.getwProNo_deployNo());
 			isSuccess2=isSuccess2&&(this.deployDao.insertOneWProgram(wProgramTableDto)>0);
 		}		
@@ -41,10 +42,10 @@ public class DeployServiceImpl implements DeployService {
 	}
 	
 
-//	@Override
-//	public List<DeployDto> selectAllDeployService() {
-//		return this.deployDao.selectAllDeployDao();
-//	}
+	@Override
+	public List<DeployDto> selectAllDeployService() {
+		return this.deployDao.selectAllDeployDao();
+	}
 //
 //	@Override
 //	public DeployDto selectOneDeployService(int deployNo) {
@@ -84,6 +85,12 @@ public class DeployServiceImpl implements DeployService {
 	@Override
 	public List<ProgramTableDto> selctAllProgramService(String paramChainId) {
 		return this.deployDao.selectAllProgramDao(paramChainId);
+	}
+
+
+	@Override
+	public List<WProgramTableDto> selectAllWProgramService(int deployNo) {
+	 return this.deployDao.selectAllWProgramDao(deployNo);	
 	}
 
 }

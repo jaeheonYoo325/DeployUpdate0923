@@ -16,7 +16,7 @@ public interface DeployDao {
 	
 	public int insertOneWProgram(WProgramTableDto wProgramTableDto);
 	
-//	public List<DeployDto> selectAllDeployDao();
+	public List<DeployDto> selectAllDeployDao();
 //	
 //	public DeployDto selectOneDeployDao(int deployNo);
 //	
@@ -24,7 +24,7 @@ public interface DeployDao {
 //	
 //	public int deleteOneDeployDao(int deployNo);
 //	
-	public List<EmployeeDto> selectSomeDeployDao(EmployeeDto employeeDto);
+   public List<EmployeeDto> selectSomeDeployDao(EmployeeDto employeeDto);
 	
    public List<ChainTableDto> selectSomeChainDao(ChainTableDto chainTableDto);
    
@@ -35,5 +35,7 @@ public interface DeployDao {
    public List<ProgramTableDto> selectAllProgramDao(String paramChainId);
    
    public int selectMaxDeployNo();
+   
+   public List<WProgramTableDto> selectAllWProgramDao(int deployNo);
 
 }

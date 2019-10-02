@@ -25,7 +25,6 @@
 <script>
 function deployDetail(str){
    var deployNo=str;
-   alert(deployNo);
    window.open("/deploy/deployUpdate.do/"+deployNo,"상세보기", "width=1000, height=800");
    
 }
@@ -38,7 +37,6 @@ function deployDetail(str){
       <table border="1" class="table table-hover">
             <tr>
                <td>No</td>
-               <td>SEQ</td>
                <td>부문</td>
                <td>작업유형</td>
                <td>요청날짜</td>
@@ -59,18 +57,20 @@ function deployDetail(str){
             </tr>
          <c:choose>
                <c:when test="${not empty deployDtoList}">
-                  <c:forEach items="${deployDtoList}" var="deploy">
+                  <c:forEach items="${deployDtoList}" var="deploy" varStatus="status">
                      <tr>
-                         <td>${deploy.deployNo}</td>
-                         <td>${deploy.seqNo}(${deploy.seqTableNo})</td>
-                        <td>${deploy.chainName}(${deploy.chainID})</td>
+                        <td>${deploy.deployNo}</td>
+                        <td>${deploy.chainName}(${deploy.d_chainId})</td>
                         <td>${deploy.wtype}</td>
                         <td>${deploy.reqDate}</td>
                         <td>${deploy.reqTime}</td>
                         <td>${deploy.reqServiceId}</td>
                         <td>${deploy.wEmpNo}</td>
                         <td>${deploy.wContent}</td>
-                        <td>${deploy.wProgram}(${deploy.pageName})</td>
+                        <c:forEach begin="${status.index}" end="${status.index}" var="wPro" items="${wProgramList}">
+<%--                         <td>${wPro.wPro_pageId}/${wPro.wPro_pageName }</td> --%>
+							 <td>${wPro.wProNo_pageId}</td>
+                        </c:forEach>
                         <td>${deploy.wSource}</td>
                         <td>${deploy.reqEmpNo}</td>
                         <td>${deploy.deployEmpNo}</td>
@@ -79,7 +79,7 @@ function deployDetail(str){
                         <td>${deploy.prdEmpNo}</td>
                         <td>${deploy.division}</td>
                         <td><input type="button" value="상세보기" onclick="deployDetail(${deploy.deployNo})"></td>
-                        <td><input type="button" id="requestDeleteBtn" value="삭제" onclick="location.href='/deploy/deployDelete.do/'+ ${deploy.seqNo}"/></td>
+                        <td><input type="button" id="requestDeleteBtn" value="삭제" onclick="location.href='/deploy/deployDelete.do/'+ ${deploy.deployNo}"/></td>
                      </tr>
                   </c:forEach>
             </c:when>

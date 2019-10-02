@@ -52,34 +52,37 @@
                         
    </insert>
 	
-<!-- 	<select id="selectAllDeployDao" resultType="DeployDto"> -->
-<!-- 		SELECT  -->
-<!-- 	         d.deployNo -->
-<!-- 	         , s.seqNo -->
-<!-- 	         , s.seqTableNo -->
-<!-- 	         , c.chainName -->
-<!-- 	         , c.chainID -->
-<!-- 	         , d.wtype -->
-<!-- 	         , d.reqDate -->
-<!-- 	         , d.reqTime -->
-<!-- 	         , d.reqServiceId -->
-<!-- 	         , d.wContent -->
-<!-- 	         , d.wProgram -->
-<!-- 	         , p.pageName -->
-<!-- 	         , d.wSource -->
-<!-- 	         , d.reqEmpNo -->
-<!-- 	         , d.wEmpNo -->
-<!-- 	         , d.deployEmpNo -->
-<!-- 	         , d.devEmpNo -->
-<!-- 	         , d.testEmpNo -->
-<!-- 	         , d.prdEmpNo -->
-<!-- 	         , d.division   -->
-<!-- 		 FROM deploy d  -->
-<!-- 		 JOIN CHAINTABLE c -->
-<!-- 		 JOIN PROGRAMTABLE p  -->
-<!-- 		 JOIN SEQTABLE s  -->
-<!-- 		 ON(d.seqtableNo=s.seqtableNo) AND (d.chainID=c.chainID) AND(d.wProgram=p.pageId) -->
-<!-- 	</select> -->
+	<select id="selectAllDeployDao" resultType="DeployDto">
+		SELECT 
+	         d.deployNo
+	         , c.chainName
+	         , d.d_chainId
+	         , d.wtype
+	         , d.reqDate
+	         , d.reqTime
+	         , d.reqServiceId
+	         , d.wContent
+	         , d.wSource
+	         , d.reqEmpNo
+	         , d.wEmpNo
+	         , d.deployEmpNo
+	         , d.devEmpNo
+	         , d.testEmpNo
+	         , d.prdEmpNo
+	         , d.division  
+		 FROM deploy d 
+		 JOIN CHAINTABLE c
+		 ON(d.d_chainID=c.chainID)
+	</select>
+	
+	<select id="selectAllWProgramDao" resultType="WProgramTableDto" parameterType="_int" >
+	SELECT
+	       wProNo_pageId
+	      ,wProNo_pageName
+	      ,wProNo_deployNo
+	FROM WPROGRAMTABLE
+	WHERE wProNo_deployNo=#{deployNo}
+	</select>
 	
 <!-- 	<select id="selectOneDeployDao" parameterType="_int" resultType="DeployDto"> -->
 <!-- 		SELECT  -->
@@ -182,7 +185,7 @@
    </select>
    
    <insert id="insertOneWProgram" parameterType="WProgramTableDto">
-   INSERT INTO WPROGRAMTABLE VALUES(#{wProNo_pageId},#{wProNo_deployNo})
+   INSERT INTO WPROGRAMTABLE VALUES(#{wProNo_pageId},#{wProNo_deployNo},#{wProNo_pageName})
    </insert>
 </mapper>                         
                                   

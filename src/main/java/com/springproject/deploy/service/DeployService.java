@@ -12,9 +12,9 @@ import com.springproject.wprogramtable.dto.WProgramTableDto;
 
 public interface DeployService {
 
-	public boolean insertOneDeployService(DeployDto deployDto, String[] wProgramArray);
+	public boolean insertOneDeployService(DeployDto deployDto, String[] wProgramArray, String[] pageNameArray);
 	
-//	public List<DeployDto> selectAllDeployService();
+	public List<DeployDto> selectAllDeployService();
 //	
 //	public DeployDto selectOneDeployService(int deployNo);
 //	
@@ -31,5 +31,7 @@ public interface DeployService {
 	public List<ChainTableDto> selectAllChainService();
 	
 	public List<ProgramTableDto> selctAllProgramService(String paramChainId);
+	
+	public List<WProgramTableDto> selectAllWProgramService(int deployNo);
 	
 }

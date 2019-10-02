@@ -114,21 +114,27 @@ public class DeployController {
 		ModelAndView mv = new ModelAndView("redirect:/deploy/deployList.do");
 		String wProgram=request.getParameter("wProgram");
 		String[] wProgramArray=wProgram.split("\n");
-		boolean success = this.deployService.insertOneDeployService(deployDto, wProgramArray);
+		String pageName=request.getParameter("pageName");
+		String[] pageNameArray=pageName.split("\n");
+		boolean success = this.deployService.insertOneDeployService(deployDto, wProgramArray, pageNameArray);
 		return mv;
 	}
 
-//	@RequestMapping("/deploy/deployList.do")
-//	public ModelAndView doDeployListAction() {
-//
-//		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
-//		List<DeployDto> deployDtoList = this.deployService.selectAllDeployService();
-//
-//		mv.addObject("deployDtoList", deployDtoList);
-//
-//		return mv;
-//
-//	}
+	@RequestMapping("/deploy/deployList.do")
+	public ModelAndView doDeployListAction() {
+		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+		List<DeployDto> deployDtoList = this.deployService.selectAllDeployService();
+		List wProgramList=new ArrayList();
+		for(int i=0; i<deployDtoList.size();i++) {
+			int deployNo=deployDtoList.get(i).getDeployNo();
+			System.out.println(deployNo);
+			List<WProgramTableDto> wProgramTableList=this.deployService.selectAllWProgramService(deployNo);
+			wProgramList.add(wProgramTableList);
+		}	
+		mv.addObject("deployDtoList", deployDtoList);
+		mv.addObject("wProgramList",wProgramList);
+		return mv;
+	}
 //
 //	@GetMapping("/deploy/deployUpdate.do/{deployNo}")
 //	public ModelAndView viewDeployUpdatePage(@PathVariable int deployNo) {

@@ -5,6 +5,24 @@ public class DeployDto {
 	private String d_chainId;
 	private String wtype;
 	private String reqDate;
+	private String reqTime;
+	private String reqServiceId;
+	private String wEmpNo;
+	private String wContent;
+	private String wSource;
+	private String reqEmpNo;
+	private String deployEmpNo;
+	private String devEmpNo;
+	private String testEmpNo;
+	private String prdEmpNo;
+	private String division;
+	private String chainName;
+	public String getChainName() {
+		return chainName;
+	}
+	public void setChainName(String chainName) {
+		this.chainName = chainName;
+	}
 	public int getDeployNo() {
 		return deployNo;
 	}
@@ -95,15 +113,4 @@ public class DeployDto {
 	public void setDivision(String division) {
 		this.division = division;
 	}
-	private String reqTime;
-	private String reqServiceId;
-	private String wEmpNo;
-	private String wContent;
-	private String wSource;
-	private String reqEmpNo;
-	private String deployEmpNo;
-	private String devEmpNo;
-	private String testEmpNo;
-	private String prdEmpNo;
-	private String division;
 }

@@ -1,11 +1,6 @@
-<%@page import="com.springproject.wprogramtable.dto.WProgramTableDto"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.springproject.deploy.dto.DeployDto"%>
-<%@page import="org.springframework.web.servlet.ModelAndView"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
 <html>
@@ -34,14 +29,11 @@ function deployDetail(str){
    
 }
 </script>
-<%
-ArrayList<DeployDto> a=(ArrayList<DeployDto>)request.getAttribute("deployDtoList");
-ArrayList b=(ArrayList)request.getAttribute("wProgramList");
-%>
+
 </head>
 <body>
       <h1>List</h1>
-   <form>
+   <form:form id="listFrm" >
       <table border="1" class="table table-hover">
             <tr>
                <td>No</td>
@@ -63,42 +55,37 @@ ArrayList b=(ArrayList)request.getAttribute("wProgramList");
                <td>상세보기</td>
                <td>삭제</td>
             </tr>
-            <%for(int i=0; i<a.size();i++){ 
-            	  ArrayList<WProgramTableDto> c=(ArrayList<WProgramTableDto>)b.get(i);
-            %>
-              <tr>
-                 <td><%=a.get(i).getDeployNo()%></td>
-                 <td><%=a.get(i).getChainName()%></td>
-                 <td><%=a.get(i).getWtype()%></td>
-                 <td><%=a.get(i).getReqDate()%></td>
-                 <td><%=a.get(i).getReqTime()%></td>
-                 <td><%=a.get(i).getReqServiceId()%></td>
-                 <td><%=a.get(i).getwEmpNo()%></td>
-                 <td><%=a.get(i).getwContent()%></td>
-                 <td>
-                 <%for(int j=0; j<c.size(); j++){
-                	%>
-                	 <%=c.get(j).getwProNo_pageId()%><%=c.get(j).getwProNo_pageName()%><br>
-                	<%
-                                                } 
-                  %>
-                   </td>
-                     <td><%=a.get(i).getwSource()%></td>
-                     <td><%=a.get(i).getReqEmpNo()%></td>
-                     <td><%=a.get(i).getDeployEmpNo()%></td>
-                     <td><%=a.get(i).getDevEmpNo()%></td>
-                     <td><%=a.get(i).getTestEmpNo()%></td>
-                     <td><%=a.get(i).getPrdEmpNo()%></td>
-                     <td><%=a.get(i).getDivision()%></td>
-                       <td><input type="button" value="상세보기" onclick="deployDetail(${deploy.deployNo})"></td>
+         <c:choose>
+               <c:when test="${not empty deployDtoList}">
+                  <c:forEach items="${deployDtoList}" var="deploy">
+                     <tr>
+                        <td>${deploy.deployNo}</td>
+                        <td>${deploy.chainName}(${deploy.d_chainId})</td>
+                        <td>${deploy.wtype}</td>
+                        <td>${deploy.reqDate}</td>
+                        <td>${deploy.reqTime}</td>
+                        <td>${deploy.reqServiceId}</td>
+                        <td>${deploy.wEmpNo}</td>
+                        <td>${deploy.wContent}</td>
+                        <td>${deploy.wSource}</td>
+                        <td>${deploy.reqEmpNo}</td>
+                        <td>${deploy.deployEmpNo}</td>
+                        <td>${deploy.devEmpNo}</td>
+                        <td>${deploy.testEmpNo}</td>
+                        <td>${deploy.prdEmpNo}</td>
+                        <td>${deploy.division}</td>
+                        <td><input type="button" value="상세보기" onclick="deployDetail(${deploy.deployNo})"></td>
                         <td><input type="button" id="requestDeleteBtn" value="삭제" onclick="location.href='/deploy/deployDelete.do/'+ ${deploy.deployNo}"/></td>
-                 }
-          
-            <%
-            }
-            %>
-
+                     </tr>
+                  </c:forEach>
+            </c:when>
+            <c:otherwise>
+               <tr>
+                  <td>등록된 게시글이 없습니다.</td>
+               </tr>
+            </c:otherwise>
+            </c:choose>
       </table>
-   <form>
+   </form:form>
 </body>
 </html>

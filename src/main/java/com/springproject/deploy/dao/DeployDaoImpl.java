@@ -37,11 +37,11 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao{
 		return getSqlSession().insert("DeployDao.insertOneWProgram",wProgramTableDto);
 	}
 
-//	@Override
-//	public List<DeployDto> selectAllDeployDao() {
-//		return getSqlSession().selectList("DeployDao.selectAllDeployDao");
-//	}
-//
+	@Override
+	public List<DeployDto> selectAllDeployDao() {
+		return getSqlSession().selectList("DeployDao.selectAllDeployDao");
+	}
+
 //	@Override
 //	public DeployDto selectOneDeployDao(int deployNo) {
 //		return getSqlSession().selectOne("DeployDao.selectOneDeployDao", deployNo);
@@ -87,5 +87,9 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao{
 		return getSqlSession().selectOne("DeployDao.selectMaxDeployNo");
 	}
 
-	
+	@Override
+	public List<WProgramTableDto> selectAllWProgramDao(int deployNo) {
+		return getSqlSession().selectList("DeployDao.selectAllWProgramDao",deployNo);
+	}
+
 }
