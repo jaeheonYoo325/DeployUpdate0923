@@ -26,8 +26,9 @@
 
 <script>
 function useChain(pageId,pageName){
-      opener.document.getElementById("wProgram").value+=pageId+"\n"
-      opener.document.getElementById("pageName").value+=pageName+"\n"
+	  var no=document.getElementById("no").value;
+      opener.document.getElementById("wProgram"+no).value=pageId;
+      opener.document.getElementById("pageName"+no).value=pageName;
       window.close();
    }
 </script>
@@ -54,6 +55,7 @@ paramChainId : <input type="text" name="paramChainId" id="paramChainId" value="$
                          <td>${program.pageId}</td>
                          <td>${program.pageName}</td>
                          <td><input type="button" value="사용" onclick="useChain('${program.pageId}' , '${program.pageName}')"> <td>
+                         <td><input type="hidden" id="no" value="${no}"></td>
                      </tr>
                   </c:forEach>
             </c:when>

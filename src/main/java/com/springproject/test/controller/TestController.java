@@ -25,7 +25,7 @@ public class TestController {
 	}
 	*/
 	
-	@RequestMapping("/test/NewFile.do")
+	@RequestMapping("/test/test.do")
 	public String viewTestPage() {
 
 		return HttpRequestHelper.getJspPath();

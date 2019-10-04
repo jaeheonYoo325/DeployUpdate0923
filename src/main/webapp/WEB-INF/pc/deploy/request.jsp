@@ -10,15 +10,53 @@
 <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
 <script type="text/javascript">
    $(document).ready(function() {
+	   
+	   
       $("#requestBtn").click(function() {
        $("#requestFrm").attr({
             method:"post",                                         
               action:"/deploy/request.do"
        }).submit();
+      });  
+
+      var i = -1;
+      $('.btnAddP').click (function () {
+    	  if($("#d_chainId").val()==""){
+    		  alert("부문선택필수");
+    		  return;
+    	  }
+    	  else
+    		  i=i+1;
+          $('.buttonsP').append (           
+			$("<input type='text' name='wProgram"+i+"'id='wProgram"+i+"'><input type='text' name='pageName"+i+"'id='pageName"+i+"'><input type='button' value='검색' onclick='searchProgram("+i+")'><br>")
+          );      
+          $('.removeP').on('click', function () {     	  
+              $(".buttonsP").html("");
+              i = -1;
+          });
       });
+      
+      
+      var j = -1;
+      $('.btnAddS').click (function () {
+    	  j=j+1;
+          $('.buttonsS').append (           
+			$("<input type='text' name='wSource"+j+"'id='wSource"+j+"'><input type='button' value='검색' onclick='searchSource("+j+")'><br>")
+          );      
+          $('.removeS').on('click', function () { 
+              $(".buttonsS").html("");
+              j = -1;
+          });
+      });
+         
+      
+      
+      
       
    });
 </script>
+
+
 <script>
 function searchEmp(str){
    window.open("/search/searchEmp.do?str="+str,"Employee검색", "width=1000, height=800");
@@ -26,12 +64,12 @@ function searchEmp(str){
 function searchChain(){
    window.open("/search/searchChain.do","Chain검색", "width=1000, height=800");
 }
-function searchProgram(){
+function searchProgram(no){
 	var str=document.requestFrm.d_chainId.value;
-   window.open("/search/searchProgram.do?paramChainId="+str,"Program검색", "width=1000, height=800");
+   window.open("/search/searchProgram.do?paramChainId="+str+"&no="+no,"Program검색", "width=1000, height=800");
 }
-function searchSeq(){
-   window.open("/search/searchSeq.do","Seq검색", "width=1000, height=800");
+function searchSource(no){
+	window.open("/search/searchSource.do?no="+no,"Source검색", "width=1000, height=800");
 }
 </script>
 </head>
@@ -55,11 +93,13 @@ function searchSeq(){
 작업자 : <input type="text" name="wEmpNo" id="wEmpNo" readonly="readonly">
        <input type="button" value="검색" onclick="searchEmp('wEmp')"><br>
 변경내역 : <input type="text" name="wContent"><br>
-변경프로그램목록 : 
-			 <textarea name="wProgram" id="wProgram" rows="10" readonly="readonly"></textarea>
-			 <textarea name="pageName" id="pageName" rows="10" cols="40" readonly="readonly"></textarea>
-             <input type="button" value="검색" onclick="searchProgram()"><br>
-변경소스명 : <input type="text" name="wSource"><br>
+변경프로그램목록   : <input type="button" class="btnAddP" value="추가"><input type='button' class='removeP'id='removeP' value='전체삭제'><br>
+			<div class="buttonsP">      		        
+			</div>
+			
+변경소스명   : <input type="button" class="btnAddS" value="추가"><input type='button' class='removeS'id='removeS' value='전체삭제'><br> 	
+<div class="buttonsS">     
+</div>
 요청자 : <input type="text" name="reqEmpNo" id="reqEmpNo" readonly="readonly">
        <input type="button" value="검색" onclick="searchEmp('reqEmp')"><br>
 Deploy담당자 : <input type="text" name="deployEmpNo" id="deployEmpNo" readonly="readonly">
@@ -78,5 +118,6 @@ Deploy담당자 : <input type="text" name="deployEmpNo" id="deployEmpNo" readonl
 <input type="button" id="requestBtn" value="요청">
 </form:form>
 
+<input type="button" value="테스트" class="0" onclick="kim(0)">  
 </body>
 </html>

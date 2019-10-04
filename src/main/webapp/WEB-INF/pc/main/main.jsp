@@ -15,18 +15,19 @@
 </head>
 <body>
  <h1>메인화면</h1>
- <c:choose>
- 	<c:when test="${not empty sessionScope._USER_}">
- 		<a href="#">${sessionScope._USER_.empName}님 로그인 하셨습니다.</a>
- 	</c:when>
- 	<c:otherwise>
- 		<a href="#">계정 없음</a>
- 	</c:otherwise>
- </c:choose>
+<%--  <c:choose> --%>
+<%--  	<c:when test="${not empty sessionScope._USER_}"> --%>
+<%--  		<a href="#">${sessionScope._USER_.empName}님 로그인 하셨습니다.</a> --%>
+<%--  	</c:when> --%>
+<%--  	<c:otherwise> --%>
+<!--  		<a href="#">계정 없음</a> -->
+<%--  	</c:otherwise> --%>
+<%--  </c:choose> --%>
  
- <a href="/employee/employeeLogout.do">로그아웃</a><br>
+<!--  <a href="/employee/employeeLogout.do">로그아웃</a><br> -->
  <input type="button" value="배포" class="btn btn-primary" onclick="location.href='/deploy/deploy.do'"><br>
- <input type="button" value="사원등록"  class="btn btn-primary" onclick="location.href='/employee/employeeRegist.do'"><br>
- <input type="button" value="사원등록팝업"  class="btn btn-default" id="employeeRegistPupupBtn"><br>
+<!--  <input type="button" value="사원등록"  class="btn btn-primary" onclick="location.href='/employee/employeeRegist.do'"><br> -->
+<!--  <input type="button" value="사원등록팝업"  class="btn btn-default" id="employeeRegistPupupBtn"><br> -->
+
 </body>
 </html>

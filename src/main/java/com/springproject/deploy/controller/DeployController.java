@@ -70,11 +70,13 @@ public class DeployController {
 	}
 
 	@GetMapping("/search/searchProgram.do")
-	   public ModelAndView viewsearchProgramPage(@RequestParam("paramChainId") String paramChainId) {	   
+	   public ModelAndView viewsearchProgramPage(@RequestParam("paramChainId") String paramChainId, HttpServletRequest request) {
+		  int no=Integer.parseInt(request.getParameter("no"));
 	      ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
 	      List<ProgramTableDto> programTableDtoList=this.deployService.selctAllProgramService(paramChainId);
 	      mv.addObject("paramChainId",paramChainId);
 	      mv.addObject("programTableDtoList",programTableDtoList);
+	      mv.addObject("no",no);
 	      return mv;
 	   }
 
@@ -107,6 +109,16 @@ public class DeployController {
 		mv.addObject("programTableDtoList", programTableDtoList);	
 		return mv;
 	}
+	
+	@GetMapping("/search/searchSource.do")
+	public ModelAndView doSearchSourceAction(HttpServletRequest request) {
+		int no = Integer.parseInt(request.getParameter("no"));
+	      ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+	      mv.addObject("no", no);
+	      return mv;
+			
+	}
+	
 	
 
 	@PostMapping("/deploy/request.do")
