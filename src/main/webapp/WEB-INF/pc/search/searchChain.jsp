@@ -52,7 +52,7 @@ chainName : <input type="text" name="chainName" id="chainName"><input type="butt
                      <tr>
                          <td>${chain.chainId}</td>
                          <td>${chain.chainName}</td>
-                         <td><input type="button" value="사용" onclick="useChain('${chain.chainId}' , '${chain.chainName}')"> <td>
+                         <td><input type="button" value="사용" onclick="useChain('${chain.chainId}','${chain.chainName}')"> <td>
                      </tr>
                   </c:forEach>
             </c:when>

@@ -135,17 +135,20 @@ public class DeployController {
 		mv.addObject("wProgramList",wProgramList);
 		return mv;
 	}
-//
-//	@GetMapping("/deploy/deployUpdate.do/{deployNo}")
-//	public ModelAndView viewDeployUpdatePage(@PathVariable int deployNo) {
-//
-//		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
-//		DeployDto deployDto = this.deployService.selectOneDeployService(deployNo);
-//
-//		mv.addObject("deployDto", deployDto);
-//
-//		return mv;
-//	}
+    
+	//상세보기
+	@GetMapping("/deploy/deployUpdate.do/{deployNo}")
+	public ModelAndView viewDeployUpdatePage(@PathVariable int deployNo) {
+
+		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+		DeployDto deployDto = this.deployService.selectOneDeployService(deployNo);
+		List<WProgramTableDto> wProgramTableDtoList=this.deployService.selectAllWProgramService(deployNo);
+        
+		mv.addObject("wProgramTableDtoList",wProgramTableDtoList);
+		mv.addObject("deployDto", deployDto);
+
+		return mv;
+	}
 //
 //	@ResponseBody
 //	@RequestMapping("/deploy/deployUpdateAjax.do")
@@ -180,41 +183,65 @@ public class DeployController {
 	 * return mv; }
 	 */
 
-//	@PostMapping("/deploy/deployUpdate.do")
-//	public void doDeployUpdateAction(@PathVariable int deployNo, @ModelAttribute DeployDto deployDto,
-//			HttpServletResponse response) {
-//		boolean isSuccess = this.deployService.updateOneDeployService(deployDto);
-//		PrintWriter out;
-//		if (isSuccess) {
-//			response.setContentType("text/html;charset=UTF-8");
-//
-//			try {
-//				out = response.getWriter();
-//				out.println("<script>");
-//				out.println("alert('수정완료')");
-//				out.println("window.close()");
-//				out.println("</script>");
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		} else {
-//			try {
-//				out = response.getWriter();
-//				out.println("<script>");
-//				out.println("alert('수정실패')");
-//				out.println("history.back()");
-//				out.println("</script>");
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
+	@PostMapping("/deploy/deployUpdate.do")
+	public void doDeployUpdateAction(@ModelAttribute DeployDto deployDto,
+			HttpServletResponse response) {
+		boolean isSuccess = this.deployService.updateOneDeployService(deployDto);
+		PrintWriter out;
+		if (isSuccess) {
+			response.setContentType("text/html;charset=UTF-8");
 
-//	@RequestMapping("/deploy/deployDelete.do/{deployNo}")
-//	public String doDeployDeleteAction(@PathVariable int deployNo) {
-//
-//		boolean isSuccess = this.deployService.deleteOneDeployService(deployNo);
-//		return "redirect:/deploy/deployList.do";
-//	}
+			try {
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('수정완료')");
+				out.println("window.close()");
+				out.println("</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('수정실패')");
+				out.println("history.back()");
+				out.println("</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@RequestMapping("/deploy/deployDelete.do/{deployNo}")
+	public void doDeployDeleteAction(@PathVariable int deployNo, HttpServletResponse response) {
+
+		boolean isSuccess = this.deployService.deleteOneDeployService(deployNo);
+		
+		PrintWriter out;
+		if (isSuccess) {
+			response.setContentType("text/html;charset=UTF-8");
+
+			try {
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('삭제완료')");
+				out.println("window.close()");
+				out.println("</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('수정실패')");
+				out.println("history.back()");
+				out.println("</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
 

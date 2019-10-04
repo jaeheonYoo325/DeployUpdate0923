@@ -42,21 +42,21 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao{
 		return getSqlSession().selectList("DeployDao.selectAllDeployDao");
 	}
 
-//	@Override
-//	public DeployDto selectOneDeployDao(int deployNo) {
-//		return getSqlSession().selectOne("DeployDao.selectOneDeployDao", deployNo);
-//	}
-//
-//	@Override
-//	public int updateOneDeployDao(DeployDto deployDto) {
-//		return getSqlSession().update("DeployDao.updateOneDeployDao", deployDto);
-//	}
-//
-//	@Override
-//	public int deleteOneDeployDao(int deployNo) {
-//		return getSqlSession().delete("DeployDao.deleteOneDeployDao", deployNo);
-//	}
-//
+	@Override
+	public DeployDto selectOneDeployDao(int deployNo) {
+		return getSqlSession().selectOne("DeployDao.selectOneDeployDao", deployNo);
+	}
+
+	@Override
+	public int updateOneDeployDao(DeployDto deployDto) {
+		return getSqlSession().update("DeployDao.updateOneDeployDao", deployDto);
+	}
+
+	@Override
+	public int deleteOneDeployDao(int deployNo) {
+		return getSqlSession().delete("DeployDao.deleteOneDeployDao", deployNo);
+	}
+
 	@Override
 	public List<EmployeeDto> selectSomeDeployDao(EmployeeDto employeeDto) {
 		return getSqlSession().selectList("DeployDao.selectSomeDeployDao", employeeDto);

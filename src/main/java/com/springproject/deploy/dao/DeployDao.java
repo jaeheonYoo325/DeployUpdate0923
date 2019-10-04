@@ -17,13 +17,13 @@ public interface DeployDao {
 	public int insertOneWProgram(WProgramTableDto wProgramTableDto);
 	
 	public List<DeployDto> selectAllDeployDao();
-//	
-//	public DeployDto selectOneDeployDao(int deployNo);
-//	
-//	public int updateOneDeployDao(DeployDto deployDto);
-//	
-//	public int deleteOneDeployDao(int deployNo);
-//	
+	
+	public DeployDto selectOneDeployDao(int deployNo);
+	
+	public int updateOneDeployDao(DeployDto deployDto);
+	
+	public int deleteOneDeployDao(int deployNo);
+	
    public List<EmployeeDto> selectSomeDeployDao(EmployeeDto employeeDto);
 	
    public List<ChainTableDto> selectSomeChainDao(ChainTableDto chainTableDto);

@@ -35,6 +35,7 @@ function deployDetail(str){
 }
 </script>
 <%
+request.setCharacterEncoding("utf-8");
 ArrayList<DeployDto> a=(ArrayList<DeployDto>)request.getAttribute("deployDtoList");
 ArrayList b=(ArrayList)request.getAttribute("wProgramList");
 %>
@@ -61,7 +62,6 @@ ArrayList b=(ArrayList)request.getAttribute("wProgramList");
                <td>확인(운영계)</td>
                <td>구분</td>
                <td>상세보기</td>
-               <td>삭제</td>
             </tr>
             <%for(int i=0; i<a.size();i++){ 
             	  ArrayList<WProgramTableDto> c=(ArrayList<WProgramTableDto>)b.get(i);
@@ -90,12 +90,9 @@ ArrayList b=(ArrayList)request.getAttribute("wProgramList");
                      <td><%=a.get(i).getTestEmpNo()%></td>
                      <td><%=a.get(i).getPrdEmpNo()%></td>
                      <td><%=a.get(i).getDivision()%></td>
-                       <td><input type="button" value="상세보기" onclick="deployDetail(${deploy.deployNo})"></td>
-                        <td><input type="button" id="requestDeleteBtn" value="삭제" onclick="location.href='/deploy/deployDelete.do/'+ ${deploy.deployNo}"/></td>
-                 }
-          
-            <%
-            }
+                     <td><input type="button" value="상세보기" onclick="deployDetail(<%=a.get(i).getDeployNo()%>)"></td>
+                 <%
+                 }  
             %>
 
       </table>

@@ -16,11 +16,11 @@ public interface DeployService {
 	
 	public List<DeployDto> selectAllDeployService();
 //	
-//	public DeployDto selectOneDeployService(int deployNo);
+	public DeployDto selectOneDeployService(int deployNo);
 //	
-//	public boolean updateOneDeployService(DeployDto deployDto);
+	public boolean updateOneDeployService(DeployDto deployDto);
 //	
-//	public boolean deleteOneDeployService(int deployNo);
+	public boolean deleteOneDeployService(int deployNo);
 //	
 	public List<EmployeeDto> selectSomeDeployService(EmployeeDto employeeDto);
 //	

@@ -84,59 +84,56 @@
 	WHERE wProNo_deployNo=#{deployNo}
 	</select>
 	
-<!-- 	<select id="selectOneDeployDao" parameterType="_int" resultType="DeployDto"> -->
-<!-- 		SELECT  -->
-<!-- 	         d.deployNo -->
-<!-- 	         , s.seqNo -->
-<!-- 	         , c.chainName -->
-<!-- 	         , d.wtype -->
-<!-- 	         , d.reqDate -->
-<!-- 	         , d.reqTime -->
-<!-- 	         , d.reqServiceId -->
-<!-- 	         , d.wContent -->
-<!-- 	         , p.pageId -->
-<!-- 	         , d.wSource -->
-<!-- 	         , d.reqEmpNo -->
-<!-- 	         , d.wEmpNo -->
-<!-- 	         , d.deployEmpNo -->
-<!-- 	         , d.devEmpNo -->
-<!-- 	         , d.testEmpNo -->
-<!-- 	         , d.prdEmpNo -->
-<!-- 	         , d.division   -->
-<!-- 		 FROM deploy d  -->
-<!-- 		 JOIN CHAINTABLE c -->
-<!-- 		 JOIN PROGRAMTABLE p  -->
-<!-- 		 JOIN SEQTABLE s  -->
-<!-- 		 ON(d.seqtableNo=s.seqtableNo) AND (d.chainID=c.chainID) AND(d.wProgram=p.pageId) -->
-<!-- 		 WHERE d.deployNo=#{deployNo} -->
-<!-- 	</select> -->
+	<select id="selectOneDeployDao" parameterType="_int" resultType="DeployDto">
+		SELECT 
+	         d.deployNo
+	         , d.d_chainId
+	         , d.wtype
+	         , d.reqDate
+	         , d.reqTime
+	         , d.reqServiceId
+	         , d.wEmpNo
+	         , d.wContent
+	         , d.wSource
+	         , d.reqEmpNo
+	         , d.deployEmpNo
+	         , d.devEmpNo
+	         , d.testEmpNo
+	         , d.prdEmpNo
+	         , d.division
+	         , c.chainName
+		 FROM deploy d 
+		 JOIN CHAINTABLE c
+		 ON (d.d_chainId=c.chainID)
+		 WHERE d.deployNo=#{deployNo}
+	</select>
 	
-<!-- 	<update id="updateOneDeployDao" parameterType="DeployDto"> -->
-<!-- 	  UPDATE    DEPLOY -->
-<!--       SET   seqNo = #{seqNo} -->
-<!--             , chainID = #{chainID}        -->
-<!--             , wtype  = #{wtype}      -->
-<!--             , reqDate = #{reqDate}     -->
-<!--             , reqTime = #{reqTime}     -->
-<!--             , reqServiceId = #{reqServiceId} -->
-<!--             , wEmpNo = #{wEmpNo} -->
-<!--             , wContent = #{wContent}     -->
-<!--             , wProgram = #{wProgram}    -->
-<!--             , wSource = #{wSource}    -->
-<!--             , reqempNo = #{reqEmpNo}   -->
-<!--             , deployempNo = #{deployEmpNo} -->
-<!--             , devempNo = #{devEmpNo}   -->
-<!--             , testempNo = #{testEmpNo}  -->
-<!--             , prdempNo = #{prdEmpNo}   -->
-<!--             , division = #{division} -->
-<!--       WHERE   deployNo = #{deployNo} -->
-<!-- 	</update> -->
+	<update id="updateOneDeployDao" parameterType="DeployDto">
+	  UPDATE    DEPLOY
+      SET   
+              d_chainId = #{d_chainId}       
+            , wtype  = #{wtype}     
+            , reqDate = #{reqDate}    
+            , reqTime = #{reqTime}    
+            , reqServiceId = #{reqServiceId}
+            , wEmpNo = #{wEmpNo}
+            , wContent = #{wContent}    
+            , wSource = #{wSource}   
+            , reqempNo = #{reqEmpNo}  
+            , deployempNo = #{deployEmpNo}
+            , devempNo = #{devEmpNo}  
+            , testempNo = #{testEmpNo} 
+            , prdempNo = #{prdEmpNo}  
+            , division = #{division}
+      WHERE   deployNo = #{deployNo}
+	</update>
 	
-<!-- 	<delete id="deleteOneDeployDao" parameterType="_int"> -->
-<!-- 		DELETE -->
-<!-- 		FROM	DEPLOY -->
-<!-- 		WHERE	deployNo = #{deployNo} -->
-<!-- 	</delete> -->
+	<delete id="deleteOneDeployDao" parameterType="_int">
+		DELETE
+		FROM	DEPLOY
+		WHERE	deployNo = #{deployNo}
+	</delete>
+
 	<select id="selectSomeDeployDao" parameterType="EmployeeDto" resultType="EmployeeDto">
       SELECT
             empNo

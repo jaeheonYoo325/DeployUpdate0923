@@ -58,8 +58,6 @@ function searchSeq(){
 변경프로그램목록 : 
 			 <textarea name="wProgram" id="wProgram" rows="10" readonly="readonly"></textarea>
 			 <textarea name="pageName" id="pageName" rows="10" cols="40" readonly="readonly"></textarea>
-<!--              <input type="text" name="" id="" readonly="readonly"> -->
-<!--              <input type="text" name="pageName" id="pageName" readonly="readonly"> -->
              <input type="button" value="검색" onclick="searchProgram()"><br>
 변경소스명 : <input type="text" name="wSource"><br>
 요청자 : <input type="text" name="reqEmpNo" id="reqEmpNo" readonly="readonly">

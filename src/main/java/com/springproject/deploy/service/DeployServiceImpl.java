@@ -46,22 +46,22 @@ public class DeployServiceImpl implements DeployService {
 	public List<DeployDto> selectAllDeployService() {
 		return this.deployDao.selectAllDeployDao();
 	}
-//
-//	@Override
-//	public DeployDto selectOneDeployService(int deployNo) {
-//		return this.deployDao.selectOneDeployDao(deployNo);
-//	}
-//
-//	@Override
-//	public boolean updateOneDeployService(DeployDto deployDto) {
-//		return this.deployDao.updateOneDeployDao(deployDto) > 0;
-//	}
-//
-//	@Override
-//	public boolean deleteOneDeployService(int deployNo) {
-//		return this.deployDao.deleteOneDeployDao(deployNo) > 0;
-//	}
-//
+
+	@Override
+	public DeployDto selectOneDeployService(int deployNo) {
+		return this.deployDao.selectOneDeployDao(deployNo);
+	}
+
+	@Override
+	public boolean updateOneDeployService(DeployDto deployDto) {
+		return this.deployDao.updateOneDeployDao(deployDto) > 0;
+	}
+
+	@Override
+	public boolean deleteOneDeployService(int deployNo) {
+		return this.deployDao.deleteOneDeployDao(deployNo) > 0;
+	}
+
 	@Override
 	public List<EmployeeDto> selectSomeDeployService(EmployeeDto employeeDto) {
 		return this.deployDao.selectSomeDeployDao(employeeDto);
