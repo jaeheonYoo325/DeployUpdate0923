@@ -11,5 +11,7 @@
  			<typeAlias type="com.springproject.chain.dto.ChainTableDto" alias="ChainTableDto"/>
 			<typeAlias type="com.springproject.program.dto.ProgramTableDto" alias="ProgramTableDto"/>
 			<typeAlias type="com.springproject.wprogramtable.dto.WProgramTableDto" alias="WProgramTableDto"/>
+			<typeAlias type="com.springproject.wsource.dto.WSourceTableDto" alias="WSourceTableDto"/>
+			<typeAlias type="com.springproject.statustable.dto.StatusTableDto" alias="StatusTableDto"/>
  		</typeAliases>        
     </configuration>

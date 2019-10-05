@@ -124,11 +124,31 @@ public class DeployController {
 	@PostMapping("/deploy/request.do")
 	public ModelAndView doDeployAction(@ModelAttribute DeployDto deployDto, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("redirect:/deploy/deployList.do");
-		String wProgram=request.getParameter("wProgram");
-		String[] wProgramArray=wProgram.split("\n");
-		String pageName=request.getParameter("pageName");
-		String[] pageNameArray=pageName.split("\n");
-		boolean success = this.deployService.insertOneDeployService(deployDto, wProgramArray, pageNameArray);
+	    System.out.println(request.getParameter("wProgram0"));
+		ArrayList wProgramArray = new ArrayList();
+		ArrayList pageNameArray = new ArrayList();
+		ArrayList wSourceArray = new ArrayList();
+		ArrayList statusArray= new ArrayList();
+		
+		for(int i=0;;i++) {
+			if(request.getParameter("wProgram"+i)==null) {
+				break;
+			}
+			wProgramArray.add(request.getParameter("wProgram"+i));
+			pageNameArray.add(request.getParameter("pageName"+i));
+		}
+		
+		for(int i=0;;i++) {
+			if(request.getParameter("wSource"+i)==null) {
+				break;
+			}
+			wSourceArray.add(request.getParameter("wSource"+i));
+		}
+		
+        statusArray.add(request.getParameter("d_status"));
+		
+		
+		boolean success = this.deployService.insertOneDeployService(deployDto, wProgramArray, pageNameArray, wSourceArray, statusArray);
 		return mv;
 	}
 

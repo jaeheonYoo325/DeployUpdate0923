@@ -12,7 +12,7 @@ import com.springproject.wprogramtable.dto.WProgramTableDto;
 
 public interface DeployService {
 
-	public boolean insertOneDeployService(DeployDto deployDto, String[] wProgramArray, String[] pageNameArray);
+	public boolean insertOneDeployService(DeployDto deployDto, ArrayList wProgramArray, ArrayList pageNameArray, ArrayList wSourceArray, ArrayList statusArray);
 	
 	public List<DeployDto> selectAllDeployService();
 //	

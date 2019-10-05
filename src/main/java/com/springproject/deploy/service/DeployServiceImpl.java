@@ -13,7 +13,9 @@ import com.springproject.deploy.dao.DeployDao;
 import com.springproject.deploy.dto.DeployDto;
 import com.springproject.employee.dto.EmployeeDto;
 import com.springproject.program.dto.ProgramTableDto;
+import com.springproject.statustable.dto.StatusTableDto;
 import com.springproject.wprogramtable.dto.WProgramTableDto;
+import com.springproject.wsource.dto.WSourceTableDto;
 
 @Service
 @Transactional
@@ -23,21 +25,36 @@ public class DeployServiceImpl implements DeployService {
 	private DeployDao deployDao;
 
 	@Override
-	public boolean insertOneDeployService(DeployDto deployDto,String[] wProgramArray, String[] pageNameArray) {
+	public boolean insertOneDeployService(DeployDto deployDto,ArrayList wProgramArray, ArrayList pageNameArray, ArrayList wSourceArray, ArrayList statusArray) {
 		boolean isSuccess=this.deployDao.insertOneDeployDao(deployDto) > 0;
 		boolean isSuccess2=true;
+		boolean isSuccess3=true;
+		boolean isSuccess4=true;
+		
 		int deployNo=this.deployDao.selectMaxDeployNo();
-		System.out.println("서비스deployNo : "+deployNo);
-		for(int i=0; i<wProgramArray.length;i++) {
+		
+		for(int i=0; i<wSourceArray.size();i++) {
+			WSourceTableDto wSourceTableDto=new WSourceTableDto();
+			wSourceTableDto.setwSo_deployNo(deployNo);
+			wSourceTableDto.setwSo_wSourceName(wSourceArray.get(i).toString());
+			isSuccess3=isSuccess3&&(this.deployDao.insertOneWSource(wSourceTableDto)>0);
+		}
+		
+		
+		for(int i=0; i<wProgramArray.size();i++) {
 			WProgramTableDto wProgramTableDto=new WProgramTableDto();
-			wProgramTableDto.setwProNo_pageId(wProgramArray[i]);
-			System.out.println("서비스안에서 String[i]값 : " + wProgramArray[i]);
+			wProgramTableDto.setwProNo_pageId(wProgramArray.get(i).toString());
 			wProgramTableDto.setwProNo_deployNo(deployNo);
-			wProgramTableDto.setwProNo_pageName(pageNameArray[i]);
-			System.out.println(wProgramTableDto.getwProNo_pageId()+"/"+wProgramTableDto.getwProNo_deployNo());
+			wProgramTableDto.setwProNo_pageName(pageNameArray.get(i).toString());
 			isSuccess2=isSuccess2&&(this.deployDao.insertOneWProgram(wProgramTableDto)>0);
 		}		
-		boolean success=isSuccess&&isSuccess2;
+		
+        StatusTableDto statusTableDto=new StatusTableDto();
+        statusTableDto.setSt_deployNo(deployNo);
+        statusTableDto.setSt_status(statusArray.get(0).toString());
+        isSuccess4=this.deployDao.insertOneStatus(statusTableDto)>0;
+        
+		boolean success=isSuccess&&isSuccess2&&isSuccess3&&isSuccess4;
         return success;		
 	}
 	

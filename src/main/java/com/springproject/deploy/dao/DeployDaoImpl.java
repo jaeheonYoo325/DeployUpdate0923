@@ -15,7 +15,9 @@ import com.springproject.chain.dto.ChainTableDto;
 import com.springproject.deploy.dto.DeployDto;
 import com.springproject.employee.dto.EmployeeDto;
 import com.springproject.program.dto.ProgramTableDto;
+import com.springproject.statustable.dto.StatusTableDto;
 import com.springproject.wprogramtable.dto.WProgramTableDto;
+import com.springproject.wsource.dto.WSourceTableDto;
 
 @Repository
 public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao{
@@ -33,7 +35,6 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao{
 	
 	@Override
 	public int insertOneWProgram(WProgramTableDto wProgramTableDto){
-		System.out.println(wProgramTableDto.getwProNo_pageId()+"/"+wProgramTableDto.getwProNo_deployNo());
 		return getSqlSession().insert("DeployDao.insertOneWProgram",wProgramTableDto);
 	}
 
@@ -90,6 +91,18 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao{
 	@Override
 	public List<WProgramTableDto> selectAllWProgramDao(int deployNo) {
 		return getSqlSession().selectList("DeployDao.selectAllWProgramDao",deployNo);
+	}
+
+	@Override
+	public int insertOneWSource(WSourceTableDto wSourceTableDto) {
+		System.out.println("Dao-wSource");
+		return getSqlSession().insert("DeployDao.insertOneWSource",wSourceTableDto);
+	}
+
+	@Override
+	public int insertOneStatus(StatusTableDto statusTableDto) {
+		return getSqlSession().insert("DeployDao.insertOneStatus",statusTableDto);
+		
 	}
 
 }

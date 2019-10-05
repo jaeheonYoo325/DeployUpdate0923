@@ -13,7 +13,6 @@
                         , reqserviceId
                         , wEmpNo
                         , wContent
-                        , wSource
                         , reqEmpNo
                         , deployEmpNo
                         , devEmpNo
@@ -30,7 +29,6 @@
                         , #{reqServiceId}
                         , #{wEmpNo}
                         , #{wContent}
-                        , #{wSource}
                         , #{reqEmpNo}
                         , #{deployEmpNo}
                         , #{devEmpNo}
@@ -62,7 +60,6 @@
 	         , d.reqTime
 	         , d.reqServiceId
 	         , d.wContent
-	         , d.wSource
 	         , d.reqEmpNo
 	         , d.wEmpNo
 	         , d.deployEmpNo
@@ -94,7 +91,6 @@
 	         , d.reqServiceId
 	         , d.wEmpNo
 	         , d.wContent
-	         , d.wSource
 	         , d.reqEmpNo
 	         , d.deployEmpNo
 	         , d.devEmpNo
@@ -118,7 +114,6 @@
             , reqServiceId = #{reqServiceId}
             , wEmpNo = #{wEmpNo}
             , wContent = #{wContent}    
-            , wSource = #{wSource}   
             , reqempNo = #{reqEmpNo}  
             , deployempNo = #{deployEmpNo}
             , devempNo = #{devEmpNo}  
@@ -183,6 +178,14 @@
    
    <insert id="insertOneWProgram" parameterType="WProgramTableDto">
    INSERT INTO WPROGRAMTABLE VALUES(#{wProNo_pageId},#{wProNo_deployNo},#{wProNo_pageName})
+   </insert>
+   
+   <insert id="insertOneWSource" parameterType="WSourceTableDto">
+   INSERT INTO WSOURCETABLE VALUES(#{wSo_deployNo},#{wSo_wSourceName})
+   </insert>
+   
+   <insert id="insertOneStatus" parameterType="StatusTableDto">
+   INSERT INTO STATUSTABLE VALUES(#{st_deployNo},#{st_status})
    </insert>
 </mapper>                         
                                   

@@ -1,5 +1,7 @@
 package com.springproject.deploy.dto;
 
+import java.util.ArrayList;
+
 public class DeployDto {
 	private int deployNo;
 	private String d_chainId;
@@ -9,7 +11,6 @@ public class DeployDto {
 	private String reqServiceId;
 	private String wEmpNo;
 	private String wContent;
-	private String wSource;
 	private String reqEmpNo;
 	private String deployEmpNo;
 	private String devEmpNo;
@@ -17,6 +18,14 @@ public class DeployDto {
 	private String prdEmpNo;
 	private String division;
 	private String chainName;
+	private ArrayList d_status;
+
+	public ArrayList getD_status() {
+		return d_status;
+	}
+	public void setD_status(ArrayList d_status) {
+		this.d_status = d_status;
+	}
 	public String getChainName() {
 		return chainName;
 	}
@@ -70,12 +79,6 @@ public class DeployDto {
 	}
 	public void setwContent(String wContent) {
 		this.wContent = wContent;
-	}
-	public String getwSource() {
-		return wSource;
-	}
-	public void setwSource(String wSource) {
-		this.wSource = wSource;
 	}
 	public String getReqEmpNo() {
 		return reqEmpNo;

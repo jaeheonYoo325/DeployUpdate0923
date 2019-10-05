@@ -28,7 +28,7 @@
     	  else
     		  i=i+1;
           $('.buttonsP').append (           
-			$("<input type='text' name='wProgram"+i+"'id='wProgram"+i+"'><input type='text' name='pageName"+i+"'id='pageName"+i+"'><input type='button' value='검색' onclick='searchProgram("+i+")'><br>")
+			$("<input type='text' name='wProgram"+i+"'id='wProgram"+i+"' readonly='readonly'><input type='text' name='pageName"+i+"'id='pageName"+i+"' readonly='readonly'><input type='button' value='검색' onclick='searchProgram("+i+")'><br>")
           );      
           $('.removeP').on('click', function () {     	  
               $(".buttonsP").html("");
@@ -41,7 +41,7 @@
       $('.btnAddS').click (function () {
     	  j=j+1;
           $('.buttonsS').append (           
-			$("<input type='text' name='wSource"+j+"'id='wSource"+j+"'><input type='button' value='검색' onclick='searchSource("+j+")'><br>")
+			$("<input type='text' name='wSource"+j+"'id='wSource"+j+"' readonly='readonly'><input type='button' value='검색' onclick='searchSource("+j+")' readonly='readonly'><br>")
           );      
           $('.removeS').on('click', function () { 
               $(".buttonsS").html("");
@@ -115,9 +115,9 @@ Deploy담당자 : <input type="text" name="deployEmpNo" id="deployEmpNo" readonl
       <option value="신규">신규</option>
       <option value="변경">변경</option>
      </select><br>
+<input type="hidden" name="d_status" value="요청">
 <input type="button" id="requestBtn" value="요청">
 </form:form>
 
-<input type="button" value="테스트" class="0" onclick="kim(0)">  
 </body>
 </html>
