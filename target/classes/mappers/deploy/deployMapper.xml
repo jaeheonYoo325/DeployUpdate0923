@@ -81,6 +81,22 @@
 	WHERE wProNo_deployNo=#{deployNo}
 	</select>
 	
+	<select id="selectAllWSourceDao" resultType="WSourceTableDto" parameterType="_int">
+	SELECT
+	      wSo_deployNo
+	     ,wSo_wSourceName
+	FROM WSOURCETABLE
+	WHERE wSo_deployNo=#{deployNo}
+	</select>
+	
+	<select id="selectAllStatusDao" resultType="StatusTableDto" parameterType="_int">
+	SELECT
+	      st_deployNo
+	     ,st_status
+	FROM STATUSTABLE
+	WHERE st_deployNo=#{deployNo}
+	</select>
+	
 	<select id="selectOneDeployDao" parameterType="_int" resultType="DeployDto">
 		SELECT 
 	         d.deployNo
@@ -187,5 +203,6 @@
    <insert id="insertOneStatus" parameterType="StatusTableDto">
    INSERT INTO STATUSTABLE VALUES(#{st_deployNo},#{st_status})
    </insert>
+   
 </mapper>                         
                                   

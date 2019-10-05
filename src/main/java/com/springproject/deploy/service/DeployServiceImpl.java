@@ -110,4 +110,16 @@ public class DeployServiceImpl implements DeployService {
 	 return this.deployDao.selectAllWProgramDao(deployNo);	
 	}
 
+
+	@Override
+	public List<WSourceTableDto> selectAllWSourceService(int deployNo) {
+		return this.deployDao.selectAllWSourceDao(deployNo);
+	}
+
+
+	@Override
+	public List<StatusTableDto> selectAllStatusService(int deployNo) {
+		return this.deployDao.selectAllStatusDao(deployNo);
+	}
+
 }

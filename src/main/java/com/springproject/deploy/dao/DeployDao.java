@@ -44,5 +44,7 @@ public interface DeployDao {
    
    public List<WProgramTableDto> selectAllWProgramDao(int deployNo);
    
-
+   public List<WSourceTableDto> selectAllWSourceDao(int deployNo);
+   
+   public List<StatusTableDto> selectAllStatusDao(int deployNo);
 }

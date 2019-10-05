@@ -31,7 +31,9 @@ import com.springproject.deploy.dto.DeployDto;
 import com.springproject.deploy.service.DeployService;
 import com.springproject.employee.dto.EmployeeDto;
 import com.springproject.program.dto.ProgramTableDto;
+import com.springproject.statustable.dto.StatusTableDto;
 import com.springproject.wprogramtable.dto.WProgramTableDto;
+import com.springproject.wsource.dto.WSourceTableDto;
 
 @Controller
 public class DeployController {
@@ -157,14 +159,27 @@ public class DeployController {
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
 		List<DeployDto> deployDtoList = this.deployService.selectAllDeployService();
 		List wProgramList=new ArrayList();
+		List wSourceList=new ArrayList();
+		List statusList=new ArrayList(5);
+		
 		for(int i=0; i<deployDtoList.size();i++) {
 			int deployNo=deployDtoList.get(i).getDeployNo();
-			System.out.println(deployNo);
+			
 			List<WProgramTableDto> wProgramTableList=this.deployService.selectAllWProgramService(deployNo);
 			wProgramList.add(wProgramTableList);
-		}	
+			
+			List<WSourceTableDto> wSourceTableDtoList=this.deployService.selectAllWSourceService(deployNo);
+			wSourceList.add(wSourceTableDtoList);
+			
+			List<StatusTableDto> statusTableDtoList=new ArrayList<StatusTableDto>(5);
+			statusTableDtoList=this.deployService.selectAllStatusService(deployNo);
+			statusList.add(statusTableDtoList);
+		}
+		
 		mv.addObject("deployDtoList", deployDtoList);
 		mv.addObject("wProgramList",wProgramList);
+		mv.addObject("wSourceList",wSourceList);
+		mv.addObject("statusList",statusList);
 		return mv;
 	}
     

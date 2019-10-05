@@ -105,4 +105,14 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao{
 		
 	}
 
+	@Override
+	public List<WSourceTableDto> selectAllWSourceDao(int deployNo) {
+		return getSqlSession().selectList("DeployDao.selectAllWSourceDao", deployNo);
+	}
+
+	@Override
+	public List<StatusTableDto> selectAllStatusDao(int deployNo) {
+		return getSqlSession().selectList("DeployDao.selectAllStatusDao", deployNo);
+	}
+
 }

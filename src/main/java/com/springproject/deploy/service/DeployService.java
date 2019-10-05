@@ -8,7 +8,9 @@ import com.springproject.chain.dto.ChainTableDto;
 import com.springproject.deploy.dto.DeployDto;
 import com.springproject.employee.dto.EmployeeDto;
 import com.springproject.program.dto.ProgramTableDto;
+import com.springproject.statustable.dto.StatusTableDto;
 import com.springproject.wprogramtable.dto.WProgramTableDto;
+import com.springproject.wsource.dto.WSourceTableDto;
 
 public interface DeployService {
 
@@ -33,5 +35,10 @@ public interface DeployService {
 	public List<ProgramTableDto> selctAllProgramService(String paramChainId);
 	
 	public List<WProgramTableDto> selectAllWProgramService(int deployNo);
+	
+	public List<WSourceTableDto> selectAllWSourceService(int deployNo);
+	
+	public List<StatusTableDto> selectAllStatusService(int deployNo);
+	
 	
 }
