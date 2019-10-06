@@ -193,15 +193,41 @@
    </select>
    
    <insert id="insertOneWProgram" parameterType="WProgramTableDto">
-   INSERT INTO WPROGRAMTABLE VALUES(#{wProNo_pageId},#{wProNo_deployNo},#{wProNo_pageName})
+  	 INSERT INTO WPROGRAMTABLE      (
+                                 wProNo_pageId
+                                 , wProNo_deployNo
+                                 , wProNo_pageName
+                              ) 
+  	 VALUES
+                              (
+                                 #{wProNo_pageId}
+                                 ,#{wProNo_deployNo}
+                                 ,#{wProNo_pageName}
+                              )
    </insert>
    
    <insert id="insertOneWSource" parameterType="WSourceTableDto">
-   INSERT INTO WSOURCETABLE VALUES(#{wSo_deployNo},#{wSo_wSourceName})
+   	INSERT INTO WSOURCETABLE         (
+                                 wSo_deployNo
+                                 , wSo_wSourceName
+                              ) 
+   	VALUES
+                              (
+                                 #{wSo_deployNo}
+                                 ,#{wSo_wSourceName}
+                              )
    </insert>
    
    <insert id="insertOneStatus" parameterType="StatusTableDto">
-   INSERT INTO STATUSTABLE VALUES(#{st_deployNo},#{st_status})
+   	INSERT INTO STATUSTABLE          (
+                                 st_deployNo
+                                 , st_status
+                              )
+   	VALUES
+                              (
+                                 #{st_deployNo}
+                                 ,#{st_status}
+                              )
    </insert>
    
 </mapper>                         
