@@ -47,4 +47,10 @@ public interface DeployDao {
    public List<WSourceTableDto> selectAllWSourceDao(int deployNo);
    
    public List<StatusTableDto> selectAllStatusDao(int deployNo);
+   
+   public int deleteAllWProgram(int deployNo);
+   
+   public int deleteAllWSource(int deployNo);
+   
+   public int deleteAllStatus(int deployNo);
 }

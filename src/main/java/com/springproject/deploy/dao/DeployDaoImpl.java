@@ -115,4 +115,19 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao{
 		return getSqlSession().selectList("DeployDao.selectAllStatusDao", deployNo);
 	}
 
+	@Override
+	public int deleteAllWProgram(int deployNo) {
+		return getSqlSession().delete("DeployDao.deleteAllWProgram", deployNo);
+	}
+
+	@Override
+	public int deleteAllWSource(int deployNo) {
+		return getSqlSession().delete("DeployDao.deleteAllWSource", deployNo);
+	}
+
+	@Override
+	public int deleteAllStatus(int deployNo) {
+		return getSqlSession().delete("DeployDao.deleteAllStatus", deployNo);
+	}
+
 }

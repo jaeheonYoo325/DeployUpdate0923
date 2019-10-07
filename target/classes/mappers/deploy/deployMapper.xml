@@ -230,5 +230,19 @@
                               )
    </insert>
    
+   <delete id="deleteAllWProgram" parameterType="_int">
+   DELETE FROM WPROGRAMTABLE
+   WHERE wProNo_deployNo=#{deployNo}
+   </delete>
+   
+   <delete id="deleteAllWSource" parameterType="_int">
+   DELETE FROM WSOURCETABLE
+   WHERE wSo_deployNo=#{deployNo}
+   </delete>
+   
+   <delete id="deleteAllStatus" parameterType="_int">
+   DELETE FROM STATUSTABLE
+   WHERE st_deployNo=#{deployNo}
+   </delete>
 </mapper>                         
                                   

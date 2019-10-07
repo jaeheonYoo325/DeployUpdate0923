@@ -39,6 +39,10 @@ public interface DeployService {
 	public List<WSourceTableDto> selectAllWSourceService(int deployNo);
 	
 	public List<StatusTableDto> selectAllStatusService(int deployNo);
+		
+	public boolean updateALLPSTService(DeployDto deployDto, ArrayList wProgramArray, ArrayList pageNameArray, ArrayList wSourceArray, ArrayList statusArray);
+
+	boolean deleteAllPSTService(DeployDto deployDto);
 	
 	
 }
