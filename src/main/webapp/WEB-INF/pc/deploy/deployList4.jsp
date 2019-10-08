@@ -40,7 +40,7 @@ request.setCharacterEncoding("utf-8");
 ArrayList<DeployDto> a=(ArrayList<DeployDto>)request.getAttribute("deployDtoList");
 ArrayList b=(ArrayList)request.getAttribute("wProgramList");
 ArrayList wSoList=(ArrayList)request.getAttribute("wSourceList");
-// ArrayList stList=(ArrayList)request.getAttribute("statusList");
+ArrayList stList=(ArrayList)request.getAttribute("statusList");
 %>
 </head>
 <body>
@@ -107,25 +107,8 @@ ArrayList wSoList=(ArrayList)request.getAttribute("wSourceList");
                      <td><%=a.get(i).getDivision()%></td>
                      <td><input type="button" value="상세보기" onclick="deployDetail(<%=a.get(i).getDeployNo()%>)"></td>
                      
-                     <td>
-<%--                          <%
-                         	if ( a.get(i).getStatusCode().equals("ST0001")) {
-                         %>
-                         &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode"<%if(a.get(i).getStatusCode().equals("ST0001")){%>checked="checked"<%}%>disabled="disabled">요청
-	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode"<%if(a.get(i).getStatusCode().equals("ST0002")){%>checked="checked"<%}%>disabled="disabled">1차
-	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode"<%if(a.get(i).getStatusCode().equals("ST0003")){%>checked="checked"<%}%>disabled="disabled">2차
-	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode"<%if(a.get(i).getStatusCode().equals("ST0004")){%>checked="checked"<%}%>disabled="disabled">배포
-	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode"<%if(a.get(i).getStatusCode().equals("ST0005")){%>checked="checked"<%}%>disabled="disabled">최종
-                         <% 	
-                         	}
-                         %>   --%>              	 
-	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("ST0001")){%>checked="checked"<%}%>disabled="disabled">요청
-	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("ST0002")){%>checked="checked"<%}%>disabled="disabled">1차
-	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("ST0003")){%>checked="checked"<%}%>disabled="disabled">2차
-	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("ST0004")){%>checked="checked"<%}%>disabled="disabled">배포
-	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("ST0005")){%>checked="checked"<%}%>disabled="disabled">최종
-                     </td>
-<%--                      <%
+                     <%-- <td>
+                     <%
                        String[] stval={"","","","",""};
                        for(int j=0; j<st.size();j++){
                     	   stval[j]=st.get(j).getSt_status();

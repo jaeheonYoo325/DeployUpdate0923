@@ -31,7 +31,6 @@ import com.springproject.deploy.dto.DeployDto;
 import com.springproject.deploy.service.DeployService;
 import com.springproject.employee.dto.EmployeeDto;
 import com.springproject.program.dto.ProgramTableDto;
-import com.springproject.statustable.dto.StatusTableDto;
 import com.springproject.wprogramtable.dto.WProgramTableDto;
 import com.springproject.wsource.dto.WSourceTableDto;
 
@@ -129,7 +128,7 @@ public class DeployController {
 		ArrayList wProgramArray = new ArrayList();
 		ArrayList pageNameArray = new ArrayList();
 		ArrayList wSourceArray = new ArrayList();
-		ArrayList statusArray= new ArrayList();
+//		ArrayList statusArray= new ArrayList();
 		
 		for(int i=0;;i++) {
 			if(request.getParameter("wProgram"+i)==null) {
@@ -147,15 +146,15 @@ public class DeployController {
 		}
 		
 		
-        statusArray.add(request.getParameter("d_status"));
-        statusArray.add("공란");
-        statusArray.add("공란");
-        statusArray.add("공란");
-        statusArray.add("공란");
+//        statusArray.add(request.getParameter("d_status"));
+//        statusArray.add("공란");
+//        statusArray.add("공란");
+//        statusArray.add("공란");
+//        statusArray.add("공란");
 		
-        System.out.println("statusArray5개할당한 size출력"+statusArray.size());
+//        System.out.println("statusArray5개할당한 size출력"+statusArray.size());
 		
-		boolean success = this.deployService.insertOneDeployService(deployDto, wProgramArray, pageNameArray, wSourceArray, statusArray);
+		boolean success = this.deployService.insertOneDeployService(deployDto, wProgramArray, pageNameArray, wSourceArray);
 		return mv;
 	}
 
@@ -165,7 +164,7 @@ public class DeployController {
 		List<DeployDto> deployDtoList = this.deployService.selectAllDeployService();
 		List wProgramList=new ArrayList();
 		List wSourceList=new ArrayList();
-		List statusList=new ArrayList(5);
+//		List statusList=new ArrayList(5);
 		
 		for(int i=0; i<deployDtoList.size();i++) {
 			int deployNo=deployDtoList.get(i).getDeployNo();
@@ -176,15 +175,15 @@ public class DeployController {
 			List<WSourceTableDto> wSourceTableDtoList=this.deployService.selectAllWSourceService(deployNo);
 			wSourceList.add(wSourceTableDtoList);
 			
-			List<StatusTableDto> statusTableDtoList=new ArrayList<StatusTableDto>(5);
-			statusTableDtoList=this.deployService.selectAllStatusService(deployNo);
-			statusList.add(statusTableDtoList);
+//			List<StatusTableDto> statusTableDtoList=new ArrayList<StatusTableDto>(5);
+//			statusTableDtoList=this.deployService.selectAllStatusService(deployNo);
+//			statusList.add(statusTableDtoList);
 		}
 		
 		mv.addObject("deployDtoList", deployDtoList);
 		mv.addObject("wProgramList",wProgramList);
 		mv.addObject("wSourceList",wSourceList);
-		mv.addObject("statusList",statusList);
+//		mv.addObject("statusList",statusList);
 		return mv;
 	}
     
@@ -196,19 +195,19 @@ public class DeployController {
 		DeployDto deployDto = this.deployService.selectOneDeployService(deployNo);
 		List<WProgramTableDto> wProgramTableDtoList=this.deployService.selectAllWProgramService(deployNo);
 		List<WSourceTableDto> wSourceTableDtoList=this.deployService.selectAllWSourceService(deployNo);
-		List<StatusTableDto> statusTableDtoList=new ArrayList<StatusTableDto>(5);
-		statusTableDtoList=this.deployService.selectAllStatusService(deployNo);
+//		List<StatusTableDto> statusTableDtoList=new ArrayList<StatusTableDto>(5);
+//		statusTableDtoList=this.deployService.selectAllStatusService(deployNo);
 		
-		System.out.println("상세보기눌렀을 때 가져온 status사이즈"+statusTableDtoList.size());
+//		System.out.println("상세보기눌렀을 때 가져온 status사이즈"+statusTableDtoList.size());
 		
 	    System.out.println("Controller-각DtoList");
 	    System.out.println("프로그램List: "+wProgramTableDtoList.size());
 	    System.out.println("소스List : "+wSourceTableDtoList.size());
-	    System.out.println("상태List: "+statusTableDtoList.size());
+//	    System.out.println("상태List: "+statusTableDtoList.size());
 	    
 		mv.addObject("wProgramTableDtoList",wProgramTableDtoList);
 		mv.addObject("wSourceTableDtoList", wSourceTableDtoList);
-		mv.addObject("statusTableDtoList", statusTableDtoList);
+//		mv.addObject("statusTableDtoList", statusTableDtoList);
 		mv.addObject("deployDto", deployDto);
 
 		return mv;
@@ -254,12 +253,6 @@ public class DeployController {
 		ArrayList wProgramArray = new ArrayList();
 		ArrayList pageNameArray = new ArrayList();
 		ArrayList wSourceArray = new ArrayList();
-		ArrayList statusArray= new ArrayList();
-		String st1=null;
-		String st2=null;
-		String st3=null;
-		String st4=null;
-		String st5=null;
 		
 		for(int i=0;;i++) {
 			if(request.getParameter("wProgram"+i)==null) {
@@ -274,78 +267,13 @@ public class DeployController {
 				break;
 			}
 			wSourceArray.add(request.getParameter("wSource"+i));
+			System.out.println("request.getParameter : " + request.getParameter("wSource"+i));
 		}
-		
-		if(request.getParameter("st1")==null) {
-			st1="공란";
-			statusArray.add(st1);
-		}
-		else {
-			st1=request.getParameter("st1"); 
-			statusArray.add(st1);
-		}
-		
-		if(request.getParameter("st2")==null) {
-			st2="공란";
-			statusArray.add(st2);
-		}
-		else {
-			st2=request.getParameter("st2"); 
-			statusArray.add(st2);
-		}
-		
-		if(request.getParameter("st3")==null) {
-			st3="공란";
-			statusArray.add(st3);
-		}
-		else {
-			st3=request.getParameter("st3"); 
-			statusArray.add(st3);
-		}
-		
-		if(request.getParameter("st4")==null) {
-			st5="공란";
-			statusArray.add(st5);
-		}
-		else {
-			st4=request.getParameter("st4"); 
-			statusArray.add(st4);
-		}
-		
-		if(request.getParameter("st5")==null) {
-			st5="공란";
-			statusArray.add(st5);
-		}
-		else {
-			st5=request.getParameter("st5"); 
-			statusArray.add(st5);
-		}
-
-		
-		for(int i=0; i<wProgramArray.size(); i++) {
-			System.out.println(wProgramArray.get(i));
-		}
-		
-		for(int i=0; i<wSourceArray.size(); i++) {
-			System.out.println(wSourceArray.get(i));
-		}
-		
-		for(int i=0; i<statusArray.size(); i++) {
-			System.out.println(statusArray.get(i));
-		}
-		
-		boolean totalSuccess=true;
-		System.out.println("컨트롤러-deleteAllPSTservice완료");
-		boolean isSuccess = this.deployService.updateOneDeployService(deployDto);
-		boolean isDeleteSuccess = this.deployService.deleteAllPSTService(deployDto);
-		System.out.println("컨트롤러-updateOneDeployService완료");
-		boolean isPSTinsertSuccess = this.deployService.updateALLPSTService(deployDto, wProgramArray, pageNameArray, wSourceArray, statusArray);
-		System.out.println("컨트롤러-updateALLPSTService완료");
-		System.out.println("isSuccess"+isSuccess);
-		System.out.println("isPST"+isPSTinsertSuccess);
-		totalSuccess=totalSuccess&&isSuccess&&isPSTinsertSuccess&&isDeleteSuccess;
-		
-		
+				
+		boolean totalSuccess = true;
+		boolean isUpdateSuccess = this.deployService.updateOneDeployService(deployDto, wProgramArray, pageNameArray, wSourceArray);
+		totalSuccess= totalSuccess && isUpdateSuccess;
+		System.out.println("Controller - totalSuccess : " + totalSuccess);
 		
 		PrintWriter out;
 		if (totalSuccess) {
@@ -355,6 +283,7 @@ public class DeployController {
 				out = response.getWriter();
 				out.println("<script>");
 				out.println("alert('수정완료')");
+				out.println("window.opener.location.reload()");
 				out.println("window.close()");
 				out.println("</script>");
 			} catch (IOException e) {

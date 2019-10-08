@@ -3,7 +3,6 @@ package com.springproject.deploy.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
@@ -15,27 +14,26 @@ import com.springproject.chain.dto.ChainTableDto;
 import com.springproject.deploy.dto.DeployDto;
 import com.springproject.employee.dto.EmployeeDto;
 import com.springproject.program.dto.ProgramTableDto;
-import com.springproject.statustable.dto.StatusTableDto;
 import com.springproject.wprogramtable.dto.WProgramTableDto;
 import com.springproject.wsource.dto.WSourceTableDto;
 
 @Repository
-public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao{
+public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao {
 
 	@Autowired
 	@Override
 	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
 		super.setSqlSessionFactory(sqlSessionFactory);
 	}
-	
+
 	@Override
 	public int insertOneDeployDao(DeployDto deployDto) {
 		return getSqlSession().insert("DeployDao.insertOneDeployDao", deployDto);
 	}
-	
+
 	@Override
-	public int insertOneWProgram(WProgramTableDto wProgramTableDto){
-		return getSqlSession().insert("DeployDao.insertOneWProgram",wProgramTableDto);
+	public int insertOneWProgram(WProgramTableDto wProgramTableDto) {
+		return getSqlSession().insert("DeployDao.insertOneWProgram", wProgramTableDto);
 	}
 
 	@Override
@@ -63,15 +61,15 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao{
 		return getSqlSession().selectList("DeployDao.selectSomeDeployDao", employeeDto);
 	}
 
-   @Override
-   public List<ChainTableDto> selectSomeChainDao(ChainTableDto chainTableDto) {
-      return getSqlSession().selectList("DeployDao.selectSomeChainDao",chainTableDto);
-   }
+	@Override
+	public List<ChainTableDto> selectSomeChainDao(ChainTableDto chainTableDto) {
+		return getSqlSession().selectList("DeployDao.selectSomeChainDao", chainTableDto);
+	}
 
-   @Override
-   public List<ProgramTableDto> selectSomeProgramDao(ProgramTableDto programTableDto) {
-      return getSqlSession().selectList("DeployDao.selectSomeProgramDao",programTableDto);
-   }
+	@Override
+	public List<ProgramTableDto> selectSomeProgramDao(ProgramTableDto programTableDto) {
+		return getSqlSession().selectList("DeployDao.selectSomeProgramDao", programTableDto);
+	}
 
 	@Override
 	public List<ChainTableDto> selectAllChainDao() {
@@ -80,7 +78,7 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao{
 
 	@Override
 	public List<ProgramTableDto> selectAllProgramDao(String paramChainId) {
-		return getSqlSession().selectList("DeployDao.selectAllProgramDao",paramChainId);
+		return getSqlSession().selectList("DeployDao.selectAllProgramDao", paramChainId);
 	}
 
 	@Override
@@ -90,29 +88,17 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao{
 
 	@Override
 	public List<WProgramTableDto> selectAllWProgramDao(int deployNo) {
-		return getSqlSession().selectList("DeployDao.selectAllWProgramDao",deployNo);
+		return getSqlSession().selectList("DeployDao.selectAllWProgramDao", deployNo);
 	}
 
 	@Override
 	public int insertOneWSource(WSourceTableDto wSourceTableDto) {
-		System.out.println("Dao-wSource");
-		return getSqlSession().insert("DeployDao.insertOneWSource",wSourceTableDto);
-	}
-
-	@Override
-	public int insertOneStatus(StatusTableDto statusTableDto) {
-		return getSqlSession().insert("DeployDao.insertOneStatus",statusTableDto);
-		
+		return getSqlSession().insert("DeployDao.insertOneWSource", wSourceTableDto);
 	}
 
 	@Override
 	public List<WSourceTableDto> selectAllWSourceDao(int deployNo) {
 		return getSqlSession().selectList("DeployDao.selectAllWSourceDao", deployNo);
-	}
-
-	@Override
-	public List<StatusTableDto> selectAllStatusDao(int deployNo) {
-		return getSqlSession().selectList("DeployDao.selectAllStatusDao", deployNo);
 	}
 
 	@Override
@@ -124,10 +110,4 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao{
 	public int deleteAllWSource(int deployNo) {
 		return getSqlSession().delete("DeployDao.deleteAllWSource", deployNo);
 	}
-
-	@Override
-	public int deleteAllStatus(int deployNo) {
-		return getSqlSession().delete("DeployDao.deleteAllStatus", deployNo);
-	}
-
 }

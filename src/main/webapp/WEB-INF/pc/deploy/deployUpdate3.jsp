@@ -6,7 +6,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%request.setCharacterEncoding("utf-8"); %>
 <!DOCTYPE html>
 <html>
@@ -29,7 +28,6 @@
 <script type="text/javascript">
    $(document).ready(function() {
 	      var lastwPro=$("#lastwPro").val();
-	      console.log(lastwPro);
 	      var lastwSo=$("#lastwSo").val();
 	      
 		  var i=lastwPro;
@@ -53,14 +51,18 @@
 	    	  }
 	    	  else
 	    		  i=i+1;
-	    	  console.log(i);
 	          $('.buttonsP').append (           
 				$("<input type='text' name='wProgram"+i+"'id='wProgram"+i+"' readonly='readonly'><input type='text' name='pageName"+i+"'id='pageName"+i+"' readonly='readonly'><input type='button' value='검색' onclick='searchProgram("+i+")'><br>")
 	          );
 	      });
 	      
 	      
-	      var j=lastwSo;
+	      
+          $('.removeS').on('click', function () { 
+              $(".buttonsS").html("");
+              j = -1;
+          });
+		  var j=lastwSo;
 	      if(j==lastwSo){
 	    	  j=lastwSo;
 	    	  j*=1;
@@ -68,12 +70,7 @@
 	      else{
 	    	  j=-1;
 	    	  j*=1;
-	          }	      
-          $('.removeS').on('click', function () { 
-              $(".buttonsS").html("");
-              j = -1;
-          });
-		  
+	          }
 	      $('.btnAddS').click (function () {
 	    	  j=j+1;
 	          $('.buttonsS').append (           
@@ -109,7 +106,13 @@ function searchSource(no){
 }
 </script>
 </head>
-
+<%
+request.setCharacterEncoding("utf-8");
+DeployDto deployDto=(DeployDto)request.getAttribute("deployDto");
+ArrayList<WProgramTableDto> wPro=(ArrayList<WProgramTableDto>)request.getAttribute("wProgramTableDtoList");
+ArrayList<WSourceTableDto> wSo=(ArrayList<WSourceTableDto>)request.getAttribute("wSourceTableDtoList");
+// ArrayList<StatusTableDto> st=(ArrayList<StatusTableDto>)request.getAttribute("statusTableDtoList");
+%>
 <h1>수정페이지</h1>
 <form:form id="updateFrm" modelAttribute="deployDto" name="updateFrm">
 No : <input type="text" name="deployNo" id="deployNo" value="${deployDto.deployNo}" readonly="readonly"><br>
@@ -117,9 +120,9 @@ No : <input type="text" name="deployNo" id="deployNo" value="${deployDto.deployN
 	  <input type="text" name="chainName" id="chainName" value="${deployDto.chainName}" readonly="readonly">
 	  <input type="button" value="검색" onclick="searchChain()"><br>
 작업유형 : <select name="wtype" id="wtype">
-         <option value="작업유형" <c:if test="${deployDto.wtype eq ''}">selected="selected"</c:if>>작업유형</option> 
-         <option value="정기" <c:if test="${deployDto.wtype eq '정기'}">selected="selected"</c:if>>정기</option> 
-         <option value="수시" <c:if test="${deployDto.wtype eq '수시'}">selected="selected"</c:if>>수시</option>          
+         <option value="">작업유형</option>
+         <option value="정기" <%if(deployDto.getWtype().equals("정기")){%>selected="selected"<%}%> >정기</option>
+         <option value="수시" <%if(deployDto.getWtype().equals("수시")){%>selected="selected"<%}%> >수시</option>
        </select><br>
 요청날짜 : <input type="date" name="reqDate" value="${deployDto.reqDate}"><br>
 요청시간 : <input type="time" name="reqTime" value="${deployDto.reqTime}"><br>
@@ -130,21 +133,27 @@ No : <input type="text" name="deployNo" id="deployNo" value="${deployDto.deployN
 변경내역 : <input type="text" name="wContent" value="${deployDto.wContent}"><br>
 변경프로그램목록 : <input type="button" class="btnAddP" value="추가"><input type='button' class='removeP'id='removeP' value='전체삭제'><br>
 			<div class="buttonsP"> 
-				<c:forEach items="${wProgramTableDtoList}" varStatus="status">
-					<input type="text" name="wProgram${status.index}" id="wProgram${status.index}" value="<c:out value="${wProgramTableDtoList[status.index].wProNo_pageId}" />" readonly="readonly">					
-					<input type="text" name="pageName${status.index}" id="pageName${status.index}" value="<c:out value="${wProgramTableDtoList[status.index].wProNo_pageName}" />" readonly="readonly">
-					<input type="button" value="검색" onclick="searchProgram(${status.index})"><br>								
-				</c:forEach> 
-				<input type="hidden" name="lastwPro" id="lastwPro" value="${fn:length(wProgramTableDtoList)-1}">            
+			<%
+				for(int i=0; i<wPro.size(); i++){
+			%>
+				<input type="text" name="wProgram<%=i%>" id="wProgram<%=i%>" value="<%=wPro.get(i).getwProNo_pageId()%>" readonly="readonly">
+				<input type="text" name="wProgram<%=i%>" id="wProgram<%=i%>" value="<%=wPro.get(i).getwProNo_pageName()%>" readonly="readonly"><br>	
+			<%	
+				}
+			%>   
+                <input type="hidden" name="lastwPro" id="lastwPro" value="<%=wPro.size()-1%>"> 		        
 			</div>
 
 변경소스명 : <input type="button" class="btnAddS" value="추가"><input type='button' class='removeS'id='removeS' value='전체삭제'><br> 	
 		 <div class="buttonsS">  
-		 	<c:forEach items="${wSourceTableDtoList}" varStatus="status">
-				<input type="text" name="wSource${status.index}" id="wSource${status.index}" value="<c:out value="${wSourceTableDtoList[status.index].wSo_wSourceName}" />" readonly="readonly">									
-				<input type="button" value="검색" onclick="searchSource(${status.index})"><br>								
-			</c:forEach> 
-			<input type="hidden" name="lastwSo" id="lastwSo" value="${fn:length(wSourceTableDtoList)-1}">
+		<%
+			for(int i=0; i<wSo.size(); i++){
+		%>
+			<input type="text" name="wSource<%=i%>" id="wSource<%=i%>" value="<%=wSo.get(i).getwSo_wSourceName()%>" readonly="readonly"><br>
+		<%
+		}
+		%> 
+			<input type="hidden" name="lastwSo" id="lastwSo" value="<%=wSo.size()-1%>">  
 		</div>
 
 요청자 : <input type="text" name="reqEmpNo" id="reqEmpNo" value="${deployDto.reqEmpNo}" readonly="readonly">
@@ -158,20 +167,20 @@ Deploy담당자 : <input type="text" name="deployEmpNo" id="deployEmpNo" value="
 확인(운영계) : <input type="text" name="prdEmpNo" id="prdEmpNo" value="${deployDto.prdEmpNo}" readonly="readonly">
             <input type="button" value="검색" onclick="searchEmp('prdEmp')"><br>
 구분 : <select name="division">
-      <option value="" <c:if test="${deployDto.division eq ''}">selected="selected"</c:if>>구분</option>       
-      <option value="신규" <c:if test="${deployDto.division eq '신규'}">selected="selected"</c:if>>신규</option>       
-      <option value="변경" <c:if test="${deployDto.division eq '변경'}">selected="selected"</c:if>>변경</option>                         
+      <option value="">구분</option>
+      <option value="신규" <%if(deployDto.getWtype().equals("신규")){%>selected="selected"<%}%> >신규</option>
+      <option value="변경" <%if(deployDto.getWtype().equals("변경")){%>selected="selected"<%}%> >변경</option>
      </select><br>
-상태 코드 : 
-<input type="radio" name="statusCode" value="ST0001" <c:if test="${deployDto.statusCode eq 'ST0001'}">checked="checked"</c:if>>요청
-<input type="radio" name="statusCode" value="ST0002" <c:if test="${deployDto.statusCode eq 'ST0002'}">checked="checked"</c:if>>1차
-<input type="radio" name="statusCode" value="ST0003" <c:if test="${deployDto.statusCode eq 'ST0003'}">checked="checked"</c:if>>2차
-<input type="radio" name="statusCode" value="ST0004" <c:if test="${deployDto.statusCode eq 'ST0004'}">checked="checked"</c:if>>배포
-<input type="radio" name="statusCode" value="ST0005" <c:if test="${deployDto.statusCode eq 'ST0005'}">checked="checked"</c:if>>최종
-<br>		
+<%-- 상태  : <br>
+		요청 1차 2차 최종 배포<br>
+		&nbsp;&nbsp;&nbsp;<input type="checkbox" name="st1" id="st1" value="요청" <%if(st.get(0).getSt_status().equals("요청")){%>checked="checked"<%} %> >
+        &nbsp;&nbsp;&nbsp;<input type="checkbox" name="st2" id="st2" value="1차" <%if(st.get(1).getSt_status().equals("1차")){%>checked="checked"<%} %> >
+        &nbsp;&nbsp;&nbsp;<input type="checkbox" name="st3" id="st3" value="2차" <%if(st.get(2).getSt_status().equals("2차")){%>checked="checked"<%} %> >
+        &nbsp;&nbsp;&nbsp;<input type="checkbox" name="st4" id="st4" value="최종" <%if(st.get(3).getSt_status().equals("최종")){%>checked="checked"<%} %> >
+        &nbsp;&nbsp;&nbsp;<input type="checkbox" name="st5" id="st5" value="배포" <%if(st.get(4).getSt_status().equals("배포")){%>checked="checked"<%} %> >
+        <br> --%>
 <input type="button" id="updateBtn" value="수정">
 <td><input type="button" id="requestDeleteBtn" value="삭제" onclick="location.href='/deploy/deployDelete.do/'+${deployDto.deployNo}"/></td>
 </form:form>
-
 </body>
 </html>

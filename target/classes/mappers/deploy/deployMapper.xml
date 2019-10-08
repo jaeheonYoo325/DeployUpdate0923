@@ -19,6 +19,7 @@
                         , testEmpNo
                         , prdEmpNo
                         , division
+                        , statusCode
                         
                      )
       VALUES            (
@@ -35,6 +36,7 @@
                         , #{testEmpNo}
                         , #{prdEmpNo}
                         , #{division}
+                        , "ST0001"
                      )   
    </insert>
    
@@ -66,7 +68,8 @@
 	         , d.devEmpNo
 	         , d.testEmpNo
 	         , d.prdEmpNo
-	         , d.division  
+	         , d.division
+	         , d.statusCode  
 		 FROM deploy d 
 		 JOIN CHAINTABLE c
 		 ON(d.d_chainID=c.chainID)
@@ -88,15 +91,7 @@
 	FROM WSOURCETABLE
 	WHERE wSo_deployNo=#{deployNo}
 	</select>
-	
-	<select id="selectAllStatusDao" resultType="StatusTableDto" parameterType="_int">
-	SELECT
-	      st_deployNo
-	     ,st_status
-	FROM STATUSTABLE
-	WHERE st_deployNo=#{deployNo}
-	</select>
-	
+		
 	<select id="selectOneDeployDao" parameterType="_int" resultType="DeployDto">
 		SELECT 
 	         d.deployNo
@@ -113,6 +108,7 @@
 	         , d.testEmpNo
 	         , d.prdEmpNo
 	         , d.division
+	         , d.statusCode
 	         , c.chainName
 		 FROM deploy d 
 		 JOIN CHAINTABLE c
@@ -136,6 +132,7 @@
             , testempNo = #{testEmpNo} 
             , prdempNo = #{prdEmpNo}  
             , division = #{division}
+            , statusCode = #{statusCode}           
       WHERE   deployNo = #{deployNo}
 	</update>
 	
@@ -218,17 +215,6 @@
                               )
    </insert>
    
-   <insert id="insertOneStatus" parameterType="StatusTableDto">
-   	INSERT INTO STATUSTABLE          (
-                                 st_deployNo
-                                 , st_status
-                              )
-   	VALUES
-                              (
-                                 #{st_deployNo}
-                                 ,#{st_status}
-                              )
-   </insert>
    
    <delete id="deleteAllWProgram" parameterType="_int">
    DELETE FROM WPROGRAMTABLE
@@ -239,10 +225,6 @@
    DELETE FROM WSOURCETABLE
    WHERE wSo_deployNo=#{deployNo}
    </delete>
-   
-   <delete id="deleteAllStatus" parameterType="_int">
-   DELETE FROM STATUSTABLE
-   WHERE st_deployNo=#{deployNo}
-   </delete>
+
 </mapper>                         
                                   

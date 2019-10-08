@@ -8,7 +8,6 @@ import com.springproject.chain.dto.ChainTableDto;
 import com.springproject.deploy.dto.DeployDto;
 import com.springproject.employee.dto.EmployeeDto;
 import com.springproject.program.dto.ProgramTableDto;
-import com.springproject.statustable.dto.StatusTableDto;
 import com.springproject.wprogramtable.dto.WProgramTableDto;
 import com.springproject.wsource.dto.WSourceTableDto;
 
@@ -19,8 +18,6 @@ public interface DeployDao {
 	public int insertOneWProgram(WProgramTableDto wProgramTableDto);
 	
 	public int insertOneWSource(WSourceTableDto wSourceTableDto);
-	
-	public int insertOneStatus(StatusTableDto statusTableDto);
 	
 	public List<DeployDto> selectAllDeployDao();
 	
@@ -46,11 +43,8 @@ public interface DeployDao {
    
    public List<WSourceTableDto> selectAllWSourceDao(int deployNo);
    
-   public List<StatusTableDto> selectAllStatusDao(int deployNo);
-   
    public int deleteAllWProgram(int deployNo);
    
    public int deleteAllWSource(int deployNo);
    
-   public int deleteAllStatus(int deployNo);
 }
