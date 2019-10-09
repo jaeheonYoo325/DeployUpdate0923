@@ -225,6 +225,297 @@
    DELETE FROM WSOURCETABLE
    WHERE wSo_deployNo=#{deployNo}
    </delete>
-
+   
+    <select id="selectSomeDeployCateListDao" parameterType="DeployCateListDto" resultType="DeployDto">
+    	SELECT 
+                  d.deployNo
+                  , c.chainName
+                  , d.d_chainId
+                  , d.wtype
+                  , d.reqDate
+                  , d.reqTime
+                  , d.reqServiceId
+                  , d.wContent
+                  , d.reqEmpNo
+                  , d.wEmpNo
+                  , d.deployEmpNo
+                  , d.devEmpNo
+                  , d.testEmpNo
+                  , d.prdEmpNo
+                  , d.division
+                  , d.statusCode  
+             FROM deploy d 
+             JOIN CHAINTABLE c
+             ON(d.d_chainId=c.chainId)
+             <if test="cateChain =='전체' and cateWtype !='전체' and cateReqDate !='전체' and cateDivision !='전체' and cateStatus !='전체'">
+             	<if test="cateReqDate=='오름차순'">
+					WHERE d.wtype=#{cateWtype}
+             		AND d.division=#{cateDivision}
+             		AND	d.statusCode=#{cateStatus}
+             		ORDER BY d.reqDate ASC
+             	</if>
+             	<if test="cateReqDate=='내림차순'">
+             		WHERE d.wtype=#{cateWtype}
+             		AND d.division=#{cateDivision}
+             		AND	d.statusCode=#{cateStatus}
+             		ORDER BY d.reqDate DESC
+             	</if>
+             </if>
+             
+             <if test="cateChain !='전체' and cateWtype=='전체' and cateReqDate !='전체' and cateDivision !='전체' and cateStatus!='전체'">
+             	<if test="cateReqDate=='오름차순'">
+					WHERE d.d_chainId=#{cateChain}
+             		AND d.division=#{cateDivision}
+             		AND	d.statusCode = #{cateStatus}
+             		ORDER BY d.reqDate ASC
+             	</if>
+             	<if test="cateReqDate=='내림차순'">
+             		WHERE d.d_chainId=#{cateChain}
+             		AND d.division=#{cateDivision}
+             		AND	statusCode = #{cateStatus}
+             		ORDER BY d.reqDate DESC
+             	</if>
+             </if>
+             <if test="cateChain !='전체' and cateWtype !='전체' and cateReqDate =='전체' and cateDivision !='전체' and cateStatus!='전체'">
+             	WHERE d.d_chainId=#{cateChain}
+             	AND	d.wtype=#{cateWtype}
+             	AND d.division=#{cateDivision}
+             	AND	statusCode = #{cateStatus}
+             </if>
+             
+             <if test="cateChain !='전체' and cateWtype !='전체' and cateReqDate !='전체' and cateDivision =='전체' and cateStatus!='전체'">
+             	<if test="cateReqDate=='오름차순'">
+					WHERE d.d_chainId=#{cateChain}
+             		AND d.wtype=#{cateWtype}
+             		AND	statusCode = #{cateStatus}
+             		ORDER BY d.reqDate ASC
+             	</if>
+             	<if test="cateReqDate=='내림차순'">
+             		WHERE d.d_chainId=#{cateChain}
+             		AND d.wtype=#{cateWtype}
+             		AND	statusCode = #{cateStatus}
+             		ORDER BY d.reqDate DESC
+             	</if>
+             </if>
+             
+             <if test="cateChain !='전체' and cateWtype !='전체' and cateReqDate !='전체' and cateDivision !='전체' and cateStatus =='전체'">
+             	<if test="cateReqDate=='오름차순'">
+					WHERE d.d_chainId=#{cateChain}
+             		AND d.wtype=#{cateWtype}
+             		AND	d.division = #{cateDivision}
+             		ORDER BY d.reqDate ASC
+             	</if>
+             	<if test="cateReqDate=='내림차순'">
+             		WHERE d.d_chainId=#{cateChain}
+             		AND d.wtype=#{cateWtype}
+             		AND	d.division = #{cateDivision}
+             		ORDER BY d.reqDate DESC
+             	</if>
+             </if>
+             
+             <if test="cateChain =='전체' and cateWtype =='전체' and cateReqDate !='전체' and cateDivision !='전체' and cateStatus !='전체'">
+             	<if test="cateReqDate=='오름차순'">
+					WHERE d.statusCode=#{cateStatus}
+             		AND	d.division = #{cateDivision}
+             		ORDER BY d.reqDate ASC
+             	</if>
+             	<if test="cateReqDate=='내림차순'">
+             		WHERE d.statusCode=#{cateStatus}
+             		AND	d.division = #{cateDivision}
+             		ORDER BY d.reqDate DESC
+             	</if>
+             </if>
+             
+              <if test="cateChain =='전체' and cateWtype !='전체' and cateReqDate =='전체' and cateDivision !='전체' and cateStatus !='전체'">
+              		WHERE d.wtype = #{cateWtype}
+              		AND d.division = #{cateDivision}             
+             		AND	d.statusCode=#{cateStatus}
+              </if>
+              <if test="cateChain =='전체' and cateWtype !='전체' and cateReqDate !='전체' and cateDivision =='전체' and cateStatus !='전체'">
+              	<if test="cateReqDate=='오름차순'">
+					WHERE d.wtype = #{cateWtype}
+              		AND d.statusCode=#{cateStatus}
+              		ORDER BY d.reqDate ASC
+             	</if>
+             	<if test="cateReqDate=='내림차순'">
+             		WHERE d.wtype = #{cateWtype}
+              		AND d.statusCode=#{cateStatus}
+             		ORDER BY d.reqDate DESC
+             	</if>
+              </if>
+              
+              <if test="cateChain =='전체' and cateWtype !='전체' and cateReqDate !='전체' and cateDivision !='전체' and cateStatus =='전체'">
+              	<if test="cateReqDate=='오름차순'">
+					WHERE d.wtype = #{cateWtype}
+              		AND	d.division = #{cateDivision}             
+              		ORDER BY d.reqDate ASC
+             	</if>
+             	<if test="cateReqDate=='내림차순'">
+             		WHERE d.wtype = #{cateWtype}
+              		AND	d.division = #{cateDivision}             
+             		ORDER BY d.reqDate DESC
+             	</if>
+              </if>
+              
+              <if test="cateChain !='전체' and cateWtype =='전체' and cateReqDate =='전체' and cateDivision !='전체' and cateStatus !='전체'">
+              	WHERE 
+              		d.d_chainId = #{cateChain}
+              		AND	d.division = #{cateDivision}             
+              		AND d.statusCode=#{cateStatus}
+              </if>
+              
+              <if test="cateChain !='전체' and cateWtype =='전체' and cateReqDate !='전체' and cateDivision =='전체' and cateStatus !='전체'">
+              	<if test="cateReqDate=='오름차순'">
+					WHERE d.d_chainId = #{cateChain}
+              		AND d.statusCode=#{cateStatus}             
+              		ORDER BY d.reqDate ASC
+             	</if>
+             	<if test="cateReqDate=='내림차순'">
+             		WHERE d.d_chainId = #{cateChain}
+              		AND d.statusCode=#{cateStatus}             
+             		ORDER BY d.reqDate DESC
+             	</if>
+              </if>
+              
+              <if test="cateChain !='전체' and cateWtype =='전체' and cateReqDate !='전체' and cateDivision !='전체' and cateStatus =='전체'">
+              	<if test="cateReqDate=='오름차순'">
+					WHERE d.d_chainId = #{cateChain}
+              		AND	d.division = #{cateDivision}             
+              		ORDER BY d.reqDate ASC
+             	</if>
+             	<if test="cateReqDate=='내림차순'">
+             		WHERE d.d_chainId = #{cateChain}
+              		AND	d.division = #{cateDivision}             
+             		ORDER BY d.reqDate DESC
+             	</if>
+              </if>
+              
+              <if test="cateChain !='전체' and cateWtype !='전체' and cateReqDate =='전체' and cateDivision =='전체' and cateStatus !='전체'">
+              	WHERE d.d_chainId = #{cateChain}
+              		AND d.wtype = #{cateWtype}
+              		AND d.statusCode=#{cateStatus}
+              </if>
+              
+              <if test="cateChain !='전체' and cateWtype !='전체' and cateReqDate =='전체' and cateDivision !='전체' and cateStatus =='전체'">
+             	 WHERE d.d_chainId = #{cateChain}
+              		AND d.wtype = #{cateWtype}
+              		AND	d.division = #{cateDivision}             
+              </if>
+              
+              <if test="cateChain !='전체' and cateWtype !='전체' and cateReqDate !='전체' and cateDivision =='전체' and cateStatus =='전체'">
+              	<if test="cateReqDate=='오름차순'">
+					WHERE d.d_chainId = #{cateChain}
+              		AND d.wtype = #{cateWtype}
+              		ORDER BY d.reqDate ASC
+             	</if>
+             	<if test="cateReqDate=='내림차순'">
+             		WHERE d.d_chainId = #{cateChain}
+              		AND d.wtype = #{cateWtype}
+             		ORDER BY d.reqDate DESC
+             	</if>
+              </if>
+              
+              <if test="cateChain =='전체' and cateWtype =='전체' and cateReqDate =='전체' and cateDivision !='전체' and cateStatus !='전체'">
+              	WHERE d.division = #{cateDivision}             
+              	AND d.statusCode=#{cateStatus}
+              </if>
+              
+              <if test="cateChain =='전체' and cateWtype =='전체' and cateReqDate !='전체' and cateDivision =='전체' and cateStatus !='전체'">
+              	<if test="cateReqDate=='오름차순'">
+					WHERE d.statusCode=#{cateStatus}
+              		ORDER BY d.reqDate ASC
+             	</if>
+             	<if test="cateReqDate=='내림차순'">
+             		WHERE d.statusCode=#{cateStatus}
+             		ORDER BY d.reqDate DESC
+             	</if>
+              </if>
+              
+              <if test="cateChain =='전체' and cateWtype =='전체' and cateReqDate !='전체' and cateDivision !='전체' and cateStatus =='전체'">
+              <if test="cateReqDate=='오름차순'">
+					WHERE d.division = #{cateDivision}             
+              		ORDER BY d.reqDate ASC
+             	</if>
+             	<if test="cateReqDate=='내림차순'">
+             		WHERE d.division = #{cateDivision}             
+             		ORDER BY d.reqDate DESC
+             	</if>
+              </if>
+              
+              <if test="cateChain =='전체' and cateWtype !='전체' and cateReqDate =='전체' and cateDivision =='전체' and cateStatus !='전체'">
+              	WHERE d.wtype = #{cateWtype}
+              	AND d.statusCode=#{cateStatus}
+              </if>
+              
+              <if test="cateChain =='전체' and cateWtype !='전체' and cateReqDate =='전체' and cateDivision !='전체' and cateStatus =='전체'">
+              	WHERE d.wtype = #{cateWtype}
+              	AND	d.division = #{cateDivision}             
+              </if>
+              
+              <if test="cateChain =='전체' and cateWtype !='전체' and cateReqDate !='전체' and cateDivision =='전체' and cateStatus =='전체'">
+              	<if test="cateReqDate=='오름차순'">
+					WHERE d.wtype = #{cateWtype}
+              		ORDER BY d.reqDate ASC
+             	</if>
+             	<if test="cateReqDate=='내림차순'">
+             		WHERE d.wtype = #{cateWtype}
+             		ORDER BY d.reqDate DESC
+             	</if>
+              </if>
+              
+              <if test="cateChain !='전체' and cateWtype =='전체' and cateReqDate =='전체' and cateDivision =='전체' and cateStatus !='전체'">
+              	WHERE d.d_chainId = #{cateChain}
+              	AND d.statusCode=#{cateStatus}
+              </if>
+              
+              <if test="cateChain !='전체' and cateWtype =='전체' and cateReqDate =='전체' and cateDivision !='전체' and cateStatus =='전체'">
+              	WHERE d.d_chainId = #{cateChain}
+              	AND	d.division = #{cateDivision}             
+              </if>
+              
+              <if test="cateChain !='전체' and cateWtype =='전체' and cateReqDate !='전체' and cateDivision =='전체' and cateStatus =='전체'">
+              	<if test="cateReqDate=='오름차순'">
+					WHERE d.d_chainId = #{cateChain}
+              		ORDER BY d.reqDate ASC
+             	</if>
+             	<if test="cateReqDate=='내림차순'">
+             		WHERE d.d_chainId = #{cateChain}
+             		ORDER BY d.reqDate DESC
+             	</if>
+              </if>
+              
+              <if test="cateChain !='전체' and cateWtype !='전체' and cateReqDate =='전체' and cateDivision =='전체' and cateStatus =='전체'">
+              	WHERE d.d_chainId = #{cateChain}
+                AND d.wtype = #{cateWtype}
+              </if>
+              
+              <if test="cateChain !='전체' and cateWtype =='전체' and cateReqDate =='전체' and cateDivision =='전체' and cateStatus =='전체'">
+              	WHERE d.d_chainId = #{cateChain}
+              </if>
+              
+              <if test="cateChain =='전체' and cateWtype !='전체' and cateReqDate =='전체' and cateDivision =='전체' and cateStatus =='전체'">
+              	WHERE d.wtype = #{cateWtype}
+              </if>
+               
+              <if test="cateChain =='전체' and cateWtype =='전체' and cateReqDate !='전체' and cateDivision =='전체' and cateStatus =='전체'">
+              	<if test="cateReqDate=='오름차순'">
+              		ORDER BY d.reqDate ASC
+             	</if>
+             	<if test="cateReqDate=='내림차순'">
+             		ORDER BY d.reqDate DESC
+             	</if>
+              </if>
+              
+              <if test="cateChain =='전체' and cateWtype =='전체' and cateReqDate =='전체' and cateDivision !='전체' and cateStatus =='전체'">
+              	 WHERE d.division = #{cateDivision}             
+              </if>
+              
+              <if test="cateChain =='전체' and cateWtype =='전체' and cateReqDate =='전체' and cateDivision =='전체' and cateStatus !='전체'">
+              	WHERE d.statusCode=#{cateStatus}
+              </if>
+              
+              <if test="cateChain =='전체' and cateWtype =='전체' and cateReqDate =='전체' and cateDivision =='전체' and cateStatus =='전체'">
+              </if>
+    </select>
 </mapper>                         
                                   

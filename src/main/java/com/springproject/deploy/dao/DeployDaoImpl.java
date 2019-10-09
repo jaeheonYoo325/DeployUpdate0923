@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.jta.UserTransactionAdapter;
 
 import com.springproject.chain.dto.ChainTableDto;
+import com.springproject.deploy.dto.DeployCateListDto;
 import com.springproject.deploy.dto.DeployDto;
 import com.springproject.employee.dto.EmployeeDto;
 import com.springproject.program.dto.ProgramTableDto;
@@ -109,5 +110,10 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao {
 	@Override
 	public int deleteAllWSource(int deployNo) {
 		return getSqlSession().delete("DeployDao.deleteAllWSource", deployNo);
+	}
+
+	@Override
+	public List<DeployDto> selectSomeDeployCateListDao(DeployCateListDto deployCateListDto) {
+		return getSqlSession().selectList("DeployDao.selectSomeDeployCateListDao", deployCateListDto);
 	}
 }

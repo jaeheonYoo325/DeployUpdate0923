@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.springproject.chain.dto.ChainTableDto;
 import com.springproject.deploy.dao.DeployDao;
+import com.springproject.deploy.dto.DeployCateListDto;
 import com.springproject.deploy.dto.DeployDto;
 import com.springproject.employee.dto.EmployeeDto;
 import com.springproject.program.dto.ProgramTableDto;
@@ -149,6 +150,12 @@ public class DeployServiceImpl implements DeployService {
 	@Override
 	public List<WSourceTableDto> selectAllWSourceService(int deployNo) {
 		return this.deployDao.selectAllWSourceDao(deployNo);
+	}
+
+
+	@Override
+	public List<DeployDto> selectSomeDeployCateListService(DeployCateListDto deployCateListDto) {
+		return this.deployDao.selectSomeDeployCateListDao(deployCateListDto);
 	}
 
 

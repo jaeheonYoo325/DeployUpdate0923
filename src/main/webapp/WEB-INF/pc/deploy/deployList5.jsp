@@ -1,5 +1,3 @@
-<%@page import="com.springproject.deploy.dto.DeployCateListDto"%>
-<%@page import="com.springproject.chain.dto.ChainTableDto"%>
 <%@page import="com.springproject.wsource.dto.WSourceTableDto"%>
 <%@page import="com.springproject.wprogramtable.dto.WProgramTableDto"%>
 <%@page import="java.util.ArrayList"%>
@@ -21,12 +19,12 @@
 <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
 <script type="text/javascript">
    $(document).ready(function() {
-       $("#cateBtn").click(function() {
-           $("#listFrm").attr({
-                method:"post",                                         
-                  action:"/deploy/deployList.do"
-           }).submit();
-          });  
+      
+       $("#updateBtn").attr({
+            method:"post",                                         
+              action:"/deploy/deployUpdate.do"
+       }).submit();
+      
     });
 </script>
 
@@ -42,44 +40,18 @@ request.setCharacterEncoding("utf-8");
 ArrayList<DeployDto> a=(ArrayList<DeployDto>)request.getAttribute("deployDtoList");
 ArrayList b=(ArrayList)request.getAttribute("wProgramList");
 ArrayList wSoList=(ArrayList)request.getAttribute("wSourceList");
-ArrayList<ChainTableDto> cateChain=(ArrayList<ChainTableDto>)request.getAttribute("chainDtoList");
-DeployCateListDto deployCateListDto=(DeployCateListDto)request.getAttribute("deployCateListDto");
-
 // ArrayList stList=(ArrayList)request.getAttribute("statusList");
 %>
 </head>
 <body>
       <h1>List</h1>
-   <form name="listFrm" id="listFrm">
-   	  <input type="button" value="cateTest" id="cateBtn">
+   <form>
       <table border="1" class="table table-hover">
             <tr>
                <td>No</td>
-                <td>
-	                <select name="cateChain" id="cateChain">
-	                    <option value="전체" <%if(deployCateListDto.getCateChain().equals("전체")){%>selected="selected"<%}%>>부문</option>
-	                   <%for(int i=0; i<cateChain.size(); i++){
-	                   %>
-	                    <option value="<%=cateChain.get(i).getChainId()%>" <%if(deployCateListDto.getCateChain().equals(cateChain.get(i).getChainId())){%>selected="selected"<%}%>><%=cateChain.get(i).getChainName()%></option>
-	                   <%   
-	                   }
-	                   %>
-	               </select>
-               </td>
-               <td>
-                   <select name="cateWtype" id="cateWtype">
-                      <option value="전체" <%if(deployCateListDto.getCateWtype().equals("전체")){%>selected="selected"<%}%>>작업유형</option>
-                      <option value="정기" <%if(deployCateListDto.getCateWtype().equals("정기")){%>selected="selected"<%}%>>정기</option>
-                      <option value="수시" <%if(deployCateListDto.getCateWtype().equals("수시")){%>selected="selected"<%}%>>수시</option>
-                   </select>
-               </td>
-               <td>
-                   <select name="cateReqDate" id="cateReqDate">
-						<option value="전체" <%if(deployCateListDto.getCateReqDate().equals("전체")){%>selected="selected"<%}%>>요청날짜</option>
-						<option value="오름차순" <%if(deployCateListDto.getCateReqDate().equals("오름차순")){%>selected="selected"<%}%>>오름차순</option>
-						<option value="내림차순" <%if(deployCateListDto.getCateReqDate().equals("내림차순")){%>selected="selected"<%}%>>내림차순</option>
-                   </select>
-               </td>
+               <td>부문</td>
+               <td>작업유형</td>
+               <td>요청날짜</td>
                <td>요청시간</td>
                <td>서비스요청ID</td>
                <td>작업자</td>
@@ -91,24 +63,9 @@ DeployCateListDto deployCateListDto=(DeployCateListDto)request.getAttribute("dep
                <td>확인(개발계)</td>
                <td>확인(테스트계)</td>
                <td>확인(운영계)</td>
-               <td>
-					<select name="cateDivision" id="cateDivision">
-						<option value="전체" <%if(deployCateListDto.getCateDivision().equals("전체")){%>selected="selected"<%}%>>구분</option>
-						<option value="신규" <%if(deployCateListDto.getCateDivision().equals("신규")){%>selected="selected"<%}%>>신규</option>
-						<option value="변경" <%if(deployCateListDto.getCateDivision().equals("변경")){%>selected="selected"<%}%>>변경</option>
-					</select>
-               </td>
+               <td>구분</td>
                <td>상세보기</td>
-               <td>
-                   <select name="cateStatus" id="cateStatus">
-                      <option value="전체"<%if(deployCateListDto.getCateStatus().equals("전체")){%>selected="selected"<%}%>>상태</option>
-                      <option value="ST0001"<%if(deployCateListDto.getCateStatus().equals("ST0001")){%>selected="selected"<%}%>>요청</option>
-                      <option value="ST0002"<%if(deployCateListDto.getCateStatus().equals("ST0002")){%>selected="selected"<%}%>>1차</option>
-                      <option value="ST0003"<%if(deployCateListDto.getCateStatus().equals("ST0003")){%>selected="selected"<%}%>>2차</option>
-                      <option value="ST0004"<%if(deployCateListDto.getCateStatus().equals("ST0004")){%>selected="selected"<%}%>>배포</option>
-                      <option value="ST0005"<%if(deployCateListDto.getCateStatus().equals("ST0005")){%>selected="selected"<%}%>>최종</option>                      
-                   </select>
-               </td>
+               <td>상태</td>
             </tr>
             <%for(int i=0; i<a.size();i++){ 
             	  ArrayList<WProgramTableDto> c=(ArrayList<WProgramTableDto>)b.get(i);
@@ -149,19 +106,42 @@ DeployCateListDto deployCateListDto=(DeployCateListDto)request.getAttribute("dep
                      <td><%=a.get(i).getPrdEmpNo()%></td>
                      <td><%=a.get(i).getDivision()%></td>
                      <td><input type="button" value="상세보기" onclick="deployDetail(<%=a.get(i).getDeployNo()%>)"></td>
+                     
                      <td>
-
-              	 
+<%--                          <%
+                         	if ( a.get(i).getStatusCode().equals("ST0001")) {
+                         %>
+                         &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode"<%if(a.get(i).getStatusCode().equals("ST0001")){%>checked="checked"<%}%>disabled="disabled">요청
+	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode"<%if(a.get(i).getStatusCode().equals("ST0002")){%>checked="checked"<%}%>disabled="disabled">1차
+	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode"<%if(a.get(i).getStatusCode().equals("ST0003")){%>checked="checked"<%}%>disabled="disabled">2차
+	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode"<%if(a.get(i).getStatusCode().equals("ST0004")){%>checked="checked"<%}%>disabled="disabled">배포
+	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode"<%if(a.get(i).getStatusCode().equals("ST0005")){%>checked="checked"<%}%>disabled="disabled">최종
+                         <% 	
+                         	}
+                         %>   --%>              	 
 	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("ST0001")){%>checked="checked"<%}%>disabled="disabled">요청
 	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("ST0002")){%>checked="checked"<%}%>disabled="disabled">1차
 	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("ST0003")){%>checked="checked"<%}%>disabled="disabled">2차
 	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("ST0004")){%>checked="checked"<%}%>disabled="disabled">배포
 	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("ST0005")){%>checked="checked"<%}%>disabled="disabled">최종
                      </td>
+<%--                      <%
+                       String[] stval={"","","","",""};
+                       for(int j=0; j<st.size();j++){
+                    	   stval[j]=st.get(j).getSt_status();
+                       }
+                     %>
+                                                  요청 1차 2차 최종 배포<br>
+                     &nbsp;&nbsp;&nbsp;<input type="checkbox" name="st1" id="st1" <%if(stval[0].equals("요청")){%>checked="checked"<%} %> disabled="disabled">
+                     &nbsp;&nbsp;&nbsp;<input type="checkbox" name="st2" id="st2" <%if(stval[1].equals("1차")){%>checked="checked"<%} %> disabled="disabled">
+                     &nbsp;&nbsp;&nbsp;<input type="checkbox" name="st3" id="st3" <%if(stval[2].equals("2차")){%>checked="checked"<%} %> disabled="disabled">
+                     &nbsp;&nbsp;&nbsp;<input type="checkbox" name="st4" id="st4" <%if(stval[3].equals("최종")){%>checked="checked"<%} %> disabled="disabled">
+                     &nbsp;&nbsp;&nbsp;<input type="checkbox" name="st5" id="st5" <%if(stval[4].equals("배포")){%>checked="checked"<%} %> disabled="disabled">
+                     </td> --%>
                  <%
                  }  
             %>
       </table>
-   </form>
+   <form>
 </body>
 </html>

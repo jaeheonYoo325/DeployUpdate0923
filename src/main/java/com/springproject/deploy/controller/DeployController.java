@@ -3,6 +3,7 @@ package com.springproject.deploy.controller;
 import java.io.IOException;
 
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.springproject.chain.dto.ChainTableDto;
 import com.springproject.common.utils.HttpRequestHelper;
+import com.springproject.deploy.dto.DeployCateListDto;
 import com.springproject.deploy.dto.DeployDto;
 import com.springproject.deploy.service.DeployService;
 import com.springproject.employee.dto.EmployeeDto;
@@ -159,13 +161,50 @@ public class DeployController {
 	}
 
 	@RequestMapping("/deploy/deployList.do")
-	public ModelAndView doDeployListAction() {
+	public ModelAndView doDeployListAction(HttpServletRequest request) {
+		try {
+			request.setCharacterEncoding("utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
-		List<DeployDto> deployDtoList = this.deployService.selectAllDeployService();
+		List<ChainTableDto> chainDtoList = this.deployService.selectAllChainService();
 		List wProgramList=new ArrayList();
 		List wSourceList=new ArrayList();
-//		List statusList=new ArrayList(5);
-		
+		List<DeployDto> deployDtoList = new ArrayList<DeployDto>();
+	    DeployCateListDto deployCateListDto = new DeployCateListDto();
+	      
+	      if(request.getParameter("cateChain") != null && request.getParameter("cateWtype") != null && request.getParameter("cateReqDate") != null && request.getParameter("cateDivision") != null && request.getParameter("cateStatus")!=null) {
+		      System.out.println("카테고리선택후");
+	    	  String cateChain=request.getParameter("cateChain");
+		      String cateWtype=request.getParameter("cateWtype");
+		      String cateReqDate=request.getParameter("cateReqDate");
+		      String cateDivision=request.getParameter("cateDivision");
+		      String cateStatus=request.getParameter("cateStatus");
+		      deployCateListDto.setCateChain(cateChain);
+		      deployCateListDto.setCateWtype(cateWtype);
+		      deployCateListDto.setCateReqDate(cateReqDate);
+		      deployCateListDto.setCateDivision(cateDivision);
+		      deployCateListDto.setCateStatus(cateStatus);
+		      deployDtoList = this.deployService.selectSomeDeployCateListService(deployCateListDto);
+		      
+	      }
+	      
+	      else {
+	    	 System.out.println("처음 List페이지 접근했을때 조건문");
+	         deployCateListDto.setCateChain("전체");
+	         deployCateListDto.setCateWtype("전체");
+	         deployCateListDto.setCateDivision("전체");
+	         deployCateListDto.setCateReqDate("전체");
+	         deployCateListDto.setCateDivision("전체");
+	         deployCateListDto.setCateStatus("전체");
+		     System.out.println(deployCateListDto.getCateChain());
+	         deployDtoList = this.deployService.selectAllDeployService();
+	      }
+	      
+	      System.out.println(deployCateListDto.getCateChain());
+	      System.out.println(deployDtoList.size());
+	      
 		for(int i=0; i<deployDtoList.size();i++) {
 			int deployNo=deployDtoList.get(i).getDeployNo();
 			
@@ -174,16 +213,18 @@ public class DeployController {
 			
 			List<WSourceTableDto> wSourceTableDtoList=this.deployService.selectAllWSourceService(deployNo);
 			wSourceList.add(wSourceTableDtoList);
-			
-//			List<StatusTableDto> statusTableDtoList=new ArrayList<StatusTableDto>(5);
-//			statusTableDtoList=this.deployService.selectAllStatusService(deployNo);
-//			statusList.add(statusTableDtoList);
+
 		}
 		
 		mv.addObject("deployDtoList", deployDtoList);
 		mv.addObject("wProgramList",wProgramList);
 		mv.addObject("wSourceList",wSourceList);
-//		mv.addObject("statusList",statusList);
+		mv.addObject("chainDtoList", chainDtoList);
+		mv.addObject("deployCateListDto", deployCateListDto);
+		
+		for(int i=0; i<deployDtoList.size(); i++) {
+			System.out.println(i+"상태 DTO값"+deployDtoList.get(i).getStatusCode());
+		}
 		return mv;
 	}
     

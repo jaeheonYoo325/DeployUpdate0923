@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import com.springproject.chain.dto.ChainTableDto;
+import com.springproject.deploy.dto.DeployCateListDto;
 import com.springproject.deploy.dto.DeployDto;
 import com.springproject.employee.dto.EmployeeDto;
 import com.springproject.program.dto.ProgramTableDto;
@@ -36,6 +37,8 @@ public interface DeployService {
 	public List<WProgramTableDto> selectAllWProgramService(int deployNo);
 	
 	public List<WSourceTableDto> selectAllWSourceService(int deployNo);
+
+	public List<DeployDto> selectSomeDeployCateListService(DeployCateListDto deployCateListDto);
 	
 	
 }
