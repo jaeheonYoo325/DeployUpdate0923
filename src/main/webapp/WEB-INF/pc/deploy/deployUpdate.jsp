@@ -162,12 +162,16 @@ Deploy담당자 : <input type="text" name="deployEmpNo" id="deployEmpNo" value="
       <option value="신규" <c:if test="${deployDto.division eq '신규'}">selected="selected"</c:if>>신규</option>       
       <option value="변경" <c:if test="${deployDto.division eq '변경'}">selected="selected"</c:if>>변경</option>                         
      </select><br>
-상태 코드 : 
-<input type="radio" name="statusCode" value="ST0001" <c:if test="${deployDto.statusCode eq 'ST0001'}">checked="checked"</c:if>>요청
-<input type="radio" name="statusCode" value="ST0002" <c:if test="${deployDto.statusCode eq 'ST0002'}">checked="checked"</c:if>>1차
-<input type="radio" name="statusCode" value="ST0003" <c:if test="${deployDto.statusCode eq 'ST0003'}">checked="checked"</c:if>>2차
-<input type="radio" name="statusCode" value="ST0004" <c:if test="${deployDto.statusCode eq 'ST0004'}">checked="checked"</c:if>>배포
-<input type="radio" name="statusCode" value="ST0005" <c:if test="${deployDto.statusCode eq 'ST0005'}">checked="checked"</c:if>>최종
+상태 코드 :
+<%-- 	<input type="radio" name="statusCode" value="01" <c:if test="${deployDto.statusCode eq status.codeValue}">checked="checked"</c:if>>${status.statusCode} --%> 
+<c:forEach items="${statusCodeList}" var="statusCode" varStatus="status">
+	<input type="radio" name="statusCode" value="0${status.index + 1}" <c:if test="${deployDto.statusCode eq statusCode.codeValue}">checked="checked"</c:if>>${statusCode.codeName}
+</c:forEach>
+<%-- <input type="radio" name="statusCode" value="ST0001" <c:if test="${deployDto.statusCode eq 'ST0001'}">checked="checked"</c:if>>요청 --%>
+<%-- <input type="radio" name="statusCode" value="ST0002" <c:if test="${deployDto.statusCode eq 'ST0002'}">checked="checked"</c:if>>1차 --%>
+<%-- <input type="radio" name="statusCode" value="ST0003" <c:if test="${deployDto.statusCode eq 'ST0003'}">checked="checked"</c:if>>2차 --%>
+<%-- <input type="radio" name="statusCode" value="ST0004" <c:if test="${deployDto.statusCode eq 'ST0004'}">checked="checked"</c:if>>배포 --%>
+<%-- <input type="radio" name="statusCode" value="ST0005" <c:if test="${deployDto.statusCode eq 'ST0005'}">checked="checked"</c:if>>최종 --%>
 <br>		
 <input type="button" id="updateBtn" value="수정">
 <td><input type="button" id="requestDeleteBtn" value="삭제" onclick="location.href='/deploy/deployDelete.do/'+${deployDto.deployNo}"/></td>

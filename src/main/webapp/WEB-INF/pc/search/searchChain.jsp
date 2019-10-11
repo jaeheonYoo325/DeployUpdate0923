@@ -45,7 +45,7 @@ chainName : <input type="text" name="chainName" id="chainName"><input type="butt
             <tr>
                <td>체인번호</td>
                <td>체인이름</td>
-               <td>선택</td>
+               <td>선택</td>               
             </tr>
          <c:choose>
          <c:when test="${not empty chainTableDtoList}">

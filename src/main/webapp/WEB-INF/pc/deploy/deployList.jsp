@@ -1,3 +1,4 @@
+<%@page import="com.springproject.mastertable.dto.MasterTableDto"%>
 <%@page import="com.springproject.deploy.dto.DeployCateListDto"%>
 <%@page import="com.springproject.chain.dto.ChainTableDto"%>
 <%@page import="com.springproject.wsource.dto.WSourceTableDto"%>
@@ -21,6 +22,7 @@
 <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
 <script type="text/javascript">
    $(document).ready(function() {
+	   
        $("#cateBtn").click(function() {
            $("#listFrm").attr({
                 method:"post",                                         
@@ -34,7 +36,6 @@
 function deployDetail(str){
    var deployNo=str;
    window.open("/deploy/deployUpdate.do/"+deployNo,"상세보기", "width=1000, height=800");
-   
 }
 </script>
 <%
@@ -44,6 +45,7 @@ ArrayList b=(ArrayList)request.getAttribute("wProgramList");
 ArrayList wSoList=(ArrayList)request.getAttribute("wSourceList");
 ArrayList<ChainTableDto> cateChain=(ArrayList<ChainTableDto>)request.getAttribute("chainDtoList");
 DeployCateListDto deployCateListDto=(DeployCateListDto)request.getAttribute("deployCateListDto");
+ArrayList<MasterTableDto> statusCodeList = (ArrayList<MasterTableDto>) request.getAttribute("statusCodeList");
 
 // ArrayList stList=(ArrayList)request.getAttribute("statusList");
 %>
@@ -141,7 +143,6 @@ DeployCateListDto deployCateListDto=(DeployCateListDto)request.getAttribute("dep
                  %>
                  </td>
                  
-                   
                      <td><%=a.get(i).getReqEmpNo()%></td>
                      <td><%=a.get(i).getDeployEmpNo()%></td>
                      <td><%=a.get(i).getDevEmpNo()%></td>
@@ -150,18 +151,22 @@ DeployCateListDto deployCateListDto=(DeployCateListDto)request.getAttribute("dep
                      <td><%=a.get(i).getDivision()%></td>
                      <td><input type="button" value="상세보기" onclick="deployDetail(<%=a.get(i).getDeployNo()%>)"></td>
                      <td>
-
-              	 
-	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("ST0001")){%>checked="checked"<%}%>disabled="disabled">요청
-	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("ST0002")){%>checked="checked"<%}%>disabled="disabled">1차
-	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("ST0003")){%>checked="checked"<%}%>disabled="disabled">2차
-	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("ST0004")){%>checked="checked"<%}%>disabled="disabled">배포
-	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("ST0005")){%>checked="checked"<%}%>disabled="disabled">최종
+                     <%for(int k=0; k < statusCodeList.size(); k++) {
+                    	 %>
+	                      &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals(statusCodeList.get(k).getCodeValue())){%>checked="checked"<%}%>disabled="disabled"><%=statusCodeList.get(k).getCodeName() %>
+	                      <%
+                     }
+	                      %>
+<%-- 						  &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("01")){%>checked="checked"<%}%>disabled="disabled">요청 --%>
+<%-- 	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("02")){%>checked="checked"<%}%>disabled="disabled">1차 --%>
+<%-- 	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("03")){%>checked="checked"<%}%>disabled="disabled">2차 --%>
+<%-- 	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("04")){%>checked="checked"<%}%>disabled="disabled">배포 --%>
+<%-- 	                      &nbsp;&nbsp;&nbsp;<input type="radio" name="statusCode<%=a.get(i)%>"<%if(a.get(i).getStatusCode().equals("05")){%>checked="checked"<%}%>disabled="disabled">최종 --%>
                      </td>
                  <%
                  }  
             %>
-      </table>
+      </table>      			   
    </form>
 </body>
 </html>

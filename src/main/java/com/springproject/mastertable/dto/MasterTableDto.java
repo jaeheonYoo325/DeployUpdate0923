@@ -2,17 +2,10 @@ package com.springproject.mastertable.dto;
 
 public class MasterTableDto {
 
-	private String masterCode;
-	private String codeName;
 	private String codeType;
-
-	public String getMasterCode() {
-		return masterCode;
-	}
-
-	public void setMasterCode(String masterCode) {
-		this.masterCode = masterCode;
-	}
+	private String codeValue;
+	private String codeName;
+	
 
 	public String getCodeName() {
 		return codeName;
@@ -20,6 +13,14 @@ public class MasterTableDto {
 
 	public void setCodeName(String codeName) {
 		this.codeName = codeName;
+	}
+	
+	public String getCodeValue() {
+		return codeValue;
+	}
+
+	public void setCodeValue(String codeValue) {
+		this.codeValue = codeValue;
 	}
 
 	public String getCodeType() {

@@ -13,5 +13,6 @@
 			<typeAlias type="com.springproject.wprogramtable.dto.WProgramTableDto" alias="WProgramTableDto"/>
 			<typeAlias type="com.springproject.wsource.dto.WSourceTableDto" alias="WSourceTableDto"/>
 			<typeAlias type="com.springproject.deploy.dto.DeployCateListDto" alias="DeployCateListDto"/>
+			<typeAlias type="com.springproject.mastertable.dto.MasterTableDto" alias="MasterTableDto"/>
  		</typeAliases>        
     </configuration>

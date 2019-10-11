@@ -8,6 +8,7 @@ import com.springproject.chain.dto.ChainTableDto;
 import com.springproject.deploy.dto.DeployCateListDto;
 import com.springproject.deploy.dto.DeployDto;
 import com.springproject.employee.dto.EmployeeDto;
+import com.springproject.mastertable.dto.MasterTableDto;
 import com.springproject.program.dto.ProgramTableDto;
 import com.springproject.wprogramtable.dto.WProgramTableDto;
 import com.springproject.wsource.dto.WSourceTableDto;
@@ -49,5 +50,11 @@ public interface DeployDao {
    public int deleteAllWSource(int deployNo);
 
    public List<DeployDto> selectSomeDeployCateListDao(DeployCateListDto deployCateListDto);
+   
+   public List<MasterTableDto> selectAllMasterTableByStatusDao();
+   
+//   public List<MasterTableDto> selectAllCategoryDao(String categoryType);
+//   
+//   public List<String> selectCategoryTypeDao();
    
 }

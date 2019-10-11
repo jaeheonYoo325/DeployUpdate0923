@@ -14,6 +14,7 @@ import com.springproject.chain.dto.ChainTableDto;
 import com.springproject.deploy.dto.DeployCateListDto;
 import com.springproject.deploy.dto.DeployDto;
 import com.springproject.employee.dto.EmployeeDto;
+import com.springproject.mastertable.dto.MasterTableDto;
 import com.springproject.program.dto.ProgramTableDto;
 import com.springproject.wprogramtable.dto.WProgramTableDto;
 import com.springproject.wsource.dto.WSourceTableDto;
@@ -116,4 +117,22 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao {
 	public List<DeployDto> selectSomeDeployCateListDao(DeployCateListDto deployCateListDto) {
 		return getSqlSession().selectList("DeployDao.selectSomeDeployCateListDao", deployCateListDto);
 	}
+
+	@Override
+	public List<MasterTableDto> selectAllMasterTableByStatusDao() {
+		return getSqlSession().selectList("DeployDao.selectAllMasterTableByStatusDao");
+	}
+
+//	@Override
+//	public List<MasterTableDto> selectAllCategoryDao(String categoryType) {
+//		return getSqlSession().selectList("DeployDao.selectAllCategoryDao", categoryType);
+//	}
+//
+//	@Override
+//	public List<String> selectCategoryTypeDao() {
+//		return getSqlSession().selectList("DeployDao.selectCategoryTypeDao");
+//	}
+
+
+	
 }

@@ -1,7 +1,5 @@
 package com.springproject.deploy.dto;
 
-import java.util.ArrayList;
-
 public class DeployDto {
 	private int deployNo;
 	private String d_chainId;
@@ -19,6 +17,8 @@ public class DeployDto {
 	private String division;
 	private String chainName;
 	private String statusCode;
+	private int startIndex;
+	private int cntPerPage;
 
 	public String getChainName() {
 		return chainName;
@@ -146,6 +146,22 @@ public class DeployDto {
 
 	public void setStatusCode(String statusCode) {
 		this.statusCode = statusCode;
+	}
+
+	public int getStartIndex() {
+		return startIndex;
+	}
+
+	public void setStartIndex(int startIndex) {
+		this.startIndex = startIndex;
+	}
+
+	public int getCntPerPage() {
+		return cntPerPage;
+	}
+
+	public void setCntPerPage(int cntPerPage) {
+		this.cntPerPage = cntPerPage;
 	}
 
 }

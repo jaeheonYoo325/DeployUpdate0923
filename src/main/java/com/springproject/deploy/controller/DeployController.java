@@ -32,6 +32,7 @@ import com.springproject.deploy.dto.DeployCateListDto;
 import com.springproject.deploy.dto.DeployDto;
 import com.springproject.deploy.service.DeployService;
 import com.springproject.employee.dto.EmployeeDto;
+import com.springproject.mastertable.dto.MasterTableDto;
 import com.springproject.program.dto.ProgramTableDto;
 import com.springproject.wprogramtable.dto.WProgramTableDto;
 import com.springproject.wsource.dto.WSourceTableDto;
@@ -93,7 +94,7 @@ public class DeployController {
 		mv.addObject("employeeDtoList", employeeDtoList);
 		return mv;
 	}
-//
+
 
 	@PostMapping("/search/searchChain.do")
 	public ModelAndView doSearchChainAction(@ModelAttribute ChainTableDto chainTableDto) {
@@ -102,7 +103,7 @@ public class DeployController {
 		mv.addObject("chainTableDtoList", chainTableDtoList);
 		return mv;
 	}
-//
+
 	@PostMapping("/search/searchProgram.do")
 	public ModelAndView doSearchProgramAction(@ModelAttribute ProgramTableDto programTableDto, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
@@ -122,7 +123,6 @@ public class DeployController {
 			
 	}
 	
-	
 
 	@PostMapping("/deploy/request.do")
 	public ModelAndView doDeployAction(@ModelAttribute DeployDto deployDto, HttpServletRequest request) {
@@ -130,7 +130,6 @@ public class DeployController {
 		ArrayList wProgramArray = new ArrayList();
 		ArrayList pageNameArray = new ArrayList();
 		ArrayList wSourceArray = new ArrayList();
-//		ArrayList statusArray= new ArrayList();
 		
 		for(int i=0;;i++) {
 			if(request.getParameter("wProgram"+i)==null) {
@@ -147,34 +146,27 @@ public class DeployController {
 			wSourceArray.add(request.getParameter("wSource"+i));
 		}
 		
-		
-//        statusArray.add(request.getParameter("d_status"));
-//        statusArray.add("공란");
-//        statusArray.add("공란");
-//        statusArray.add("공란");
-//        statusArray.add("공란");
-		
-//        System.out.println("statusArray5개할당한 size출력"+statusArray.size());
-		
 		boolean success = this.deployService.insertOneDeployService(deployDto, wProgramArray, pageNameArray, wSourceArray);
 		return mv;
 	}
 
 	@RequestMapping("/deploy/deployList.do")
 	public ModelAndView doDeployListAction(HttpServletRequest request) {
-		try {
-			request.setCharacterEncoding("utf-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
 		List<ChainTableDto> chainDtoList = this.deployService.selectAllChainService();
-		List wProgramList=new ArrayList();
-		List wSourceList=new ArrayList();
+		List wProgramList = new ArrayList();
+		List wSourceList = new ArrayList();
 		List<DeployDto> deployDtoList = new ArrayList<DeployDto>();
 	    DeployCateListDto deployCateListDto = new DeployCateListDto();
-	      
-	      if(request.getParameter("cateChain") != null && request.getParameter("cateWtype") != null && request.getParameter("cateReqDate") != null && request.getParameter("cateDivision") != null && request.getParameter("cateStatus")!=null) {
+	    List<MasterTableDto> statusCodeList = this.deployService.selectAllMasterTableByStatusService();
+	    
+//	    List<String> categoryType = this.deployService.selectCategoryTypeService();
+	    
+//	    List categoryTypeList = this.deployService.selectAllCategoryService(categoryType);
+
+	
+	    if(request.getParameter("cateChain") != null && request.getParameter("cateWtype") != null && request.getParameter("cateReqDate") != null && request.getParameter("cateDivision") != null && request.getParameter("cateStatus")!=null) {
 		      System.out.println("카테고리선택후");
 	    	  String cateChain=request.getParameter("cateChain");
 		      String cateWtype=request.getParameter("cateWtype");
@@ -188,9 +180,7 @@ public class DeployController {
 		      deployCateListDto.setCateStatus(cateStatus);
 		      deployDtoList = this.deployService.selectSomeDeployCateListService(deployCateListDto);
 		      
-	      }
-	      
-	      else {
+	    } else {
 	    	 System.out.println("처음 List페이지 접근했을때 조건문");
 	         deployCateListDto.setCateChain("전체");
 	         deployCateListDto.setCateWtype("전체");
@@ -198,13 +188,9 @@ public class DeployController {
 	         deployCateListDto.setCateReqDate("전체");
 	         deployCateListDto.setCateDivision("전체");
 	         deployCateListDto.setCateStatus("전체");
-		     System.out.println(deployCateListDto.getCateChain());
 	         deployDtoList = this.deployService.selectAllDeployService();
 	      }
-	      
-	      System.out.println(deployCateListDto.getCateChain());
-	      System.out.println(deployDtoList.size());
-	      
+	      	      
 		for(int i=0; i<deployDtoList.size();i++) {
 			int deployNo=deployDtoList.get(i).getDeployNo();
 			
@@ -221,10 +207,10 @@ public class DeployController {
 		mv.addObject("wSourceList",wSourceList);
 		mv.addObject("chainDtoList", chainDtoList);
 		mv.addObject("deployCateListDto", deployCateListDto);
+		mv.addObject("statusCodeList", statusCodeList);
+//		mv.addObject("categoryTypeList", categoryTypeList);
+//		mv.addObject("categoryType", categoryType);
 		
-		for(int i=0; i<deployDtoList.size(); i++) {
-			System.out.println(i+"상태 DTO값"+deployDtoList.get(i).getStatusCode());
-		}
 		return mv;
 	}
     
@@ -236,20 +222,12 @@ public class DeployController {
 		DeployDto deployDto = this.deployService.selectOneDeployService(deployNo);
 		List<WProgramTableDto> wProgramTableDtoList=this.deployService.selectAllWProgramService(deployNo);
 		List<WSourceTableDto> wSourceTableDtoList=this.deployService.selectAllWSourceService(deployNo);
-//		List<StatusTableDto> statusTableDtoList=new ArrayList<StatusTableDto>(5);
-//		statusTableDtoList=this.deployService.selectAllStatusService(deployNo);
+		List<MasterTableDto> statusCodeList = this.deployService.selectAllMasterTableByStatusService();
 		
-//		System.out.println("상세보기눌렀을 때 가져온 status사이즈"+statusTableDtoList.size());
-		
-	    System.out.println("Controller-각DtoList");
-	    System.out.println("프로그램List: "+wProgramTableDtoList.size());
-	    System.out.println("소스List : "+wSourceTableDtoList.size());
-//	    System.out.println("상태List: "+statusTableDtoList.size());
-	    
 		mv.addObject("wProgramTableDtoList",wProgramTableDtoList);
 		mv.addObject("wSourceTableDtoList", wSourceTableDtoList);
-//		mv.addObject("statusTableDtoList", statusTableDtoList);
 		mv.addObject("deployDto", deployDto);
+		mv.addObject("statusCodeList", statusCodeList);
 
 		return mv;
 	}

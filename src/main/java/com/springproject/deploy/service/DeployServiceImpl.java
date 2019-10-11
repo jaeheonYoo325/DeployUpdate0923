@@ -13,6 +13,7 @@ import com.springproject.deploy.dao.DeployDao;
 import com.springproject.deploy.dto.DeployCateListDto;
 import com.springproject.deploy.dto.DeployDto;
 import com.springproject.employee.dto.EmployeeDto;
+import com.springproject.mastertable.dto.MasterTableDto;
 import com.springproject.program.dto.ProgramTableDto;
 import com.springproject.wprogramtable.dto.WProgramTableDto;
 import com.springproject.wsource.dto.WSourceTableDto;
@@ -29,7 +30,6 @@ public class DeployServiceImpl implements DeployService {
 		boolean isSuccess=this.deployDao.insertOneDeployDao(deployDto) > 0;
 		boolean isSuccess2=true;
 		boolean isSuccess3=true;
-		boolean isSuccess4=true;
 		
 		int deployNo=this.deployDao.selectMaxDeployNo();
 		
@@ -49,13 +49,7 @@ public class DeployServiceImpl implements DeployService {
 			isSuccess2=isSuccess2&&(this.deployDao.insertOneWProgram(wProgramTableDto)>0);
 		}		
 		
-//		for(int i=0; i<statusArray.size(); i++) {
-//        StatusTableDto statusTableDto=new StatusTableDto();
-//        statusTableDto.setSt_deployNo(deployNo);
-//        statusTableDto.setSt_status(statusArray.get(i).toString());
-//        isSuccess4=this.deployDao.insertOneStatus(statusTableDto)>0;
-//		}
-		boolean success=isSuccess&&isSuccess2&&isSuccess3;
+		boolean success=isSuccess && isSuccess2 && isSuccess3;
         return success;		
 	}
 	
@@ -101,12 +95,7 @@ public class DeployServiceImpl implements DeployService {
 		}
 				
 		isSuccess = isSuccess && isUpdateDeploy && isDeleteWProgram && isDeleteWSource && isInsertwProgram && isInsertwSource;
-		System.out.println("ServiceImpl - updateOneDeployService isUpdateDeploy : " + isUpdateDeploy);
-		System.out.println("ServiceImpl - updateOneDeployService isDeleteWProgram : " + isDeleteWProgram);
-		System.out.println("ServiceImpl - updateOneDeployService isDeleteWSource : " + isDeleteWSource);
-		System.out.println("ServiceImpl - updateOneDeployService isInsertwProgram : " + isInsertwProgram);
-		System.out.println("ServiceImpl - updateOneDeployService isInsertwSource : " + isInsertwSource);
-		System.out.println("ServiceImpl - updateOneDeployService isSuccess : " + isSuccess);
+
 		return isSuccess;
 	}
 
@@ -159,4 +148,30 @@ public class DeployServiceImpl implements DeployService {
 	}
 
 
+	@Override
+	public List<MasterTableDto> selectAllMasterTableByStatusService() {
+		return this.deployDao.selectAllMasterTableByStatusDao();
+	}
+
+
+//	@Override
+//	public List selectAllCategoryService(List<String> categoryType) {
+//		List<MasterTableDto> categoryList = new ArrayList<MasterTableDto>();
+//		
+//		List categoryInfoList = new ArrayList();
+//		
+//		for(int i = 0; i < categoryType.size(); i++ ) {
+//			categoryList = this.deployDao.selectAllCategoryDao(categoryType.get(i));
+//			categoryInfoList.add(categoryList);
+//		}
+//		
+//		return categoryInfoList;
+//	}
+//
+//
+//	@Override
+//	public List<String> selectCategoryTypeService() {
+//		return this.deployDao.selectCategoryTypeDao();
+//	}
+	
 }

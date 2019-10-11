@@ -36,7 +36,7 @@
                         , #{testEmpNo}
                         , #{prdEmpNo}
                         , #{division}
-                        , "ST0001"
+                        , "01"
                      )   
    </insert>
    
@@ -517,5 +517,44 @@
               <if test="cateChain =='전체' and cateWtype =='전체' and cateReqDate =='전체' and cateDivision =='전체' and cateStatus =='전체'">
               </if>
     </select>
+    
+    <select id="selectAllMasterTableByStatusDao" resultType="MasterTableDto">
+    	SELECT	
+    			codeType
+    			, codeValue
+    			, codeName
+		FROM 	MASTERTABLE
+		WHERE	codeType = "STATUS"
+    </select>
+
+    
+<!--     <select id="selectAllCategoryDao" parameterType="java.util.List" resultType="MasterTableDto"> -->
+<!--     	SELECT	 -->
+<!--     			codeType -->
+<!--     			, codeValue -->
+<!--     			, codeName -->
+<!-- 		FROM 	MASTERTABLE -->
+<!-- 		WHERE -->
+<!-- 		<foreach item="item" index="index" collection="list"> -->
+<!-- 			<if test="item =='WTYPE'"> -->
+<!-- 				codeType = "WTYPE" -->
+<!-- 			</if> -->
+<!-- 			<if test="item =='REQDATE'"> -->
+<!-- 				OR codeType = "REQDATE" -->
+<!-- 			</if> -->
+<!-- 			<if test="item =='DIVISION'"> -->
+<!-- 				OR codeType = "DIVISION" -->
+<!-- 			</if> -->
+<!-- 			<if test="item =='STATUS'"> -->
+<!-- 				OR codeType = "STATUS" -->
+<!-- 			</if> -->
+			
+<!-- 		</foreach> -->
+<!--     </select> -->
+    
+<!--     <select id="selectCategoryTypeDao" resultType="string"> -->
+<!--     	SELECT  DISTINCT(codeType) -->
+<!--     	FROM	MASTERTABLE		 -->
+<!--     </select> -->
 </mapper>                         
                                   
