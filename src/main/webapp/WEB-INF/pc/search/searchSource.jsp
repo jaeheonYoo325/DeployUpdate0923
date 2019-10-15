@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script>
+<script type="text/javascript">
 function searchSource(){
 	  var str=document.getElementById("wSource").value;
 	  var no=document.getElementById("no").value;
@@ -13,6 +13,10 @@ function searchSource(){
       window.close();
    }
 </script>
+<script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
+<script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
+<link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
+<script src="<c:url value='/js/search/searchSource.js' />"></script>
 </head>
 <body>
 <h1>searchSource</h1>

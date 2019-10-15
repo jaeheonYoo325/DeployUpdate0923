@@ -14,14 +14,13 @@ import com.springproject.wprogramtable.dto.WProgramTableDto;
 import com.springproject.wsource.dto.WSourceTableDto;
 
 public interface DeployService {
-
-	public boolean insertOneDeployService(DeployDto deployDto, ArrayList wProgramArray, ArrayList pageNameArray, ArrayList wSourceArray);
+	public boolean insertOneDeployService(DeployDto deployDto, ArrayList<String> wProgramArray, ArrayList<String> pageNameArray, ArrayList<String> wSourceArray);
 	
 	public List<DeployDto> selectAllDeployService();
 	
 	public DeployDto selectOneDeployService(int deployNo);
 
-	public boolean updateOneDeployService(DeployDto deployDto, ArrayList wProgramArray, ArrayList pageNameArray, ArrayList wSourceArray);
+	public boolean updateOneDeployService(DeployDto deployDto, ArrayList<String> wProgramArray, ArrayList<String> pageNameArray, ArrayList<String> wSourceArray);
 
 	public boolean deleteOneDeployService(int deployNo);
 	
@@ -42,8 +41,8 @@ public interface DeployService {
 	public List<DeployDto> selectSomeDeployCateListService(DeployCateListDto deployCateListDto);
 
 	public List<MasterTableDto> selectAllMasterTableByStatusService();
-	
-//	public List selectAllCategoryService(List<String> categoryType);
-//	
-//	public List<String> selectCategoryTypeService();
+
+	public List<MasterTableDto> selectCategoryTypeService();
+
+	public List<List<MasterTableDto>> selectAllCategoryService(List<MasterTableDto> categoryType);
 }

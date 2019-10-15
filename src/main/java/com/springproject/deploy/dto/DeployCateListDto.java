@@ -48,4 +48,23 @@ public class DeployCateListDto {
 		this.cateStatus = cateStatus;
 	}
 
+	public String getCateWtypeString() {
+		return "CTGY_WTYPE";
+	}
+
+	public String getCateReqDateString() {
+		return "CTGY_REQDATE";
+	}
+
+	public String getCateDivisionString() {
+		return "CTGY_DIVISION";
+	}
+
+	public String getCateStatusString() {
+		return "CTGY_STATUS";
+	}
+
+	public String getCateChainString() {
+		return "CTGY_CHAIN";
+	}
 }

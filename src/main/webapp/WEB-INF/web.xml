@@ -6,6 +6,17 @@
   <session-config>
   	<session-timeout>60</session-timeout>
   </session-config>
+   
+<!--    에러페이지 -->
+   <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/pc/errors/404.jsp</location>
+  </error-page>
+  <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/pc/errors/500.jsp</location>
+  </error-page> 
+<!--   에러페이지 -->
     
   <!-- The front controller of this Spring Web application, responsible for handling all application requests -->
 	<servlet>

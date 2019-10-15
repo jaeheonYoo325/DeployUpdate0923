@@ -4,7 +4,6 @@
     "http://mybatis.org/dtd/mybatis-3-config.dtd">
     <configuration>
  		<typeAliases>
- 			<typeAlias type="com.springproject.test.dto.TestDto" alias="TestDTO"/>
  			<typeAlias type="com.springproject.deploy.dto.DeployDto" alias="DeployDto"/>
  			<typeAlias type="com.springproject.employee.dto.EmployeeDto" alias="EmployeeDto"/>
  			<typeAlias type="com.springproject.department.dto.DepartmentDto" alias="DepartmentDto"/>

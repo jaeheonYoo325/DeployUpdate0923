@@ -34,18 +34,12 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/employee/employeeLogin.do")
-	public ModelAndView doEmployeeLoginAction(
-			@ModelAttribute EmployeeDto employeeDto
-			, HttpSession session) {
-		
+	public ModelAndView doEmployeeLoginAction(@ModelAttribute EmployeeDto employeeDto, HttpSession session) {
 		ModelAndView mv = new ModelAndView("redirect:/main/main.do");
-		
 		EmployeeDto loginEmployeeDto = this.employeeService.selectOneEmployeeService(employeeDto);
 		loginEmployeeDto.setEmpNo(employeeDto.getEmpNo());
 		loginEmployeeDto.setEmpPw(employeeDto.getEmpPw());
-		
 		session.setAttribute(Session.USER, loginEmployeeDto);
-		
 		return mv;
 	}
 	
@@ -56,10 +50,8 @@ public class EmployeeController {
 	
 	@PostMapping("/employee/employeeRegist.do")
 	public ModelAndView doEmployeeRegistAction(@ModelAttribute EmployeeDto employeeDto) {
-		
 		ModelAndView mv = new ModelAndView("redirect:/employee/employeeLogin.do");
 		boolean isSuccess = this.employeeService.insertOneEmployeeService(employeeDto);
-		
 		return mv;
 	}
 	
@@ -74,21 +66,18 @@ public class EmployeeController {
 		return HttpRequestHelper.getJspPath();
 	}
 	
-	@GetMapping("/search/searchDepartmentPopup.do")
+	@GetMapping("/search/searchDepartment.do")
 	public String viewSearchDepartmentPopup() {
 		return HttpRequestHelper.getJspPath();
 	}
 	
-	@PostMapping("/search/searchDepartmentPopup.do")
+	@PostMapping("/search/searchDepartment.do")
 	public ModelAndView doSearchDepartmentPopupAction(@ModelAttribute DepartmentDto departmentDto) {
 		System.out.println("진입!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
 		List<DepartmentDto> departmentDtoList = this.departmentService.selectSomeDepartmentService(departmentDto);
-		
 		mv.addObject("departmentDtoList", departmentDtoList);
-		
 		return mv;
-		
 	}
 	
 }

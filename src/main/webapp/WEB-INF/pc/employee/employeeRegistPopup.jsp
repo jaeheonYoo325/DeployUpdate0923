@@ -6,10 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>직원 등록 팝업창</title>
-<meta name="viewport" content="width=device-width initial-scale=1">			
-<script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
-<script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
-<link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
+<jsp:include page="/WEB-INF/pc/CommonScript/commonScript.jsp"/>
 <script src="<c:url value='/js/common/common.js' />"></script>
 <script src="<c:url value='/js/employee/employeeRegist.js' />"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

@@ -7,40 +7,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<%-- <jsp:include page="/WEB-INF/pc/CommonScript/commonScript.jsp"/> --%>
 <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
-<script type="text/javascript">
-   $(document).ready(function() {
-      $("#requestBtn").click(function() {
-       $("#requestFrm").attr({
-            method:"post",                                         
-              action:"/deploy/request.do"
-       }).submit();
-      });
-      
-   });
-</script>
-<script>
-function searchEmp(str){
-   window.open("/search/searchEmp.do?str="+str,"Employee검색", "width=1000, height=800");
-}
-function searchChain(){
-   window.open("/search/searchChain.do","Chain검색", "width=1000, height=800");
-}
-function searchProgram(){
-	var str=document.requestFrm.chainID.value;
-   window.open("/search/searchProgram.do?paramChainId="+str,"Program검색", "width=1000, height=800");
-}
-function searchSeq(){
-   window.open("/search/searchSeq.do","Seq검색", "width=1000, height=800");
-}
-</script>
+<script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
+<link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
+<script src="<c:url value='/js/deploy/deployRequest.js' />"></script>
 </head>
-
 <body>
-
 <h1>request</h1>
 <form:form id="requestFrm" modelAttribute="deployDto" name="requestFrm">
-부문 : <input type="text" name="chainID" id="chainID" readonly="readonly">
+부문 : <input type="text" name="d_chainId" id="d_chainId" readonly="readonly">
      <input type="text" name="chainName" id="chainName" readonly="readonly">
      <input type="button" value="검색" onclick="searchChain()"><br>
 작업유형 : <select name="wtype" id="wtype">
@@ -55,10 +31,12 @@ function searchSeq(){
 작업자 : <input type="text" name="wEmpNo" id="wEmpNo" readonly="readonly">
        <input type="button" value="검색" onclick="searchEmp('wEmp')"><br>
 변경내역 : <input type="text" name="wContent"><br>
-변경프로그램목록 : <input type="text" name="wProgram" id="wProgram" readonly="readonly">
-             <input type="text" name="pageName" id="pageName" readonly="readonly">
-             <input type="button" value="검색" onclick="searchProgram()"><br>
-변경소스명 : <input type="text" name="wSource"><br>
+변경프로그램목록   : <input type="button" class="btnAddP" value="추가"><input type='button' class='removeP'id='removeP' value='전체삭제'><br>
+			<div class="buttonsP">      		        
+			</div>
+변경소스명   : <input type="button" class="btnAddS" value="추가"><input type='button' class='removeS'id='removeS' value='전체삭제'><br> 	
+		  <div class="buttonsS">     
+		  </div>
 요청자 : <input type="text" name="reqEmpNo" id="reqEmpNo" readonly="readonly">
        <input type="button" value="검색" onclick="searchEmp('reqEmp')"><br>
 Deploy담당자 : <input type="text" name="deployEmpNo" id="deployEmpNo" readonly="readonly">
@@ -74,8 +52,8 @@ Deploy담당자 : <input type="text" name="deployEmpNo" id="deployEmpNo" readonl
       <option value="신규">신규</option>
       <option value="변경">변경</option>
      </select><br>
+<input type="hidden" name="d_status" value="요청">
 <input type="button" id="requestBtn" value="요청">
 </form:form>
-
 </body>
 </html>

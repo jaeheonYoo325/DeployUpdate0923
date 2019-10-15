@@ -8,35 +8,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<meta name="viewport" content="width=device-width initial-scale=1">         
 <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
 <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
 <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
-<script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
-<script type="text/javascript">
-   $(document).ready(function() {
-      $("#searchBtn").click(function() {
-         $("#searchChainFrm").attr({
-            method:"post",                                         
-              action:"/search/searchChain.do"
-       }).submit();
-      });
-      
-   });
-</script>
-
-<script>
-function useChain(chainId,chainName){
-      opener.document.getElementById("d_chainId").value=chainId
-      opener.document.getElementById("chainName").value=chainName
-      window.close();
-   }
-</script>
-
+<script src="<c:url value='/js/search/searchChain.js' />"></script>
 </head>
 <body>
 <h1>serachChain</h1>
-
 <form:form id="searchChainFrm" modelAttribute="chaintableDto">
 chainName : <input type="text" name="chainName" id="chainName"><input type="button" id="searchBtn" value="검색"><br><br>
 </form:form>

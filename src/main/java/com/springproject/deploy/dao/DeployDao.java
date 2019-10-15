@@ -52,9 +52,9 @@ public interface DeployDao {
    public List<DeployDto> selectSomeDeployCateListDao(DeployCateListDto deployCateListDto);
    
    public List<MasterTableDto> selectAllMasterTableByStatusDao();
-   
-//   public List<MasterTableDto> selectAllCategoryDao(String categoryType);
-//   
-//   public List<String> selectCategoryTypeDao();
-   
+
+public List<MasterTableDto> selectCategoryTypeDao();
+
+public List<MasterTableDto> selectAllCategoryDao(String codeType);
+
 }

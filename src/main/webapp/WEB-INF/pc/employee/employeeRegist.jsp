@@ -6,19 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
-<meta name="viewport" content="width=device-width initial-scale=1">			
-<script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
-<script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
-<link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
+<jsp:include page="/WEB-INF/pc/CommonScript/commonScript.jsp"/>
 <script src="<c:url value='/js/common/common.js' />"></script>
 <script src="<c:url value='/js/employee/employeeRegist.js' />"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <h1>직원등록(관리자)</h1>
-
 <input type="button" id="employeeRegistBtnModal" class="btn btn-success" data-toggle="modal" data-backdrop="static" data-target="#employeesRegistModal" value="직원 추가">
-
 <div class="modal fade" id="employeesRegistModal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -51,8 +46,5 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-
-
 </body>
 </html>

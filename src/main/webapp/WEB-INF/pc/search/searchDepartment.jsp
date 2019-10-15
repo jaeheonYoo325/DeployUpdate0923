@@ -7,41 +7,17 @@
 <head>
 <meta charset="UTF-8">
 <title>부서 조회 팝업창</title>
-<meta name="viewport" content="width=device-width initial-scale=1">         
+<script src="<c:url value='/js/search/searchDepartment.js' />"></script>
 <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
 <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
 <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
-<script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
-<script type="text/javascript">
-   $(document).ready(function() {
-      
-      $("#searchBtn").click(function() {
-         $("#searchDepartmentFrm").attr({
-            method:"post",                                         
-            action:"/search/searchDepartmentPopup.do"
-       }).submit();
-      });
-      
-   });
-</script>
-
-<script>
-function useDepartment(depNo,depName){
-   console.log(depNo);
-   console.log(depName);
-   opener.document.getElementById("depNo").value=depNo
-   opener.document.getElementById("depName").value=depName
-   window.close();
-}
-</script>
+<script src="<c:url value='/js/search/searchDepartment.js' />"></script>
 </head>
 <body>
 <h1>부서 조회</h1>
-
 <form:form id="searchDepartmentFrm" modelAttribute="departmentDto">
 부서명 : <input type="text" name="depName" id="depName"><input type="button" id="searchBtn" value="검색"><br><br>
 </form:form>
-
 <table border="1" class="table table-hover">
             <tr>
                <td>부서번호</td>

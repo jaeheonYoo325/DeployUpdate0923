@@ -6,10 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
+<%-- <jsp:include page="/WEB-INF/pc/CommonScript/commonScript.jsp"/> --%>
 <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
+<script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
+<link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
 <script src="<c:url value='/js/common/common.js' />"></script>
 <script src="<c:url value='/js/employee/employeeLogin.js' />"></script>
-
 </head>
 <body>
 <h1>로그인</h1>
@@ -18,6 +20,5 @@
 비밀번호 : <input type="text" id="empPw" name="empPw"> <br>
 <input type="button" id="employeeLoginBtn" value="로그인">
 </form:form>
-
 </body>
 </html>

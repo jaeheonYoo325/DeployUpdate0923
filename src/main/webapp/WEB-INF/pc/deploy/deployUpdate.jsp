@@ -13,103 +13,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<%-- <jsp:include page="/WEB-INF/pc/CommonScript/commonScript.jsp"/> --%>
 <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
-<script type="text/javascript">
-   $(document).ready(function() {
-      $("#updateBtn").click(function() {
-       $("#updateFrm").attr({
-            method:"post",                                         
-              action:"/deploy/deployUpdate.do"
-       }).submit();
-      });
-      
-   });
-</script>
-
-<script type="text/javascript">
-   $(document).ready(function() {
-	      var lastwPro=$("#lastwPro").val();
-	      console.log(lastwPro);
-	      var lastwSo=$("#lastwSo").val();
-	      
-		  var i=lastwPro;
-	      if(i==lastwPro){
-	    	  i=lastwPro;
-	    	  i*=1;
-	      }
-	      else{
-	    	  i=-1;
-	    	  i*=1;
-	          }
-          $('.removeP').on('click', function () {     	  
-              $(".buttonsP").html("");
-              i = -1;
-          });
-	      
-	      $('.btnAddP').click (function () {
-	    	  if($("#d_chainId").val()==""){
-	    		  alert("부문선택필수");
-	    		  return;
-	    	  }
-	    	  else
-	    		  i=i+1;
-	    	  console.log(i);
-	          $('.buttonsP').append (           
-				$("<input type='text' name='wProgram"+i+"'id='wProgram"+i+"' readonly='readonly'><input type='text' name='pageName"+i+"'id='pageName"+i+"' readonly='readonly'><input type='button' value='검색' onclick='searchProgram("+i+")'><br>")
-	          );
-	      });
-	      
-	      
-	      var j=lastwSo;
-	      if(j==lastwSo){
-	    	  j=lastwSo;
-	    	  j*=1;
-	      }
-	      else{
-	    	  j=-1;
-	    	  j*=1;
-	          }	      
-          $('.removeS').on('click', function () { 
-              $(".buttonsS").html("");
-              j = -1;
-          });
-		  
-	      $('.btnAddS').click (function () {
-	    	  j=j+1;
-	          $('.buttonsS').append (           
-				$("<input type='text' name='wSource"+j+"'id='wSource"+j+"' readonly='readonly'><input type='button' value='검색' onclick='searchSource("+j+")' readonly='readonly'><br>")
-	          );      
-	      });
-   });
-</script>
-
-<script>
-// $(document).ready(function(){
-// 	  $("#wtpye").each(function(){
-// 	    if($(this).val()==${deployDto.wtype}){
-// 	      $(this).attr("selected","selected"); // attr적용안될경우 prop으로 
-// 	    }
-// 	  });
-// 	});
-</script>
-
-<script>
-function searchEmp(str){
-   window.open("/search/searchEmp.do?str="+str,"Employee검색", "width=1000, height=800");
-}
-function searchChain(){
-   window.open("/search/searchChain.do","Chain검색", "width=1000, height=800");
-}
-function searchProgram(no){
-	var str=document.updateFrm.d_chainId.value;
-   window.open("/search/searchProgram.do?paramChainId="+str+"&no="+no,"Program검색", "width=1000, height=800");
-}
-function searchSource(no){
-	window.open("/search/searchSource.do?no="+no,"Source검색", "width=1000, height=800");
-}
-</script>
+<script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
+<link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
+<script src="<c:url value='/js/deploy/deployUpdate.js' />"></script>
 </head>
-
 <h1>수정페이지</h1>
 <form:form id="updateFrm" modelAttribute="deployDto" name="updateFrm">
 No : <input type="text" name="deployNo" id="deployNo" value="${deployDto.deployNo}" readonly="readonly"><br>
@@ -137,7 +46,6 @@ No : <input type="text" name="deployNo" id="deployNo" value="${deployDto.deployN
 				</c:forEach> 
 				<input type="hidden" name="lastwPro" id="lastwPro" value="${fn:length(wProgramTableDtoList)-1}">            
 			</div>
-
 변경소스명 : <input type="button" class="btnAddS" value="추가"><input type='button' class='removeS'id='removeS' value='전체삭제'><br> 	
 		 <div class="buttonsS">  
 		 	<c:forEach items="${wSourceTableDtoList}" varStatus="status">
@@ -146,7 +54,6 @@ No : <input type="text" name="deployNo" id="deployNo" value="${deployDto.deployN
 			</c:forEach> 
 			<input type="hidden" name="lastwSo" id="lastwSo" value="${fn:length(wSourceTableDtoList)-1}">
 		</div>
-
 요청자 : <input type="text" name="reqEmpNo" id="reqEmpNo" value="${deployDto.reqEmpNo}" readonly="readonly">
       <input type="button" value="검색" onclick="searchEmp('reqEmp')"><br>
 Deploy담당자 : <input type="text" name="deployEmpNo" id="deployEmpNo" value="${deployDto.deployEmpNo}" readonly="readonly">
@@ -163,19 +70,12 @@ Deploy담당자 : <input type="text" name="deployEmpNo" id="deployEmpNo" value="
       <option value="변경" <c:if test="${deployDto.division eq '변경'}">selected="selected"</c:if>>변경</option>                         
      </select><br>
 상태 코드 :
-<%-- 	<input type="radio" name="statusCode" value="01" <c:if test="${deployDto.statusCode eq status.codeValue}">checked="checked"</c:if>>${status.statusCode} --%> 
-<c:forEach items="${statusCodeList}" var="statusCode" varStatus="status">
-	<input type="radio" name="statusCode" value="0${status.index + 1}" <c:if test="${deployDto.statusCode eq statusCode.codeValue}">checked="checked"</c:if>>${statusCode.codeName}
-</c:forEach>
-<%-- <input type="radio" name="statusCode" value="ST0001" <c:if test="${deployDto.statusCode eq 'ST0001'}">checked="checked"</c:if>>요청 --%>
-<%-- <input type="radio" name="statusCode" value="ST0002" <c:if test="${deployDto.statusCode eq 'ST0002'}">checked="checked"</c:if>>1차 --%>
-<%-- <input type="radio" name="statusCode" value="ST0003" <c:if test="${deployDto.statusCode eq 'ST0003'}">checked="checked"</c:if>>2차 --%>
-<%-- <input type="radio" name="statusCode" value="ST0004" <c:if test="${deployDto.statusCode eq 'ST0004'}">checked="checked"</c:if>>배포 --%>
-<%-- <input type="radio" name="statusCode" value="ST0005" <c:if test="${deployDto.statusCode eq 'ST0005'}">checked="checked"</c:if>>최종 --%>
-<br>		
+		<c:forEach items="${statusCodeList}" var="statusCode" varStatus="status">
+			<input type="radio" name="statusCode" value="0${status.index + 1}" <c:if test="${deployDto.statusCode eq statusCode.codeValue}">checked="checked"</c:if>>${statusCode.codeName}
+		</c:forEach>
+		<br>		
 <input type="button" id="updateBtn" value="수정">
 <td><input type="button" id="requestDeleteBtn" value="삭제" onclick="location.href='/deploy/deployDelete.do/'+${deployDto.deployNo}"/></td>
 </form:form>
-
 </body>
 </html>

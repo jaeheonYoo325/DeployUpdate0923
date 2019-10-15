@@ -4,6 +4,9 @@
  */
 
 
+$(document).ready(function() {
+	controller.init();
+});
 
 var controller = $.extend(new $.CommonObj(),  {
 	eventInit:function() {
@@ -36,10 +39,4 @@ var controller = $.extend(new $.CommonObj(),  {
 		
 	}
 	
-});
-
-
-
-$(document).ready(function() {
-	controller.init();
 });

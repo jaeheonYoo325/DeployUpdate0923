@@ -7,36 +7,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<meta name="viewport" content="width=device-width initial-scale=1">         
 <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
 <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
 <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
-<script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
-<script type="text/javascript">
-   $(document).ready(function() {
-      $("#searchBtn").click(function() {
-         $("#searchProgramFrm").attr({
-            method:"post",                                         
-              action:"/search/searchProgram.do"
-       }).submit();
-      });
-      
-   });
-</script>
-
-<script>
-function useChain(pageId,pageName){
-	  var no=document.getElementById("no").value;
-      opener.document.getElementById("wProgram"+no).value=pageId;
-      opener.document.getElementById("pageName"+no).value=pageName;
-      window.close();
-   }
-</script>
-
+<script src="<c:url value='/js/search/searchProgram.js' />"></script>
 </head>
 <body>
 <h1>serachProgram</h1>
-
 <form:form id="searchProgramFrm" modelAttribute="programTableDto">
 ProgramName : <input type="text" name="pageName" id="pageName"><input type="button" id="searchBtn" value="검색"><br><br>
 paramChainId : <input type="text" name="paramChainId" id="paramChainId" value="${paramChainId}">

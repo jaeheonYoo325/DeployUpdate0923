@@ -39,9 +39,6 @@ import com.springproject.wsource.dto.WSourceTableDto;
 
 @Controller
 public class DeployController {
-
-	private Logger logger = LoggerFactory.getLogger(DeployController.class);
-
 	@Autowired
 	private DeployService deployService;
 
@@ -55,7 +52,7 @@ public class DeployController {
 		return HttpRequestHelper.getJspPath();
 	}
 
-	@GetMapping("/deploy/request.do")
+	@GetMapping("/deploy/deployRequest.do")
 	public String viewDeployRequestPage() {
 		return HttpRequestHelper.getJspPath();
 	}
@@ -63,6 +60,14 @@ public class DeployController {
 	@GetMapping("/search/searchEmp.do")
 	public String viewsearchEmpPage(@RequestParam("str") String str) {
 		return HttpRequestHelper.getJspPath();
+	}
+	
+	@PostMapping("/search/searchEmp.do")
+	public ModelAndView doSearchEmpAction(@RequestParam("str") String str, @ModelAttribute EmployeeDto employeeDto) {
+		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+		List<EmployeeDto> employeeDtoList = this.deployService.selectSomeDeployService(employeeDto);
+		mv.addObject("employeeDtoList", employeeDtoList);
+		return mv;
 	}
 
 	@GetMapping("/search/searchChain.do")
@@ -72,30 +77,7 @@ public class DeployController {
 		mv.addObject("chainTableDtoList",chainTableDtoList);
 		return mv;
 	}
-
-	@GetMapping("/search/searchProgram.do")
-	   public ModelAndView viewsearchProgramPage(@RequestParam("paramChainId") String paramChainId, HttpServletRequest request) {
-		  int no=Integer.parseInt(request.getParameter("no"));
-	      ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
-	      List<ProgramTableDto> programTableDtoList=this.deployService.selctAllProgramService(paramChainId);
-	      mv.addObject("paramChainId",paramChainId);
-	      mv.addObject("programTableDtoList",programTableDtoList);
-	      mv.addObject("no",no);
-	      return mv;
-	   }
-
-
-	@PostMapping("/search/searchEmp.do")
-	public ModelAndView doSearchEmpAction(@RequestParam("str") String str, @ModelAttribute EmployeeDto employeeDto) {
-
-		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
-		List<EmployeeDto> employeeDtoList = this.deployService.selectSomeDeployService(employeeDto);
-
-		mv.addObject("employeeDtoList", employeeDtoList);
-		return mv;
-	}
-
-
+	
 	@PostMapping("/search/searchChain.do")
 	public ModelAndView doSearchChainAction(@ModelAttribute ChainTableDto chainTableDto) {
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
@@ -104,32 +86,40 @@ public class DeployController {
 		return mv;
 	}
 
+	@GetMapping("/search/searchProgram.do")
+	   public ModelAndView viewsearchProgramPage(@RequestParam("paramChainId") String paramChainId, @RequestParam("no") int no) {
+	      ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+	      List<ProgramTableDto> programTableDtoList=this.deployService.selctAllProgramService(paramChainId);
+	      mv.addObject("paramChainId",paramChainId);
+	      mv.addObject("programTableDtoList",programTableDtoList);
+	      mv.addObject("no",no);
+	      return mv;
+	   }
+	
 	@PostMapping("/search/searchProgram.do")
-	public ModelAndView doSearchProgramAction(@ModelAttribute ProgramTableDto programTableDto, HttpServletRequest request) {
+	public ModelAndView doSearchProgramAction(@RequestParam("paramChainId") String paramChainId, @ModelAttribute ProgramTableDto programTableDto) {
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
-		String paramChainId=request.getParameter("paramChainId");
 		List<ProgramTableDto> programTableDtoList = this.deployService.selectSomeProgramService(programTableDto);
 		mv.addObject("paramChainId",paramChainId);
 		mv.addObject("programTableDtoList", programTableDtoList);	
 		return mv;
 	}
-	
+
 	@GetMapping("/search/searchSource.do")
-	public ModelAndView doSearchSourceAction(HttpServletRequest request) {
-		int no = Integer.parseInt(request.getParameter("no"));
+	public ModelAndView doSearchSourceAction(@RequestParam("no") int no) {
 	      ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
 	      mv.addObject("no", no);
 	      return mv;
 			
 	}
 	
-
-	@PostMapping("/deploy/request.do")
-	public ModelAndView doDeployAction(@ModelAttribute DeployDto deployDto, HttpServletRequest request) {
-		ModelAndView mv = new ModelAndView("redirect:/deploy/deployList.do");
-		ArrayList wProgramArray = new ArrayList();
-		ArrayList pageNameArray = new ArrayList();
-		ArrayList wSourceArray = new ArrayList();
+	@PostMapping("/deploy/deployRequest.do")
+	public ModelAndView doDeployAction(@ModelAttribute DeployDto deployDto, HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mv = null;
+//		ArrayList wProgramArray, pageNameArray, wSourceArray=new ArrayList();
+		ArrayList<String> wProgramArray = new ArrayList<String>();
+		ArrayList<String> pageNameArray = new ArrayList<String>();
+		ArrayList<String> wSourceArray = new ArrayList<String>();
 		
 		for(int i=0;;i++) {
 			if(request.getParameter("wProgram"+i)==null) {
@@ -146,28 +136,50 @@ public class DeployController {
 			wSourceArray.add(request.getParameter("wSource"+i));
 		}
 		
-		boolean success = this.deployService.insertOneDeployService(deployDto, wProgramArray, pageNameArray, wSourceArray);
+		boolean DeployInsertSuccess = this.deployService.insertOneDeployService(deployDto, wProgramArray, pageNameArray, wSourceArray);
+		
+		PrintWriter out;
+		if (DeployInsertSuccess) {
+			response.setContentType("text/html;charset=UTF-8");
+
+			try {
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('요청완료')");
+				out.println("window.opener.location.reload()");
+				out.println("window.close()");
+				out.println("</script>");
+				mv=new ModelAndView("redirect:/deploy/deployList.do");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('오류')");
+				out.println("history.back()");
+				out.println("</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		return mv;
 	}
-
+	
 	@RequestMapping("/deploy/deployList.do")
 	public ModelAndView doDeployListAction(HttpServletRequest request) {
-
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
 		List<ChainTableDto> chainDtoList = this.deployService.selectAllChainService();
-		List wProgramList = new ArrayList();
-		List wSourceList = new ArrayList();
+		List<List<WProgramTableDto>> wProgramList = new ArrayList<List<WProgramTableDto>>();
+		List<List<WSourceTableDto>> wSourceList = new ArrayList<List<WSourceTableDto>>();
 		List<DeployDto> deployDtoList = new ArrayList<DeployDto>();
 	    DeployCateListDto deployCateListDto = new DeployCateListDto();
 	    List<MasterTableDto> statusCodeList = this.deployService.selectAllMasterTableByStatusService();
+	    List<MasterTableDto> categoryType = this.deployService.selectCategoryTypeService();
+	    List<List<MasterTableDto>> categoryTypeList = this.deployService.selectAllCategoryService(categoryType);
 	    
-//	    List<String> categoryType = this.deployService.selectCategoryTypeService();
-	    
-//	    List categoryTypeList = this.deployService.selectAllCategoryService(categoryType);
-
-	
 	    if(request.getParameter("cateChain") != null && request.getParameter("cateWtype") != null && request.getParameter("cateReqDate") != null && request.getParameter("cateDivision") != null && request.getParameter("cateStatus")!=null) {
-		      System.out.println("카테고리선택후");
 	    	  String cateChain=request.getParameter("cateChain");
 		      String cateWtype=request.getParameter("cateWtype");
 		      String cateReqDate=request.getParameter("cateReqDate");
@@ -179,15 +191,12 @@ public class DeployController {
 		      deployCateListDto.setCateDivision(cateDivision);
 		      deployCateListDto.setCateStatus(cateStatus);
 		      deployDtoList = this.deployService.selectSomeDeployCateListService(deployCateListDto);
-		      
 	    } else {
-	    	 System.out.println("처음 List페이지 접근했을때 조건문");
-	         deployCateListDto.setCateChain("전체");
-	         deployCateListDto.setCateWtype("전체");
-	         deployCateListDto.setCateDivision("전체");
-	         deployCateListDto.setCateReqDate("전체");
-	         deployCateListDto.setCateDivision("전체");
-	         deployCateListDto.setCateStatus("전체");
+	         deployCateListDto.setCateChain("부문");
+	         deployCateListDto.setCateWtype("작업유형");
+	         deployCateListDto.setCateReqDate("요청날짜");
+	         deployCateListDto.setCateDivision("구분");
+	         deployCateListDto.setCateStatus("상태");
 	         deployDtoList = this.deployService.selectAllDeployService();
 	      }
 	      	      
@@ -201,77 +210,35 @@ public class DeployController {
 			wSourceList.add(wSourceTableDtoList);
 
 		}
-		
 		mv.addObject("deployDtoList", deployDtoList);
 		mv.addObject("wProgramList",wProgramList);
 		mv.addObject("wSourceList",wSourceList);
 		mv.addObject("chainDtoList", chainDtoList);
 		mv.addObject("deployCateListDto", deployCateListDto);
 		mv.addObject("statusCodeList", statusCodeList);
-//		mv.addObject("categoryTypeList", categoryTypeList);
-//		mv.addObject("categoryType", categoryType);
-		
+		mv.addObject("categoryTypeList",categoryTypeList);
 		return mv;
 	}
     
-	//상세보기
 	@GetMapping("/deploy/deployUpdate.do/{deployNo}")
 	public ModelAndView viewDeployUpdatePage(@PathVariable int deployNo) {
-
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
 		DeployDto deployDto = this.deployService.selectOneDeployService(deployNo);
 		List<WProgramTableDto> wProgramTableDtoList=this.deployService.selectAllWProgramService(deployNo);
 		List<WSourceTableDto> wSourceTableDtoList=this.deployService.selectAllWSourceService(deployNo);
 		List<MasterTableDto> statusCodeList = this.deployService.selectAllMasterTableByStatusService();
-		
 		mv.addObject("wProgramTableDtoList",wProgramTableDtoList);
 		mv.addObject("wSourceTableDtoList", wSourceTableDtoList);
 		mv.addObject("deployDto", deployDto);
 		mv.addObject("statusCodeList", statusCodeList);
-
 		return mv;
 	}
-//
-//	@ResponseBody
-//	@RequestMapping("/deploy/deployUpdateAjax.do")
-//	public Map<Object, Object> viewDeployUpdateAjax(@RequestParam("seqNo") int seqNo) {
-//
-//		logger.info("deployUpdateAjax!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//		Map<Object, Object> map = new HashMap<Object, Object>();
-//
-//		DeployDto userDeployDto = this.deployService.selectOneDeployService(seqNo);
-//
-//		if (userDeployDto == null) {
-//			logger.info("error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//			String error = "error";
-//			map.put("error", error);
-//			return map;
-//		}
-//		logger.info("success!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//		map.put("userDeployDto", userDeployDto);
-//		return map;
-//
-//	}
-
-	/*
-	 * @PostMapping("/deploy/deployUpdate.do/{seqNo}") public ModelAndView
-	 * doDeployUpdateAction(
-	 * 
-	 * @PathVariable int seqNo , @ModelAttribute DeployDto deployDto) {
-	 * 
-	 * ModelAndView mv = new ModelAndView("redirect:/deploy/deployList.do"); boolean
-	 * isSuccess = this.deployService.updateOneDeploy_Service(deployDto);
-	 * 
-	 * return mv; }
-	 */
 
 	@PostMapping("/deploy/deployUpdate.do")
-	public void doDeployUpdateAction(@ModelAttribute DeployDto deployDto,
-			HttpServletResponse response, HttpServletRequest request) {
-		int deployNo=Integer.parseInt(request.getParameter("deployNo"));
-		ArrayList wProgramArray = new ArrayList();
-		ArrayList pageNameArray = new ArrayList();
-		ArrayList wSourceArray = new ArrayList();
+	public void doDeployUpdateAction(@ModelAttribute DeployDto deployDto, HttpServletResponse response, HttpServletRequest request) {
+		ArrayList<String> wProgramArray = new ArrayList<String>();
+		ArrayList<String> pageNameArray = new ArrayList<String>();
+		ArrayList<String> wSourceArray = new ArrayList<String>();
 		
 		for(int i=0;;i++) {
 			if(request.getParameter("wProgram"+i)==null) {
@@ -286,18 +253,13 @@ public class DeployController {
 				break;
 			}
 			wSourceArray.add(request.getParameter("wSource"+i));
-			System.out.println("request.getParameter : " + request.getParameter("wSource"+i));
 		}
 				
-		boolean totalSuccess = true;
 		boolean isUpdateSuccess = this.deployService.updateOneDeployService(deployDto, wProgramArray, pageNameArray, wSourceArray);
-		totalSuccess= totalSuccess && isUpdateSuccess;
-		System.out.println("Controller - totalSuccess : " + totalSuccess);
 		
 		PrintWriter out;
-		if (totalSuccess) {
+		if (isUpdateSuccess) {
 			response.setContentType("text/html;charset=UTF-8");
-
 			try {
 				out = response.getWriter();
 				out.println("<script>");
@@ -323,7 +285,6 @@ public class DeployController {
 
 	@RequestMapping("/deploy/deployDelete.do/{deployNo}")
 	public void doDeployDeleteAction(@PathVariable int deployNo, HttpServletResponse response) {
-
 		boolean isSuccess = this.deployService.deleteOneDeployService(deployNo);
 		
 		PrintWriter out;
@@ -334,6 +295,7 @@ public class DeployController {
 				out = response.getWriter();
 				out.println("<script>");
 				out.println("alert('삭제완료')");
+				out.println("window.opener.location.reload()");
 				out.println("window.close()");
 				out.println("</script>");
 			} catch (IOException e) {

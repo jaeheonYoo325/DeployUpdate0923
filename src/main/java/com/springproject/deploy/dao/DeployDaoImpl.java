@@ -114,8 +114,8 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao {
 	}
 
 	@Override
-	public List<DeployDto> selectSomeDeployCateListDao(DeployCateListDto deployCateListDto) {
-		return getSqlSession().selectList("DeployDao.selectSomeDeployCateListDao", deployCateListDto);
+	public List<DeployDto> selectSomeDeployCateListDao(DeployCateListDto deployCateListForDao) {
+		return getSqlSession().selectList("DeployDao.selectSomeDeployCateListDao", deployCateListForDao);
 	}
 
 	@Override
@@ -123,16 +123,14 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao {
 		return getSqlSession().selectList("DeployDao.selectAllMasterTableByStatusDao");
 	}
 
-//	@Override
-//	public List<MasterTableDto> selectAllCategoryDao(String categoryType) {
-//		return getSqlSession().selectList("DeployDao.selectAllCategoryDao", categoryType);
-//	}
-//
-//	@Override
-//	public List<String> selectCategoryTypeDao() {
-//		return getSqlSession().selectList("DeployDao.selectCategoryTypeDao");
-//	}
+	@Override
+	public List<MasterTableDto> selectCategoryTypeDao() {
+		 return getSqlSession().selectList("DeployDao.selectCategoryTypeDao");
+	}
 
+	@Override
+	public List<MasterTableDto> selectAllCategoryDao(String codeType) {
+		return getSqlSession().selectList("DeployDao.selectAllCategoryDao", codeType);
+	}
 
-	
 }
