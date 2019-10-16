@@ -37,8 +37,8 @@ public class EmployeeController {
 	public ModelAndView doEmployeeLoginAction(@ModelAttribute EmployeeDto employeeDto, HttpSession session) {
 		ModelAndView mv = new ModelAndView("redirect:/main/main.do");
 		EmployeeDto loginEmployeeDto = this.employeeService.selectOneEmployeeService(employeeDto);
-		loginEmployeeDto.setEmpNo(employeeDto.getEmpNo());
-		loginEmployeeDto.setEmpPw(employeeDto.getEmpPw());
+		loginEmployeeDto.setEmployeeNo(employeeDto.getEmployeeNo());
+		loginEmployeeDto.setEmployeePassWord(employeeDto.getEmployeePassWord());
 		session.setAttribute(Session.USER, loginEmployeeDto);
 		return mv;
 	}

@@ -1,6 +1,6 @@
-package com.springproject.mastertable.dto;
+package com.springproject.mastercode.dto;
 
-public class MasterTableDto {
+public class MasterCodeDto {
 
 	private String codeType;
 	private String codeValue;

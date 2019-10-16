@@ -1,57 +1,57 @@
-/**
- *
- * 
- */
-
-$(document).ready(function() {
-      $("#requestBtn").click(function() {
-       $("#requestFrm").attr({
-            method:"post",                                         
-              action:"/deploy/deployRequest.do"
-       }).submit();
-      });  
-
-      var i = -1;
-      $('.btnAddP').click (function () {
-    	  if($("#d_chainId").val()==""){
-    		  alert("부문선택필수");
-    		  return;
-    	  }
-    	  else
-    		  i=i+1;
-          $('.buttonsP').append (           
-			$("<input type='text' name='wProgram"+i+"'id='wProgram"+i+"' readonly='readonly'><input type='text' name='pageName"+i+"'id='pageName"+i+"' readonly='readonly'><input type='button' value='검색' onclick='searchProgram("+i+")'><br>")
-          );      
-          $('.removeP').on('click', function () {     	  
-              $(".buttonsP").html("");
-              i = -1;
-          });
-      });
-      
-      
-      var j = -1;
-      $('.btnAddS').click (function () {
-    	  j=j+1;
-          $('.buttonsS').append (           
-			$("<input type='text' name='wSource"+j+"'id='wSource"+j+"' readonly='readonly'><input type='button' value='검색' onclick='searchSource("+j+")' readonly='readonly'><br>")
-          );      
-          $('.removeS').on('click', function () { 
-              $(".buttonsS").html("");
-              j = -1;
-          });
-      });
-   });
-   
-    function searchEmp(str){
-	   window.open("/search/searchEmp.do?str="+str,"Employee검색", "width=1000, height=800");
-	}
-	function searchChain(){
-	   window.open("/search/searchChain.do","Chain검색", "width=1000, height=800");
-	}
-	function searchProgram(no){
-		var str=document.requestFrm.d_chainId.value;
-	   window.open("/search/searchProgram.do?paramChainId="+str+"&no="+no,"Program검색", "width=1000, height=800");
-	}
-	function searchSource(no){
-		window.open("/search/searchSource.do?no="+no,"Source검색", "width=1000, height=800");
-	}
+///**
+// *
+// * 
+// */
+//
+//$(document).ready(function() {
+//      $("#deployRequestBtn").click(function() {
+//       $("#deployRequestFrm").attr({
+//            method:"post",                                         
+//              action:"/deploy/deployRequest.do"
+//       }).submit();
+//      });  
+//
+//      var i = -1;
+//      $('.addModifiedPrograms').click (function () {
+//    	  if($("#chainId").val()==""){
+//    		  alert("부문선택필수");
+//    		  return;
+//    	  }
+//    	  else
+//    		  i=i+1;
+//          $('.divModifiedPrograms').append (           
+//			$("<input type='text' name='modifiedPrograms_pageId"+i+"'id='modifiedPrograms_pageId"+i+"' readonly='readonly'><input type='text' name='modifiedPrograms_pageName"+i+"'id='modifiedPrograms_pageName"+i+"' readonly='readonly'><input type='button' value='검색' onclick='searchModifiedPrograms("+i+")'><br>")
+//          );      
+//          $('.removeModifiedPrograms').on('click', function () {     	  
+//              $(".divModifiedPrograms").html("");
+//              i = -1;
+//          });
+//      });
+//      
+//      
+//      var j = -1;
+//      $('.addModifiedResources').click (function () {
+//    	  j=j+1;
+//          $('.divModifiedResources').append (           
+//			$("<input type='text' name='modifiedResources_wSourceName"+j+"'id='modifiedResources_wSourceName"+j+"' readonly='readonly'><input type='button' value='검색' onclick='searchModifiedResources("+j+")' readonly='readonly'><br>")
+//          );      
+//          $('.removeModifiedResources').on('click', function () { 
+//              $(".divModifiedResources").html("");
+//              j = -1;
+//          });
+//      });
+//   });
+//   
+//    function searchEmployee(employeeSearchWhere){
+//	   window.open("/search/searchEmployee.do?employeeSearchWhere="+employeeSearchWhere,"임직원검색", "width=1000, height=800");
+//	}
+//	function searchChain(){
+//	   window.open("/search/searchChain.do","부문검색", "width=1000, height=800");
+//	}
+//	function searchModifiedPrograms(modifiedProgramsTextNo){
+//		var selectedchainId=document.requestFrm.chainId.value;
+//	   window.open("/search/searchModifiedPrograms.do?selectedchainId="+selectedchainId+"&modifiedProgramsTextNo="+modifiedProgramsTextNo,"변경프로그램검색", "width=1000, height=800");
+//	}
+//	function searchModifiedResources(modifiedResourceTextNo){
+//		window.open("/search/searchModifiedResource.do?modifiedResourceTextNo="+modifiedResourceTextNo,"변경소스검색", "width=1000, height=800");
+//	}

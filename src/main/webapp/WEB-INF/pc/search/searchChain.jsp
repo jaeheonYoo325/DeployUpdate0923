@@ -11,12 +11,28 @@
 <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
 <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
 <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
-<script src="<c:url value='/js/search/searchChain.js' />"></script>
+<%-- <script src="<c:url value='/js/search/searchChain.js' />"></script> --%>
 </head>
+<script>
+$(document).ready(function() {
+    $("#searchChainBtn").click(function() {
+       $("#searchChainFrm").attr({
+          method:"post",                                         
+            action:"/search/searchChain.do"
+     }).submit();
+    });
+ });
+ 
+ function useThisChain(chainId,chainName){
+     opener.document.getElementById("chainId").value=chainId
+     opener.document.getElementById("chainName").value=chainName
+     window.close();
+  }
+</script>
 <body>
 <h1>serachChain</h1>
-<form:form id="searchChainFrm" modelAttribute="chaintableDto">
-chainName : <input type="text" name="chainName" id="chainName"><input type="button" id="searchBtn" value="검색"><br><br>
+<form:form id="searchChainFrm" modelAttribute="chainDto">
+chainName : <input type="text" name="chainName" id="chainName"><input type="button" id="searchChainBtn" value="검색"><br><br>
 </form:form>
 
 <table border="1" class="table table-hover">
@@ -26,12 +42,12 @@ chainName : <input type="text" name="chainName" id="chainName"><input type="butt
                <td>선택</td>               
             </tr>
          <c:choose>
-         <c:when test="${not empty chainTableDtoList}">
-                  <c:forEach items="${chainTableDtoList}" var="chain">
+         <c:when test="${not empty searchChain}">
+                  <c:forEach items="${searchChain}" var="chain">
                      <tr>
                          <td>${chain.chainId}</td>
                          <td>${chain.chainName}</td>
-                         <td><input type="button" value="사용" onclick="useChain('${chain.chainId}','${chain.chainName}')"><td>
+                         <td><input type="button" value="사용" onclick="useThisChain('${chain.chainId}','${chain.chainName}')"><td>
                      </tr>
                   </c:forEach>
             </c:when>

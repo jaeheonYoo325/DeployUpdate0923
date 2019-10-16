@@ -2,140 +2,111 @@ package com.springproject.employee.dto;
 
 public class EmployeeDto {
 
-	private String empNo;
-	private String empName;
-	private String empPw;
-	private String empPh;
-	private String empPc;
-	private String empCad;
-	private String empDad;
-	private String empCph;
-	private String empEmail;
-	private String empJoinDate;
-	private String empRegDate;
-	private String empModDate;
+	private String employeeNo;
+	private String employeeName;
+	private String employeePassWord;
+	private String employeePhoneNumber;
+	private String employeePostcode;
+	private String employeeCommonaddress;
+	private String employeeDetailaddress;
+	private String employeeCompanyPhoneNumber;
+	private String employeeEmail;
+	private String employeeJoinDate;
+	private String employeeRegisterDate;
+	private String employeeModifyDate;
 	private String salt;
-	private String depNo;
+	private String departmentNo;
 	private String positionNo;
-
-	public String getEmpNo() {
-		return empNo;
+	public String getEmployeeNo() {
+		return employeeNo;
 	}
-
-	public void setEmpNo(String empNo) {
-		this.empNo = empNo;
+	public void setEmployeeNo(String employeeNo) {
+		this.employeeNo = employeeNo;
 	}
-
-	public String getEmpName() {
-		return empName;
+	public String getEmployeeName() {
+		return employeeName;
 	}
-
-	public void setEmpName(String empName) {
-		this.empName = empName;
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
 	}
-
-	public String getEmpPw() {
-		return empPw;
+	public String getEmployeePassWord() {
+		return employeePassWord;
 	}
-
-	public void setEmpPw(String empPw) {
-		this.empPw = empPw;
+	public void setEmployeePassWord(String employeePassWord) {
+		this.employeePassWord = employeePassWord;
 	}
-
-	public String getEmpPh() {
-		return empPh;
+	public String getEmployeePhoneNumber() {
+		return employeePhoneNumber;
 	}
-
-	public void setEmpPh(String empPh) {
-		this.empPh = empPh;
+	public void setEmployeePhoneNumber(String employeePhoneNumber) {
+		this.employeePhoneNumber = employeePhoneNumber;
 	}
-
-	public String getEmpPc() {
-		return empPc;
+	public String getEmployeePostcode() {
+		return employeePostcode;
 	}
-
-	public void setEmpPc(String empPc) {
-		this.empPc = empPc;
+	public void setEmployeePostcode(String employeePostcode) {
+		this.employeePostcode = employeePostcode;
 	}
-
-	public String getEmpCad() {
-		return empCad;
+	public String getEmployeeCommonaddress() {
+		return employeeCommonaddress;
 	}
-
-	public void setEmpCad(String empCad) {
-		this.empCad = empCad;
+	public void setEmployeeCommonaddress(String employeeCommonaddress) {
+		this.employeeCommonaddress = employeeCommonaddress;
 	}
-
-	public String getEmpDad() {
-		return empDad;
+	public String getEmployeeDetailaddress() {
+		return employeeDetailaddress;
 	}
-
-	public void setEmpDad(String empDad) {
-		this.empDad = empDad;
+	public void setEmployeeDetailaddress(String employeeDetailaddress) {
+		this.employeeDetailaddress = employeeDetailaddress;
 	}
-
-	public String getEmpCph() {
-		return empCph;
+	public String getEmployeeCompanyPhoneNumber() {
+		return employeeCompanyPhoneNumber;
 	}
-
-	public void setEmpCph(String empCph) {
-		this.empCph = empCph;
+	public void setEmployeeCompanyPhoneNumber(String employeeCompanyPhoneNumber) {
+		this.employeeCompanyPhoneNumber = employeeCompanyPhoneNumber;
 	}
-
-	public String getEmpEmail() {
-		return empEmail;
+	public String getEmployeeEmail() {
+		return employeeEmail;
 	}
-
-	public void setEmpEmail(String empEmail) {
-		this.empEmail = empEmail;
+	public void setEmployeeEmail(String employeeEmail) {
+		this.employeeEmail = employeeEmail;
 	}
-
-	public String getEmpJoinDate() {
-		return empJoinDate;
+	public String getEmployeeJoinDate() {
+		return employeeJoinDate;
 	}
-
-	public void setEmpJoinDate(String empJoinDate) {
-		this.empJoinDate = empJoinDate;
+	public void setEmployeeJoinDate(String employeeJoinDate) {
+		this.employeeJoinDate = employeeJoinDate;
 	}
-
-	public String getEmpRegDate() {
-		return empRegDate;
+	public String getEmployeeRegisterDate() {
+		return employeeRegisterDate;
 	}
-
-	public void setEmpRegDate(String empRegDate) {
-		this.empRegDate = empRegDate;
+	public void setEmployeeRegisterDate(String employeeRegisterDate) {
+		this.employeeRegisterDate = employeeRegisterDate;
 	}
-
-	public String getEmpModDate() {
-		return empModDate;
+	public String getEmployeeModifyDate() {
+		return employeeModifyDate;
 	}
-
-	public void setEmpModDate(String empModDate) {
-		this.empModDate = empModDate;
+	public void setEmployeeModifyDate(String employeeModifyDate) {
+		this.employeeModifyDate = employeeModifyDate;
 	}
-
 	public String getSalt() {
 		return salt;
 	}
-
 	public void setSalt(String salt) {
 		this.salt = salt;
 	}
-
-	public String getDepNo() {
-		return depNo;
+	public String getDepartmentNo() {
+		return departmentNo;
 	}
-
-	public void setDepNo(String depNo) {
-		this.depNo = depNo;
+	public void setDepartmentNo(String departmentNo) {
+		this.departmentNo = departmentNo;
 	}
-
 	public String getPositionNo() {
 		return positionNo;
 	}
-
 	public void setPositionNo(String positionNo) {
 		this.positionNo = positionNo;
 	}
+	
 
 }

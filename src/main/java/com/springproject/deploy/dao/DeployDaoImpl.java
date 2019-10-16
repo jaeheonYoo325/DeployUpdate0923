@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.jta.UserTransactionAdapter;
 
-import com.springproject.chain.dto.ChainTableDto;
-import com.springproject.deploy.dto.DeployCateListDto;
-import com.springproject.deploy.dto.DeployDto;
+import com.springproject.chain.dto.ChainDto;
+import com.springproject.deploy.dto.CategoryTypeDto;
+import com.springproject.deploy.dto.DeployRequestDto;
 import com.springproject.employee.dto.EmployeeDto;
-import com.springproject.mastertable.dto.MasterTableDto;
-import com.springproject.program.dto.ProgramTableDto;
-import com.springproject.wprogramtable.dto.WProgramTableDto;
-import com.springproject.wsource.dto.WSourceTableDto;
+import com.springproject.mastercode.dto.MasterCodeDto;
+import com.springproject.modifiedprograms.dto.ModifiedProgramsDto;
+import com.springproject.modifiedresources.dto.ModifiedResourcesDto;
+import com.springproject.program.dto.ProgramDto;
 
 @Repository
 public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao {
@@ -29,108 +29,108 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao {
 	}
 
 	@Override
-	public int insertOneDeployDao(DeployDto deployDto) {
-		return getSqlSession().insert("DeployDao.insertOneDeployDao", deployDto);
+	public int InsertDeployRequestDao(DeployRequestDto deployDto) {
+		return getSqlSession().insert("DeployDao.InsertDeployRequestDao", deployDto);
 	}
 
 	@Override
-	public int insertOneWProgram(WProgramTableDto wProgramTableDto) {
-		return getSqlSession().insert("DeployDao.insertOneWProgram", wProgramTableDto);
+	public int insertModifiedProgramDao(ModifiedProgramsDto modifiedProgramsDto) {
+		return getSqlSession().insert("DeployDao.insertModifiedProgramDao", modifiedProgramsDto);
 	}
 
 	@Override
-	public List<DeployDto> selectAllDeployDao() {
-		return getSqlSession().selectList("DeployDao.selectAllDeployDao");
+	public List<DeployRequestDto> selectAllDeployRequestDao() {
+		return getSqlSession().selectList("DeployDao.selectAllDeployRequestDao");
 	}
 
 	@Override
-	public DeployDto selectOneDeployDao(int deployNo) {
-		return getSqlSession().selectOne("DeployDao.selectOneDeployDao", deployNo);
+	public DeployRequestDto selectDeployRequestOfDeployNoDao(Long deployNo) {
+		return getSqlSession().selectOne("DeployDao.selectDeployRequestOfDeployNoDao", deployNo);
 	}
 
 	@Override
-	public int updateOneDeployDao(DeployDto deployDto) {
-		return getSqlSession().update("DeployDao.updateOneDeployDao", deployDto);
+	public int updateOneDeployRequestDao(DeployRequestDto deployRequestDto) {
+		return getSqlSession().update("DeployDao.updateOneDeployRequestDao", deployRequestDto);
 	}
 
 	@Override
-	public int deleteOneDeployDao(int deployNo) {
-		return getSqlSession().delete("DeployDao.deleteOneDeployDao", deployNo);
+	public int deleteOneDeployRequestOfDeployNoDao(Long deployNo) {
+		return getSqlSession().delete("DeployDao.deleteOneDeployRequestOfDeployNoDao", deployNo);
 	}
 
 	@Override
-	public List<EmployeeDto> selectSomeDeployDao(EmployeeDto employeeDto) {
-		return getSqlSession().selectList("DeployDao.selectSomeDeployDao", employeeDto);
+	public List<EmployeeDto> selectSearchEmployeesDao(EmployeeDto employeeDto) {
+		return getSqlSession().selectList("DeployDao.selectSearchEmployeesDao", employeeDto);
 	}
 
 	@Override
-	public List<ChainTableDto> selectSomeChainDao(ChainTableDto chainTableDto) {
-		return getSqlSession().selectList("DeployDao.selectSomeChainDao", chainTableDto);
+	public List<ChainDto> selectSearchedChainDao(ChainDto chainDto) {
+		return getSqlSession().selectList("DeployDao.selectSearchedChainDao", chainDto);
 	}
 
 	@Override
-	public List<ProgramTableDto> selectSomeProgramDao(ProgramTableDto programTableDto) {
-		return getSqlSession().selectList("DeployDao.selectSomeProgramDao", programTableDto);
+	public List<ProgramDto> selectSearchedModifiedProgramDao(ProgramDto programDto) {
+		return getSqlSession().selectList("DeployDao.selectSearchedModifiedProgramDao", programDto);
 	}
 
 	@Override
-	public List<ChainTableDto> selectAllChainDao() {
-		return getSqlSession().selectList("DeployDao.selectAllChainDao");
+	public List<ChainDto> selectSearchAllChainDao() {
+		return getSqlSession().selectList("DeployDao.selectSearchAllChainDao");
 	}
 
 	@Override
-	public List<ProgramTableDto> selectAllProgramDao(String paramChainId) {
-		return getSqlSession().selectList("DeployDao.selectAllProgramDao", paramChainId);
+	public List<ProgramDto> selectSearchAllModifiedProgramDao(String selectedchainId) {
+		return getSqlSession().selectList("DeployDao.selectSearchAllModifiedProgramDao", selectedchainId);
 	}
 
 	@Override
-	public int selectMaxDeployNo() {
+	public Long selectMaxDeployNo() {
 		return getSqlSession().selectOne("DeployDao.selectMaxDeployNo");
 	}
 
 	@Override
-	public List<WProgramTableDto> selectAllWProgramDao(int deployNo) {
-		return getSqlSession().selectList("DeployDao.selectAllWProgramDao", deployNo);
+	public List<ModifiedProgramsDto> selectModifiedProgramOfDeploNoDao(Long deployNo) {
+		return getSqlSession().selectList("DeployDao.selectModifiedProgramOfDeploNoDao", deployNo);
 	}
 
 	@Override
-	public int insertOneWSource(WSourceTableDto wSourceTableDto) {
-		return getSqlSession().insert("DeployDao.insertOneWSource", wSourceTableDto);
+	public int insertModifiedResourceDao(ModifiedResourcesDto modifiedResourcesDto) {
+		return getSqlSession().insert("DeployDao.insertModifiedResourceDao", modifiedResourcesDto);
 	}
 
 	@Override
-	public List<WSourceTableDto> selectAllWSourceDao(int deployNo) {
-		return getSqlSession().selectList("DeployDao.selectAllWSourceDao", deployNo);
+	public List<ModifiedResourcesDto> selectModifiedResourceOfDeploNoDao(Long deployNo) {
+		return getSqlSession().selectList("DeployDao.selectModifiedResourceOfDeploNoDao", deployNo);
 	}
 
 	@Override
-	public int deleteAllWProgram(int deployNo) {
-		return getSqlSession().delete("DeployDao.deleteAllWProgram", deployNo);
+	public int deleteModifiedProgramOfDeployNoDao(Long deployNo) {
+		return getSqlSession().delete("DeployDao.deleteModifiedProgramOfDeployNoDao", deployNo);
 	}
 
 	@Override
-	public int deleteAllWSource(int deployNo) {
-		return getSqlSession().delete("DeployDao.deleteAllWSource", deployNo);
+	public int deleteModifiedResourceOfDeployNoDao(Long deployNo) {
+		return getSqlSession().delete("DeployDao.deleteModifiedResourceOfDeployNoDao", deployNo);
 	}
 
 	@Override
-	public List<DeployDto> selectSomeDeployCateListDao(DeployCateListDto deployCateListForDao) {
-		return getSqlSession().selectList("DeployDao.selectSomeDeployCateListDao", deployCateListForDao);
+	public List<DeployRequestDto> selectCategoryDeployRequestDao(CategoryTypeDto deployCateListForDao) {
+		return getSqlSession().selectList("DeployDao.selectCategoryDeployRequestDao", deployCateListForDao);
 	}
 
 	@Override
-	public List<MasterTableDto> selectAllMasterTableByStatusDao() {
+	public List<MasterCodeDto> selectAllMasterTableByStatusDao() {
 		return getSqlSession().selectList("DeployDao.selectAllMasterTableByStatusDao");
 	}
 
 	@Override
-	public List<MasterTableDto> selectCategoryTypeDao() {
-		 return getSqlSession().selectList("DeployDao.selectCategoryTypeDao");
+	public List<MasterCodeDto> selectMasterCodeTypeDao() {
+		 return getSqlSession().selectList("DeployDao.selectMasterCodeTypeDao");
 	}
 
 	@Override
-	public List<MasterTableDto> selectAllCategoryDao(String codeType) {
-		return getSqlSession().selectList("DeployDao.selectAllCategoryDao", codeType);
+	public List<MasterCodeDto> selectCategoryMasterCodesDao(String codeType) {
+		return getSqlSession().selectList("DeployDao.selectCategoryMasterCodesDao", codeType);
 	}
 
 }

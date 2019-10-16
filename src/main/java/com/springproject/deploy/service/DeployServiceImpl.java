@@ -1,22 +1,23 @@
 package com.springproject.deploy.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.springproject.chain.dto.ChainTableDto;
+import com.springproject.chain.dto.ChainDto;
 import com.springproject.deploy.dao.DeployDao;
-import com.springproject.deploy.dto.DeployCateListDto;
-import com.springproject.deploy.dto.DeployDto;
+import com.springproject.deploy.dto.CategoryTypeDto;
+import com.springproject.deploy.dto.DeployRequestDto;
 import com.springproject.employee.dto.EmployeeDto;
-import com.springproject.mastertable.dto.MasterTableDto;
-import com.springproject.program.dto.ProgramTableDto;
-import com.springproject.wprogramtable.dto.WProgramTableDto;
-import com.springproject.wsource.dto.WSourceTableDto;
+import com.springproject.mastercode.dto.MasterCodeDto;
+import com.springproject.modifiedprograms.dto.ModifiedProgramsDto;
+import com.springproject.modifiedresources.dto.ModifiedResourcesDto;
+import com.springproject.program.dto.ProgramDto;
 
 @Service
 @Transactional
@@ -26,168 +27,168 @@ public class DeployServiceImpl implements DeployService {
 	private DeployDao deployDao;
 
 	@Override
-	public boolean insertOneDeployService(DeployDto deployDto, ArrayList<String> wProgramArray,
-			ArrayList<String> pageNameArray, ArrayList<String> wSourceArray) {
-		boolean insertDeploySuccess = this.deployDao.insertOneDeployDao(deployDto) > 0;
-		boolean insertWSourceSuccess = true;
-		boolean insertWProgramSuccess = true;
+	public boolean InsertDeployRequestService(DeployRequestDto deployRequestDto, ArrayList<String> modifiedPrograms,
+			ArrayList<String> modifiedProgramName, ArrayList<String> modifiedResources) {
+		boolean insertDeployRequestSuccess = this.deployDao.InsertDeployRequestDao(deployRequestDto) > 0;
+		boolean insertModifiedResourceSuccess = true;
+		boolean insertModifiedProgramSuccess = true;
 
-		int deployNo = this.deployDao.selectMaxDeployNo();
+		Long deployNo = this.deployDao.selectMaxDeployNo();
 
-		for (int i = 0; i < wSourceArray.size(); i++) {
-			WSourceTableDto wSourceTableDto = new WSourceTableDto();
-			wSourceTableDto.setwSo_deployNo(deployNo);
-			wSourceTableDto.setwSo_wSourceName(wSourceArray.get(i).toString());
-			insertWSourceSuccess = insertWSourceSuccess && (this.deployDao.insertOneWSource(wSourceTableDto) > 0);
+		for (int i = 0; i < modifiedResources.size(); i++) {
+			ModifiedResourcesDto modifiedResourcesDto = new ModifiedResourcesDto();
+			modifiedResourcesDto.setModifiedResources_deployNo(deployNo);
+			modifiedResourcesDto.setModifiedResources_wSourceName(modifiedResources.get(i).toString());
+			insertModifiedResourceSuccess = insertModifiedResourceSuccess && (this.deployDao.insertModifiedResourceDao(modifiedResourcesDto) > 0);
 		}
 
-		for (int i = 0; i < wProgramArray.size(); i++) {
-			WProgramTableDto wProgramTableDto = new WProgramTableDto();
-			wProgramTableDto.setwProNo_pageId(wProgramArray.get(i).toString());
-			wProgramTableDto.setwProNo_deployNo(deployNo);
-			wProgramTableDto.setwProNo_pageName(pageNameArray.get(i).toString());
-			insertWProgramSuccess = insertWProgramSuccess && (this.deployDao.insertOneWProgram(wProgramTableDto) > 0);
+		for (int i = 0; i < modifiedPrograms.size(); i++) {
+			ModifiedProgramsDto modifiedProgramsDto = new ModifiedProgramsDto();
+			modifiedProgramsDto.setModifiedPrograms_pageId(modifiedPrograms.get(i).toString());
+			modifiedProgramsDto.setModifiedPrograms_deployNo(deployNo);
+			modifiedProgramsDto.setModifiedPrograms_pageName(modifiedProgramName.get(i).toString());
+			insertModifiedProgramSuccess = insertModifiedProgramSuccess && (this.deployDao.insertModifiedProgramDao(modifiedProgramsDto) > 0);
 		}
 
-		boolean TotalSuccess = insertDeploySuccess && insertWProgramSuccess && insertWSourceSuccess;
-		return TotalSuccess;
+		boolean requestSuccess = insertDeployRequestSuccess && insertModifiedProgramSuccess && insertModifiedResourceSuccess;
+		return requestSuccess;
 	}
 
 	@Override
-	public List<DeployDto> selectAllDeployService() {
-		return this.deployDao.selectAllDeployDao();
+	public List<DeployRequestDto> selectAllDeployRequestService() {
+		return this.deployDao.selectAllDeployRequestDao();
 	}
 
 	@Override
-	public DeployDto selectOneDeployService(int deployNo) {
-		return this.deployDao.selectOneDeployDao(deployNo);
+	public DeployRequestDto selectDeployRequestOfDeployNoService(Long deployNo) {
+		return this.deployDao.selectDeployRequestOfDeployNoDao(deployNo);
 	}
 
 	@Override
-	public boolean updateOneDeployService(DeployDto deployDto, ArrayList<String> wProgramArray,
-			ArrayList<String> pageNameArray, ArrayList<String> wSourceArray) {
-		int deployNo = deployDto.getDeployNo();
+	public boolean updateOneDeployRequestService(DeployRequestDto deployRequestDto, ArrayList<String> modifiedPrograms,
+			ArrayList<String> modifiedProgramName, ArrayList<String> modifiedResources) {
+		Long deployNo = deployRequestDto.getDeployNo();
 
-		boolean isUpdateSuccess = true;
-		boolean isInsertwSource = true;
-		boolean isInsertwProgram = true;
-		boolean isUpdateDeploy = this.deployDao.updateOneDeployDao(deployDto) > 0;
-		boolean isDeleteWProgram = this.deployDao.deleteAllWProgram(deployNo) > 0;
-		boolean isDeleteWSource = this.deployDao.deleteAllWSource(deployNo) > 0;
+		boolean updateFinalSuccess = true;
+		boolean insertModifiedResourceSuccess = true;
+		boolean insertModifiedProgramSuccess = true;
+		boolean updateOneDeployRequestSuccess = this.deployDao.updateOneDeployRequestDao(deployRequestDto) > 0;
+		boolean deleteModifiedProgramOfDeployNoSuccess = this.deployDao.deleteModifiedProgramOfDeployNoDao(deployNo) > 0;
+		boolean deleteModifiedResourceOfDeployNoSuccess = this.deployDao.deleteModifiedResourceOfDeployNoDao(deployNo) > 0;
 
-		for (int i = 0; i < wProgramArray.size(); i++) {
-			WProgramTableDto wProgramTableDto = new WProgramTableDto();
-			wProgramTableDto.setwProNo_deployNo(deployNo);
-			wProgramTableDto.setwProNo_pageId(wProgramArray.get(i).toString());
-			wProgramTableDto.setwProNo_pageName(pageNameArray.get(i).toString());
-			isInsertwProgram = isInsertwProgram && (this.deployDao.insertOneWProgram(wProgramTableDto) > 0);
+		for (int i = 0; i < modifiedPrograms.size(); i++) {
+			ModifiedProgramsDto modifiedProgramsDto = new ModifiedProgramsDto();
+			modifiedProgramsDto.setModifiedPrograms_deployNo(deployNo);
+			modifiedProgramsDto.setModifiedPrograms_pageId(modifiedPrograms.get(i).toString());
+			modifiedProgramsDto.setModifiedPrograms_pageName(modifiedProgramName.get(i).toString());
+			insertModifiedProgramSuccess = insertModifiedProgramSuccess && (this.deployDao.insertModifiedProgramDao(modifiedProgramsDto) > 0);
 		}
 
-		for (int i = 0; i < wSourceArray.size(); i++) {
-			WSourceTableDto wSourceTableDto = new WSourceTableDto();
-			wSourceTableDto.setwSo_deployNo(deployNo);
-			wSourceTableDto.setwSo_wSourceName(wSourceArray.get(i).toString());
-			isInsertwSource = isInsertwSource && (this.deployDao.insertOneWSource(wSourceTableDto) > 0);
+		for (int i = 0; i < modifiedResources.size(); i++) {
+			ModifiedResourcesDto modifiedResourcesDto = new ModifiedResourcesDto();
+			modifiedResourcesDto.setModifiedResources_deployNo(deployNo);
+			modifiedResourcesDto.setModifiedResources_wSourceName(modifiedResources.get(i).toString());
+			insertModifiedResourceSuccess = insertModifiedResourceSuccess && (this.deployDao.insertModifiedResourceDao(modifiedResourcesDto) > 0);
 		}
 
-		isUpdateSuccess = isUpdateSuccess && isUpdateDeploy && isDeleteWProgram && isDeleteWSource && isInsertwProgram
-				&& isInsertwSource;
-		return isUpdateSuccess;
+		updateFinalSuccess = updateFinalSuccess && updateOneDeployRequestSuccess && deleteModifiedProgramOfDeployNoSuccess && deleteModifiedResourceOfDeployNoSuccess && insertModifiedProgramSuccess
+				&& insertModifiedResourceSuccess;
+		return updateFinalSuccess;
 	}
 
 	@Override
-	public boolean deleteOneDeployService(int deployNo) {
-		return this.deployDao.deleteOneDeployDao(deployNo) > 0;
+	public boolean deleteOneDeployRequestOfDeployNoService(Long deployNo) {
+		return this.deployDao.deleteOneDeployRequestOfDeployNoDao(deployNo) > 0;
 	}
 
 	@Override
-	public List<EmployeeDto> selectSomeDeployService(EmployeeDto employeeDto) {
-		return this.deployDao.selectSomeDeployDao(employeeDto);
+	public List<EmployeeDto> selectSearchEmployeesService(EmployeeDto employeeDto) {
+		return this.deployDao.selectSearchEmployeesDao(employeeDto);
 	}
 
 	@Override
-	public List<ChainTableDto> selectSomeChainService(ChainTableDto chainTableDto) {
-		return this.deployDao.selectSomeChainDao(chainTableDto);
+	public List<ChainDto> selectSearchedChainService(ChainDto chainTableDto) {
+		return this.deployDao.selectSearchedChainDao(chainTableDto);
 	}
 
 	@Override
-	public List<ProgramTableDto> selectSomeProgramService(ProgramTableDto programTableDto) {
-		return this.deployDao.selectSomeProgramDao(programTableDto);
+	public List<ProgramDto> selectSearchedModifiedProgramService(ProgramDto programDto) {
+		return this.deployDao.selectSearchedModifiedProgramDao(programDto);
 	}
 
 	@Override
-	public List<ChainTableDto> selectAllChainService() {
-		return this.deployDao.selectAllChainDao();
+	public List<ChainDto> selectSearchAllChainService() {
+		return this.deployDao.selectSearchAllChainDao();
 	}
 
 	@Override
-	public List<ProgramTableDto> selctAllProgramService(String paramChainId) {
-		return this.deployDao.selectAllProgramDao(paramChainId);
+	public List<ProgramDto> selectSearchAllModifiedProgramService(String selectedchainId) {
+		return this.deployDao.selectSearchAllModifiedProgramDao(selectedchainId);
 	}
 
 	@Override
-	public List<WProgramTableDto> selectAllWProgramService(int deployNo) {
-		return this.deployDao.selectAllWProgramDao(deployNo);
+	public List<ModifiedProgramsDto> selectModifiedProgramOfDeploNoService(Long deployNo) {
+		return this.deployDao.selectModifiedProgramOfDeploNoDao(deployNo);
 	}
 
 	@Override
-	public List<WSourceTableDto> selectAllWSourceService(int deployNo) {
-		return this.deployDao.selectAllWSourceDao(deployNo);
+	public List<ModifiedResourcesDto> selectModifiedResourceOfDeploNoService(Long deployNo) {
+		return this.deployDao.selectModifiedResourceOfDeploNoDao(deployNo);
 	}
 
 	@Override
-	public List<DeployDto> selectSomeDeployCateListService(DeployCateListDto deployCateListDto) {
-		DeployCateListDto deployCateListForDao=new DeployCateListDto();
-		if(deployCateListDto.getCateChain().equals("부문")) {
-		deployCateListForDao.setCateChain("%");
+	public List<DeployRequestDto> selectCategoryDeployRequestService(CategoryTypeDto deployCateListDto) {
+		CategoryTypeDto deployRequestForCatetory = new CategoryTypeDto();
+		if (deployCateListDto.getCategoryChain().equals("부문")) {
+			deployRequestForCatetory.setCategoryChain("%");
+		} else {
+			deployRequestForCatetory.setCategoryChain(deployCateListDto.getCategoryChain());
 		}
-		else {
-			deployCateListForDao.setCateChain(deployCateListDto.getCateChain());
+
+		if (deployCateListDto.getCategoryDivision().equals("구분")) {
+			deployRequestForCatetory.setCategoryDivision("%");
+		} else {
+			deployRequestForCatetory.setCategoryDivision(deployCateListDto.getCategoryDivision());
 		}
-		
-		if(deployCateListDto.getCateDivision().equals("구분")) {
-		deployCateListForDao.setCateDivision("%");
+
+		if (deployCateListDto.getCategoryStatus().equals("00")) {
+			deployRequestForCatetory.setCategoryStatus("%");
+		} else {
+			deployRequestForCatetory.setCategoryStatus(deployCateListDto.getCategoryStatus());
 		}
-		else {
-			deployCateListForDao.setCateDivision(deployCateListDto.getCateDivision());
+
+		if (deployCateListDto.getCategoryWorktype().equals("작업유형")) {
+			deployRequestForCatetory.setCategoryWorktype("%");
+		} else {
+			deployRequestForCatetory.setCategoryWorktype(deployCateListDto.getCategoryWorktype());
 		}
-		
-		if(deployCateListDto.getCateStatus().equals("00")) {
-		deployCateListForDao.setCateStatus("%");
-		}
-		else {
-			deployCateListForDao.setCateStatus(deployCateListDto.getCateStatus());
-		}
-		
-		if(deployCateListDto.getCateWtype().equals("작업유형")) {
-		deployCateListForDao.setCateWtype("%");
-		}
-		else {
-			deployCateListForDao.setCateWtype(deployCateListDto.getCateWtype());
-		}
-		
-		deployCateListForDao.setCateReqDate(deployCateListDto.getCateReqDate());
-		return this.deployDao.selectSomeDeployCateListDao(deployCateListForDao);
+
+		deployRequestForCatetory.setCategoryRequestDate(deployCateListDto.getCategoryRequestDate());
+		return this.deployDao.selectCategoryDeployRequestDao(deployRequestForCatetory);
 	}
 
 	@Override
-	public List<MasterTableDto> selectAllMasterTableByStatusService() {
+	public List<MasterCodeDto> selectAllMasterTableByStatusService() {
 		return this.deployDao.selectAllMasterTableByStatusDao();
 	}
 
 	@Override
-	public List<MasterTableDto> selectCategoryTypeService() {
-		 return this.deployDao.selectCategoryTypeDao();
+	public List<MasterCodeDto> selectMasterCodeTypeService() {
+		return this.deployDao.selectMasterCodeTypeDao();
 	}
 
 	@Override
-	public List<List<MasterTableDto>> selectAllCategoryService(List<MasterTableDto> categoryType) {
-	    List<MasterTableDto> categoryList = new ArrayList<MasterTableDto>();
-	      List<List<MasterTableDto>> categoryInfoList = new ArrayList<List<MasterTableDto>>();
-	      for(int i = 0; i < categoryType.size(); i++ ) {
-	         categoryList = this.deployDao.selectAllCategoryDao(categoryType.get(i).getCodeType());
-	         categoryInfoList.add(categoryList);
-	      }
-	      return categoryInfoList;
+	public List<List<MasterCodeDto>> selectCategoryMasterCodesService(List<MasterCodeDto> categoryType) {
+		List<MasterCodeDto> categoryOneMasterCode = new ArrayList<MasterCodeDto>();
+		List<List<MasterCodeDto>> categoryMasterCodes = new ArrayList<List<MasterCodeDto>>();
+//		Map<String, List<MasterCodeDto>> masterData= new HashMap<>();
+		for (int i = 0; i < categoryType.size(); i++) {
+			categoryOneMasterCode = this.deployDao.selectCategoryMasterCodesDao(categoryType.get(i).getCodeType());
+			categoryMasterCodes.add(categoryOneMasterCode);
+//			masterData.put(categoryType.get(i),categoryOneMasterCode);
+			
+			
+		}
+		return categoryMasterCodes;
 	}
 }

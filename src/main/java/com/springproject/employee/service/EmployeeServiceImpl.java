@@ -17,9 +17,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public boolean insertOneEmployeeService(EmployeeDto employeeDto) {
 		
 		String salt = SHA256Util.generateSalt();
-		String password = this.getHashedPassword(salt, employeeDto.getEmpPw());
+		String password = this.getHashedPassword(salt, employeeDto.getEmployeePassWord());
 		
-		employeeDto.setEmpPw(password);
+		employeeDto.setEmployeePassWord(password);
 		employeeDto.setSalt(salt);
 		
 		return this.employeeDao.insertOneEmployeeDao(employeeDto) > 0;
@@ -32,11 +32,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public EmployeeDto selectOneEmployeeService(EmployeeDto employeeDto) {
 		
-		String salt = this.employeeDao.getSaltByEmployeeNumber(employeeDto.getEmpNo());
+		String salt = this.employeeDao.getSaltByEmployeeNumber(employeeDto.getEmployeeNo());
 		
 		if ( salt != null ) {
-			String password = this.getHashedPassword(salt, employeeDto.getEmpPw());
-			employeeDto.setEmpPw(password);
+			String password = this.getHashedPassword(salt, employeeDto.getEmployeePassWord());
+			employeeDto.setEmployeePassWord(password);
 		}
 		
 		EmployeeDto loginEmployeeDto = this.employeeDao.selectOneEmployeeDao(employeeDto);

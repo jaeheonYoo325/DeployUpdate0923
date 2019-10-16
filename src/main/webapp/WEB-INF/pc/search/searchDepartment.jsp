@@ -11,7 +11,7 @@
 <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
 <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
 <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
-<script src="<c:url value='/js/search/searchDepartment.js' />"></script>
+<%-- <script src="<c:url value='/js/search/searchDepartment.js' />"></script> --%>
 </head>
 <body>
 <h1>부서 조회</h1>

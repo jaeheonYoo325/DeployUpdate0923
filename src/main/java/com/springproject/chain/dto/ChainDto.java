@@ -1,6 +1,6 @@
 package com.springproject.chain.dto;
 
-public class ChainTableDto {
+public class ChainDto {
 
 	private String chainId;
 	private String chainName;

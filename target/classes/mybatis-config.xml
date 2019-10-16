@@ -4,14 +4,14 @@
     "http://mybatis.org/dtd/mybatis-3-config.dtd">
     <configuration>
  		<typeAliases>
- 			<typeAlias type="com.springproject.deploy.dto.DeployDto" alias="DeployDto"/>
+ 			<typeAlias type="com.springproject.deploy.dto.DeployRequestDto" alias="DeployRequestDto"/>
  			<typeAlias type="com.springproject.employee.dto.EmployeeDto" alias="EmployeeDto"/>
  			<typeAlias type="com.springproject.department.dto.DepartmentDto" alias="DepartmentDto"/>
- 			<typeAlias type="com.springproject.chain.dto.ChainTableDto" alias="ChainTableDto"/>
-			<typeAlias type="com.springproject.program.dto.ProgramTableDto" alias="ProgramTableDto"/>
-			<typeAlias type="com.springproject.wprogramtable.dto.WProgramTableDto" alias="WProgramTableDto"/>
-			<typeAlias type="com.springproject.wsource.dto.WSourceTableDto" alias="WSourceTableDto"/>
-			<typeAlias type="com.springproject.deploy.dto.DeployCateListDto" alias="DeployCateListDto"/>
-			<typeAlias type="com.springproject.mastertable.dto.MasterTableDto" alias="MasterTableDto"/>
+ 			<typeAlias type="com.springproject.chain.dto.ChainDto" alias="ChainDto"/>
+			<typeAlias type="com.springproject.program.dto.ProgramDto" alias="ProgramDto"/>
+			<typeAlias type="com.springproject.modifiedprograms.dto.ModifiedProgramsDto" alias="ModifiedProgramsDto"/>
+			<typeAlias type="com.springproject.modifiedresources.dto.ModifiedResourcesDto" alias="ModifiedResourcesDto"/>
+			<typeAlias type="com.springproject.deploy.dto.CategoryTypeDto" alias="CategoryTypeDto"/>
+			<typeAlias type="com.springproject.mastercode.dto.MasterCodeDto" alias="MasterCodeDto"/>
  		</typeAliases>        
     </configuration>

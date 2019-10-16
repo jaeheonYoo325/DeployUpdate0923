@@ -4,57 +4,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import com.springproject.chain.dto.ChainTableDto;
-import com.springproject.deploy.dto.DeployCateListDto;
-import com.springproject.deploy.dto.DeployDto;
+import com.springproject.chain.dto.ChainDto;
+import com.springproject.deploy.dto.CategoryTypeDto;
+import com.springproject.deploy.dto.DeployRequestDto;
 import com.springproject.employee.dto.EmployeeDto;
-import com.springproject.mastertable.dto.MasterTableDto;
-import com.springproject.program.dto.ProgramTableDto;
-import com.springproject.wprogramtable.dto.WProgramTableDto;
-import com.springproject.wsource.dto.WSourceTableDto;
+import com.springproject.mastercode.dto.MasterCodeDto;
+import com.springproject.modifiedprograms.dto.ModifiedProgramsDto;
+import com.springproject.modifiedresources.dto.ModifiedResourcesDto;
+import com.springproject.program.dto.ProgramDto;
 
 public interface DeployDao {
 
-	public int insertOneDeployDao(DeployDto deployDto);
+	public int InsertDeployRequestDao(DeployRequestDto deployDto);
 	
-	public int insertOneWProgram(WProgramTableDto wProgramTableDto);
+	public int insertModifiedProgramDao(ModifiedProgramsDto wProgramTableDto);
 	
-	public int insertOneWSource(WSourceTableDto wSourceTableDto);
+	public int insertModifiedResourceDao(ModifiedResourcesDto wSourceTableDto);
 	
-	public List<DeployDto> selectAllDeployDao();
+	public List<DeployRequestDto> selectAllDeployRequestDao();
 	
-	public DeployDto selectOneDeployDao(int deployNo);
+	public DeployRequestDto selectDeployRequestOfDeployNoDao(Long deployNo);
 	
-	public int updateOneDeployDao(DeployDto deployDto);
+	public int updateOneDeployRequestDao(DeployRequestDto deployDto);
 	
-	public int deleteOneDeployDao(int deployNo);
+	public int deleteOneDeployRequestOfDeployNoDao(Long deployNo);
 	
-   public List<EmployeeDto> selectSomeDeployDao(EmployeeDto employeeDto);
+   public List<EmployeeDto> selectSearchEmployeesDao(EmployeeDto employeeDto);
 	
-   public List<ChainTableDto> selectSomeChainDao(ChainTableDto chainTableDto);
+   public List<ChainDto> selectSearchedChainDao(ChainDto chainDto);
    
-   public List<ProgramTableDto> selectSomeProgramDao(ProgramTableDto programTableDto);
+   public List<ProgramDto> selectSearchedModifiedProgramDao(ProgramDto programDto);
    
-   public List<ChainTableDto> selectAllChainDao();
+   public List<ChainDto> selectSearchAllChainDao();
    
-   public List<ProgramTableDto> selectAllProgramDao(String paramChainId);
+   public List<ProgramDto> selectSearchAllModifiedProgramDao(String selectedchainId);
    
-   public int selectMaxDeployNo();
+   public Long selectMaxDeployNo();
    
-   public List<WProgramTableDto> selectAllWProgramDao(int deployNo);
+   public List<ModifiedProgramsDto> selectModifiedProgramOfDeploNoDao(Long deployNo);
    
-   public List<WSourceTableDto> selectAllWSourceDao(int deployNo);
+   public List<ModifiedResourcesDto> selectModifiedResourceOfDeploNoDao(Long deployNo);
    
-   public int deleteAllWProgram(int deployNo);
+   public int deleteModifiedProgramOfDeployNoDao(Long deployNo);
    
-   public int deleteAllWSource(int deployNo);
+   public int deleteModifiedResourceOfDeployNoDao(Long deployNo);
 
-   public List<DeployDto> selectSomeDeployCateListDao(DeployCateListDto deployCateListDto);
+   public List<DeployRequestDto> selectCategoryDeployRequestDao(CategoryTypeDto deployCateListDto);
    
-   public List<MasterTableDto> selectAllMasterTableByStatusDao();
+   public List<MasterCodeDto> selectAllMasterTableByStatusDao();
 
-public List<MasterTableDto> selectCategoryTypeDao();
+public List<MasterCodeDto> selectMasterCodeTypeDao();
 
-public List<MasterTableDto> selectAllCategoryDao(String codeType);
+public List<MasterCodeDto> selectCategoryMasterCodesDao(String codeType);
 
 }
