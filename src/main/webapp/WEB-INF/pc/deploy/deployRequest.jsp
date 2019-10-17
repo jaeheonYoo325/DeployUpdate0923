@@ -16,6 +16,18 @@
 <script>
 $(document).ready(function() {
     $("#deployRequestBtn").click(function() {
+    	var chainId = $("#chainId").val();
+    	var chainName = $("#chainName").val();
+    	
+    	if ( chainId == "" ) {
+    		alert("부문 ID를 검색해서 선택해주세요.");
+    		return;
+    	}
+    	
+    	if ( chainName == "" ) {
+    		alert("부문 이름을 검색해서 선택해주세요.");
+    		return;
+    	}
      $("#deployRequestFrm").attr({
           method:"post",                                         
             action:"/deploy/deployRequest.do"
@@ -73,6 +85,7 @@ $(document).ready(function() {
 부문 : <input type="text" name="chainId" id="chainId" readonly="readonly">
      <input type="text" name="chainName" id="chainName" readonly="readonly">
      <input type="button" value="검색" onclick="searchChain()"><br>
+     <form:errors id="errorsChainId" cssStyle="color: red;" path="chainId" /><br>
 작업유형 : <select name="workType" id="workType">
          <option value="">작업유형</option>
          <option value="정기">정기</option>

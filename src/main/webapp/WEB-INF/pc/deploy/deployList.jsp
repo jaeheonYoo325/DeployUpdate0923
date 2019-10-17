@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
 <%@page import="com.springproject.mastercode.dto.MasterCodeDto"%>
 <%@page import="com.springproject.deploy.dto.CategoryTypeDto"%>
 <%@page import="com.springproject.chain.dto.ChainDto"%>
@@ -46,17 +48,13 @@ function showDeployRequestDetail(thisDeployNo){
 </script>
 <%
 	request.setCharacterEncoding("utf-8");
-	ArrayList<DeployRequestDto> deployRequests = (ArrayList<DeployRequestDto>) request
-			.getAttribute("deployRequests");//a
-	ArrayList<ArrayList<ModifiedProgramsDto>> modifiedPrograms = (ArrayList<ArrayList<ModifiedProgramsDto>>) request
-			.getAttribute("modifiedPrograms");//b
-	ArrayList<ArrayList<ModifiedResourcesDto>> modifiedResources = (ArrayList<ArrayList<ModifiedResourcesDto>>) request
-			.getAttribute("modifiedResources");
+	ArrayList<DeployRequestDto> deployRequests = (ArrayList<DeployRequestDto>) request.getAttribute("deployRequests");//a
+	ArrayList<ArrayList<ModifiedProgramsDto>> modifiedPrograms = (ArrayList<ArrayList<ModifiedProgramsDto>>) request.getAttribute("modifiedPrograms");//b
+	ArrayList<ArrayList<ModifiedResourcesDto>> modifiedResources = (ArrayList<ArrayList<ModifiedResourcesDto>>) request.getAttribute("modifiedResources");
 	ArrayList<ChainDto> chain = (ArrayList<ChainDto>) request.getAttribute("chain");
 	CategoryTypeDto categoryType = (CategoryTypeDto) request.getAttribute("categoryType");
 	ArrayList<MasterCodeDto> statusCodeList = (ArrayList<MasterCodeDto>) request.getAttribute("statusCodeList");
-	ArrayList<ArrayList<MasterCodeDto>> categoryMasterCodes = (ArrayList<ArrayList<MasterCodeDto>>) request
-			.getAttribute("categoryMasterCodes");
+	Map<String, List<MasterCodeDto>> categoryMasterCodes = (Map<String, List<MasterCodeDto>>) request.getAttribute("categoryMasterCodes");	
 %>
 </head>
 <body>
@@ -67,53 +65,24 @@ function showDeployRequestDetail(thisDeployNo){
 			<tr>
 				<td>No</td>
 				<td><select name="categoryChain" id="categoryChain">
-						<option value="부문"
-							<%if (categoryType.getCategoryChain().equals("부문")) {%>
-							selected="selected" <%}%>>부문</option>
-						<%
-							for (int i = 0; i < chain.size(); i++) {
-						%>
-						<option value="<%=chain.get(i).getChainId()%>"
-							<%if (categoryType.getCategoryChain().equals(chain.get(i).getChainId())) {%>
-							selected="selected" <%}%>><%=chain.get(i).getChainName()%></option>
-						<%
-							}
-						%>
+					<option value="부문"<%if (categoryType.getCategoryChain().equals("부문")) {%>selected="selected" <%}%>>부문</option>
+					<%
+						for (int i = 0; i < chain.size(); i++) {
+					%>
+					<option value="<%=chain.get(i).getChainId()%>" <%if (categoryType.getCategoryChain().equals(chain.get(i).getChainId())) {%>selected="selected" <%}%>><%=chain.get(i).getChainName()%></option>
+					<%
+						}
+					%>
 				</select></td>
 				<td><select name="categoryWorktype" id="categoryWorktype">
-						<%
-							for (int i = 0; i < categoryMasterCodes.size(); i++) {
-								//                                                             categoryMasterCodes.get(categoryType.getCateWtypeString());
-								if (categoryMasterCodes.get(i).get(0).getCodeType().equals(categoryType.getCateWtypeString())) {
-									for (int j = 0; j < categoryMasterCodes.get(i).size(); j++) {
-						%>
-						<option
-							value="<%=categoryMasterCodes.get(i).get(j).getCodeName()%>"
-							<%if (categoryType.getCategoryWorktype().equals(categoryMasterCodes.get(i).get(j).getCodeName())) {%>
-							selected="selected" <%}%>><%=categoryMasterCodes.get(i).get(j).getCodeName()%></option>
-						<%
-							}
-									}
-
-								}
-						%>
+					<c:forEach items="${categoryMasterCodes[categoryType.cateWtypeString]}" varStatus="status">
+						<option value="<c:out value='${categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}'></c:out>" <c:if test="${categoryType.categoryWorktype eq categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}</option>
+					</c:forEach>
 				</select></td>
 				<td><select name="categoryRequestDate" id="categoryRequestDate">
-						<%
-							for (int i = 0; i < categoryMasterCodes.size(); i++) {
-									if (categoryMasterCodes.get(i).get(0).getCodeType().equals(categoryType.getCateReqDateString())) {
-										for (int j = 0; j < categoryMasterCodes.get(i).size(); j++) {
-						%>
-						<option
-							value="<%=categoryMasterCodes.get(i).get(j).getCodeName()%>"
-							<%if (categoryType.getCategoryRequestDate().equals(categoryMasterCodes.get(i).get(j).getCodeName())) {%>
-							selected="selected" <%}%>><%=categoryMasterCodes.get(i).get(j).getCodeName()%></option>
-						<%
-							}
-									}
-
-								}
-						%>
+					<c:forEach items="${categoryMasterCodes[categoryType.cateReqDateString]}" varStatus="status">
+						<option value="<c:out value='${categoryMasterCodes[categoryType.cateReqDateString][status.index].codeName}'></c:out>" <c:if test="${categoryType.categoryRequestDate eq categoryMasterCodes[categoryType.cateReqDateString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateReqDateString][status.index].codeName}</option>
+					</c:forEach>	
 				</select></td>
 				<td>요청시간</td>
 				<td>서비스요청ID</td>
@@ -127,40 +96,15 @@ function showDeployRequestDetail(thisDeployNo){
 				<td>확인(테스트계)</td>
 				<td>확인(운영계)</td>
 				<td><select name="categoryDivision" id="categoryDivision">
-						<%
-							for (int i = 0; i < categoryMasterCodes.size(); i++) {
-									if (categoryMasterCodes.get(i).get(0).getCodeType().equals(categoryType.getCateDivisionString())) {
-										for (int j = 0; j < categoryMasterCodes.get(i).size(); j++) {
-						%>
-						<option
-							value="<%=categoryMasterCodes.get(i).get(j).getCodeName()%>"
-							<%if (categoryType.getCategoryDivision()
-									.equals(categoryMasterCodes.get(i).get(j).getCodeName())) {%>
-							selected="selected" <%}%>><%=categoryMasterCodes.get(i).get(j).getCodeName()%></option>
-						<%
-							}
-									}
-
-								}
-						%>
+					<c:forEach items="${categoryMasterCodes[categoryType.cateDivisionString]}" varStatus="status">
+						<option value="<c:out value='${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}'></c:out>" <c:if test="${categoryType.categoryDivision eq categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}</option>
+					</c:forEach>	
 				</select></td>
 				<td>상세보기</td>
 				<td><select name="categoryStatus" id="categoryStatus">
-						<%
-							for (int i = 0; i < categoryMasterCodes.size(); i++) {
-									if (categoryMasterCodes.get(i).get(0).getCodeType().equals(categoryType.getCateStatusString())) {
-										for (int j = 0; j < categoryMasterCodes.get(i).size(); j++) {
-						%>
-						<option
-							value="<%=categoryMasterCodes.get(i).get(j).getCodeValue()%>"
-							<%if (categoryType.getCategoryStatus().equals(categoryMasterCodes.get(i).get(j).getCodeValue())) {%>
-							selected="selected" <%}%>><%=categoryMasterCodes.get(i).get(j).getCodeName()%></option>
-						<%
-							}
-									}
-
-								}
-						%>
+					<c:forEach items="${categoryMasterCodes[categoryType.cateStatusString]}" varStatus="status">
+						<option value="<c:out value='${categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}'></c:out>" <c:if test="${categoryType.categoryStatus eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName}</option>
+					</c:forEach>
 				</select></td>
 			</tr>
 			<%
@@ -218,7 +162,6 @@ function showDeployRequestDetail(thisDeployNo){
 			</tr>
 			<%
 				}
-				
 				
 			%>
 		</table>

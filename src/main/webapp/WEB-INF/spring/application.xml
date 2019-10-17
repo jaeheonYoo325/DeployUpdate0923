@@ -39,4 +39,7 @@
 		<property name="maxUploadSize" value="104857600" />
 		<property name="defaultEncoding" value="UTF-8" />	
 	</bean>
+	
+	<bean id="localValidatorBean" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+	</bean>
 </beans>

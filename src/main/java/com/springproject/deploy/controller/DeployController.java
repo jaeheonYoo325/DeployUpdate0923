@@ -11,12 +11,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -119,13 +121,19 @@ public class DeployController {
 	}
 	
 	@PostMapping("/deploy/deployRequest.do")
-	public ModelAndView doDeployAction(@ModelAttribute DeployRequestDto deployRequestDto, HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView mv = null;
-		ModifiedProgramsDto modifiedProgramsDto=new ModifiedProgramsDto();
-		ModifiedResourcesDto modifiedResourcesDto=new ModifiedResourcesDto();
+	public ModelAndView doDeployAction(@Valid @ModelAttribute DeployRequestDto deployRequestDto, Errors errors, HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView();
+//		ModifiedProgramsDto modifiedProgramsDto = new ModifiedProgramsDto();
+//		ModifiedResourcesDto modifiedResourcesDto = new ModifiedResourcesDto();
 		ArrayList<String> modifiedPrograms = new ArrayList<String>();
 		ArrayList<String> modifiedProgramName = new ArrayList<String>();
 		ArrayList<String> modifiedResources = new ArrayList<String>();
+		
+		if ( errors.hasErrors() ) {
+			System.out.println("Controller - deployRequest.do errors!!!");
+			mv.setViewName("pc/deploy/deployRequest");
+			return mv;
+		}
 		
 		for(int i=0;;i++) {
 			if(request.getParameter("modifiedPrograms_pageId"+i)==null) {
@@ -156,7 +164,7 @@ public class DeployController {
 				out.println("window.opener.location.reload()");
 				out.println("window.close()");
 				out.println("</script>");
-				mv=new ModelAndView("redirect:/deploy/deployList.do");
+				mv.setViewName("redirect:/deploy/deployList.do");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -185,7 +193,7 @@ public class DeployController {
 	    CategoryTypeDto categoryType = new CategoryTypeDto();
 	    List<MasterCodeDto> statusCodeList = this.deployService.selectAllMasterTableByStatusService();
 	    List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeTypeService();
-	    List<List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
+	    Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
 	    
 	    if(request.getParameter("categoryChain") != null && request.getParameter("categoryWorktype") != null && request.getParameter("categoryRequestDate") != null && request.getParameter("categoryDivision") != null && request.getParameter("categoryStatus")!=null) {
 	    	  String categoryChain = request.getParameter("categoryChain");

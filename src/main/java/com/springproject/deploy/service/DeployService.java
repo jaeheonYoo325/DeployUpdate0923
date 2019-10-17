@@ -2,7 +2,7 @@ package com.springproject.deploy.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
 
 import com.springproject.chain.dto.ChainDto;
 import com.springproject.deploy.dto.CategoryTypeDto;
@@ -44,5 +44,5 @@ public interface DeployService {
 
 	public List<MasterCodeDto> selectMasterCodeTypeService();
 
-	public List<List<MasterCodeDto>> selectCategoryMasterCodesService(List<MasterCodeDto> categoryType);
+	public Map<String, List<MasterCodeDto>> selectCategoryMasterCodesService(List<MasterCodeDto> categoryType);
 }

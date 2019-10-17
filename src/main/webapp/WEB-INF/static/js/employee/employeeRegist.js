@@ -137,7 +137,7 @@ var controller = $.extend(new $.CommonObj(), {
         }).open();
 		
 	}, searchDepartment : function() {
-		window.open("/search/searchDepartmentPopup.do","Department 검색", "width=1000, height=800");
+		window.open("/search/searchDepartment.do","Department 검색", "width=1000, height=800");
 	}
 	
 	

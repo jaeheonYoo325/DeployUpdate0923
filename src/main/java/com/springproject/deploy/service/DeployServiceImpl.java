@@ -178,17 +178,30 @@ public class DeployServiceImpl implements DeployService {
 	}
 
 	@Override
-	public List<List<MasterCodeDto>> selectCategoryMasterCodesService(List<MasterCodeDto> categoryType) {
+	public Map<String, List<MasterCodeDto>> selectCategoryMasterCodesService(List<MasterCodeDto> categoryType) {
 		List<MasterCodeDto> categoryOneMasterCode = new ArrayList<MasterCodeDto>();
-		List<List<MasterCodeDto>> categoryMasterCodes = new ArrayList<List<MasterCodeDto>>();
-//		Map<String, List<MasterCodeDto>> masterData= new HashMap<>();
+		Map<String, List<MasterCodeDto>> masterDates = new HashMap<String, List<MasterCodeDto>>();
 		for (int i = 0; i < categoryType.size(); i++) {
 			categoryOneMasterCode = this.deployDao.selectCategoryMasterCodesDao(categoryType.get(i).getCodeType());
-			categoryMasterCodes.add(categoryOneMasterCode);
-//			masterData.put(categoryType.get(i),categoryOneMasterCode);
-			
-			
+			masterDates.put(categoryType.get(i).getCodeType(), categoryOneMasterCode);			
 		}
-		return categoryMasterCodes;
+
+		CategoryTypeDto categoryTypeDto = new CategoryTypeDto();
+		for( int i = 0; i < masterDates.get(categoryTypeDto.getCateWtypeString()).size(); i++) {
+			System.out.println(masterDates.get(categoryTypeDto.getCateWtypeString()).get(i).getCodeName());
+		}
+		
+		for( int i = 0; i < masterDates.get(categoryTypeDto.getCateStatusString()).size(); i++) {
+			System.out.println(masterDates.get(categoryTypeDto.getCateStatusString()).get(i).getCodeName());
+		}
+//
+//		int i=0;
+//		while(masterDates.get(categoryTypeDto.getCateWtypeString()).size()-1 >=   i) {
+//			System.out.println(masterDates.get(categoryTypeDto.getCateWtypeString()).get(i).getCodeName());
+//			i++;
+//		}
+		
+
+		return masterDates;
 	}
 }
