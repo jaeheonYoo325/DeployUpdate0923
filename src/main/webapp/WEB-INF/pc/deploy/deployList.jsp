@@ -14,7 +14,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%
 	request.setCharacterEncoding("utf-8");
 %>
@@ -46,16 +48,7 @@ function showDeployRequestDetail(thisDeployNo){
    window.open("/deploy/showDeployRequestDetail.do/"+deployNo,"상세보기", "width=1000, height=800");
 }
 </script>
-<%
-	request.setCharacterEncoding("utf-8");
-	ArrayList<DeployRequestDto> deployRequests = (ArrayList<DeployRequestDto>) request.getAttribute("deployRequests");//a
-	ArrayList<ArrayList<ModifiedProgramsDto>> modifiedPrograms = (ArrayList<ArrayList<ModifiedProgramsDto>>) request.getAttribute("modifiedPrograms");//b
-	ArrayList<ArrayList<ModifiedResourcesDto>> modifiedResources = (ArrayList<ArrayList<ModifiedResourcesDto>>) request.getAttribute("modifiedResources");
-	ArrayList<ChainDto> chain = (ArrayList<ChainDto>) request.getAttribute("chain");
-	CategoryTypeDto categoryType = (CategoryTypeDto) request.getAttribute("categoryType");
-	ArrayList<MasterCodeDto> statusCodeList = (ArrayList<MasterCodeDto>) request.getAttribute("statusCodeList");
-	Map<String, List<MasterCodeDto>> categoryMasterCodes = (Map<String, List<MasterCodeDto>>) request.getAttribute("categoryMasterCodes");	
-%>
+
 </head>
 <body>
 	<h1>List</h1>
@@ -65,14 +58,10 @@ function showDeployRequestDetail(thisDeployNo){
 			<tr>
 				<td>No</td>
 				<td><select name="categoryChain" id="categoryChain">
-					<option value="부문"<%if (categoryType.getCategoryChain().equals("부문")) {%>selected="selected" <%}%>>부문</option>
-					<%
-						for (int i = 0; i < chain.size(); i++) {
-					%>
-					<option value="<%=chain.get(i).getChainId()%>" <%if (categoryType.getCategoryChain().equals(chain.get(i).getChainId())) {%>selected="selected" <%}%>><%=chain.get(i).getChainName()%></option>
-					<%
-						}
-					%>
+					<option value="부문" <c:if test="${categoryType.categoryChain eq '부문'}">selected="selected"</c:if>>부문</option> 
+					<c:forEach items="${chain}" varStatus="status">
+						<option value="<c:out value='${chain[status.index].chainId}'></c:out>" <c:if test="${categoryType.categoryChain eq chain[status.index].chainId}">selected="selected"</c:if>>${chain[status.index].chainName}</option>
+					</c:forEach>  
 				</select></td>
 				<td><select name="categoryWorktype" id="categoryWorktype">
 					<c:forEach items="${categoryMasterCodes[categoryType.cateWtypeString]}" varStatus="status">
@@ -107,63 +96,40 @@ function showDeployRequestDetail(thisDeployNo){
 					</c:forEach>
 				</select></td>
 			</tr>
-			<%
-				for (int i = 0; i < deployRequests.size(); i++) {
-						ArrayList<ModifiedProgramsDto> modifiedProgramInmodifiedPrograms = (ArrayList<ModifiedProgramsDto>) modifiedPrograms.get(i);
-						ArrayList<ModifiedResourcesDto> modifiedResourceInmodifiedResources = (ArrayList<ModifiedResourcesDto>) modifiedResources.get(i);
-			%>
-			<tr>
-				<td><%=deployRequests.get(i).getDeployNo()%></td>
-				<td><%=deployRequests.get(i).getChainName()%></td>
-				<td><%=deployRequests.get(i).getWorkType()%></td>
-				<td><%=deployRequests.get(i).getRequestDate()%></td>
-				<td><%=deployRequests.get(i).getRequestTime()%></td>
-				<td><%=deployRequests.get(i).getServiceRequestId()%></td>
-				<td><%=deployRequests.get(i).getWorker()%></td>
-				<td><%=deployRequests.get(i).getModifiedContents()%></td>
-				<td>
-					<%
-						for (int j = 0; j < modifiedProgramInmodifiedPrograms.size(); j++) {
-					%> <%=modifiedProgramInmodifiedPrograms.get(j).getModifiedPrograms_pageId()%>(<%=modifiedProgramInmodifiedPrograms.get(j).getModifiedPrograms_pageName()%>)<br>
-					<%
-						}
-					%>
-				</td>
-				<td>
-					<%
-						for (int j = 0; j < modifiedResourceInmodifiedResources.size(); j++) {
-					%> <%=modifiedResourceInmodifiedResources.get(j).getModifiedResources_wSourceName()%><br> <%
- 	}
- %>
-				</td>
-
-				<td><%=deployRequests.get(i).getRequester()%></td>
-				<td><%=deployRequests.get(i).getDeployer()%></td>
-				<td><%=deployRequests.get(i).getDevelopConfirmer()%></td>
-				<td><%=deployRequests.get(i).getTestConfirmer()%></td>
-				<td><%=deployRequests.get(i).getProductionConfirmer()%></td>
-				<td><%=deployRequests.get(i).getDivision()%></td>
-				<td><input type="button" value="상세보기"
-					onclick="showDeployRequestDetail(<%=deployRequests.get(i).getDeployNo()%>)"></td>
-				<td>
-					<%
- 						for (int k = 0; k < statusCodeList.size(); k++) { 
-					%> &nbsp;&nbsp;&nbsp;&nbsp;
-					<input type="radio"
-					name="statusCode<%=deployRequests.get(i)%>"
-					<%if (deployRequests.get(i).getStatusCode().equals(statusCodeList.get(k).getCodeValue())) {%>
-					checked="checked" <%}%> disabled="disabled"><%=statusCodeList.get(k).getCodeName()%>
-					<%
-  				} 
- 					%> 
-					
-
-				</td>
-			</tr>
-			<%
-				}
-				
-			%>
+			<c:forEach items="${deployRequests}" var="deploy">
+				<tr>
+					<td>${deploy.deployNo}</td>	
+					<td>${deploy.chainName}</td>	
+					<td>${deploy.workType}</td>	
+					<td>${deploy.requestDate}</td>	
+					<td>${deploy.requestTime}</td>	
+					<td>${deploy.serviceRequestId}</td>	
+					<td>${deploy.worker}</td>	
+					<td>${deploy.modifiedContents}</td>	
+					<td>
+						<c:forEach items="${modifiedProgramsMap[deploy.deployNo]}" varStatus="status">
+							<c:out value="${modifiedProgramsMap[deploy.deployNo][status.index].modifiedPrograms_pageId}(${modifiedProgramsMap[deploy.deployNo][status.index].modifiedPrograms_pageName})"></c:out><br>
+						</c:forEach>
+					</td>
+					<td>
+						<c:forEach items="${modifiedResourcesMap[deploy.deployNo]}" varStatus="status">
+							<c:out value="${modifiedResourcesMap[deploy.deployNo][status.index].modifiedResources_wSourceName}"></c:out><br>
+						</c:forEach>
+					</td>
+					<td>${deploy.requester}</td>
+					<td>${deploy.deployer}</td>
+					<td>${deploy.developConfirmer}</td>
+					<td>${deploy.testConfirmer}</td>
+					<td>${deploy.productionConfirmer}</td>
+					<td>${deploy.division}</td>
+					<td><input type="button" value="상세보기" onclick="showDeployRequestDetail(${deploy.deployNo})"></td>
+					<td>	
+						<c:forEach items="${categoryMasterCodes[categoryType.cateStatusString]}" begin="1" varStatus="status">
+							<input type="radio" name="statusCode${deploy.deployNo}"  <c:if test="${deploy.statusCode eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">checked="checked"</c:if>disabled="disabled">${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName}
+						</c:forEach>		
+					</td>
+				</tr>
+			</c:forEach>
 		</table>
 	</form>
 </body>

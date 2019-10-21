@@ -113,5 +113,11 @@
 	    <artifactId>hibernate-validator</artifactId>
 	    <version>6.0.12.Final</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.navercorp.lucy/lucy-xss -->
+	<dependency>
+	    <groupId>com.navercorp.lucy</groupId>
+	    <artifactId>lucy-xss</artifactId>
+	    <version>1.6.3</version>
+	</dependency>
   </dependencies>
 </project>

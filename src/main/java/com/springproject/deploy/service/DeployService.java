@@ -45,4 +45,5 @@ public interface DeployService {
 	public List<MasterCodeDto> selectMasterCodeTypeService();
 
 	public Map<String, List<MasterCodeDto>> selectCategoryMasterCodesService(List<MasterCodeDto> categoryType);
+
 }

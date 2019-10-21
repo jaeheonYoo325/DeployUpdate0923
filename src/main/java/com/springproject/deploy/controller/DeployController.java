@@ -116,21 +116,28 @@ public class DeployController {
 	}
 	
 	@GetMapping("/deploy/deployRequest.do")
-	public String viewDeployRequestPage() {
-		return HttpRequestHelper.getJspPath();
+	public ModelAndView viewDeployRequestPage() {
+		
+		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeTypeService();
+		Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
+		CategoryTypeDto categoryType = new CategoryTypeDto();
+		
+		mv.addObject("categoryType", categoryType);
+		mv.addObject("categoryMasterCodes", categoryMasterCodes);
+		
+		return mv;
+//		return HttpRequestHelper.getJspPath();
 	}
 	
 	@PostMapping("/deploy/deployRequest.do")
 	public ModelAndView doDeployAction(@Valid @ModelAttribute DeployRequestDto deployRequestDto, Errors errors, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
-//		ModifiedProgramsDto modifiedProgramsDto = new ModifiedProgramsDto();
-//		ModifiedResourcesDto modifiedResourcesDto = new ModifiedResourcesDto();
 		ArrayList<String> modifiedPrograms = new ArrayList<String>();
 		ArrayList<String> modifiedProgramName = new ArrayList<String>();
 		ArrayList<String> modifiedResources = new ArrayList<String>();
 		
 		if ( errors.hasErrors() ) {
-			System.out.println("Controller - deployRequest.do errors!!!");
 			mv.setViewName("pc/deploy/deployRequest");
 			return mv;
 		}
@@ -184,16 +191,17 @@ public class DeployController {
 	
 	@RequestMapping("/deploy/deployList.do")
 	public ModelAndView doDeployListAction(HttpServletRequest request) {
-		// 여기서 부터 네이밍 수정해야함
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
 		List<ChainDto> chain = this.deployService.selectSearchAllChainService();
-		List<List<ModifiedProgramsDto>> modifiedPrograms = new ArrayList<List<ModifiedProgramsDto>>();
-		List<List<ModifiedResourcesDto>> modifiedResources = new ArrayList<List<ModifiedResourcesDto>>();
+		Map<Long, List<ModifiedProgramsDto>> modifiedProgramsMap = new HashMap<Long, List<ModifiedProgramsDto>>(); 
+		Map<Long, List<ModifiedResourcesDto>> modifiedResourcesMap = new HashMap<Long, List<ModifiedResourcesDto>>();
 		List<DeployRequestDto> deployRequests = new ArrayList<DeployRequestDto>();
 	    CategoryTypeDto categoryType = new CategoryTypeDto();
-	    List<MasterCodeDto> statusCodeList = this.deployService.selectAllMasterTableByStatusService();
 	    List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeTypeService();
 	    Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
+	    List<ModifiedProgramsDto> modifiedProgramOfDeployNo = new ArrayList<ModifiedProgramsDto>();
+	    List<ModifiedResourcesDto> modifiedResourceOfDeployNo = new ArrayList<ModifiedResourcesDto>();
+	    Long deployNo = 0L;
 	    
 	    if(request.getParameter("categoryChain") != null && request.getParameter("categoryWorktype") != null && request.getParameter("categoryRequestDate") != null && request.getParameter("categoryDivision") != null && request.getParameter("categoryStatus")!=null) {
 	    	  String categoryChain = request.getParameter("categoryChain");
@@ -216,39 +224,43 @@ public class DeployController {
 	         deployRequests = this.deployService.selectAllDeployRequestService();
 	      }
 	      	      
-		for(int i=0; i<deployRequests.size();i++) {
-			Long deployNo=deployRequests.get(i).getDeployNo();
+		for(int i=0; i < deployRequests.size(); i++) {
+			deployNo = deployRequests.get(i).getDeployNo();
 			
-			List<ModifiedProgramsDto> modifiedProgramOfDeploNo = this.deployService.selectModifiedProgramOfDeploNoService(deployNo);
-			modifiedPrograms.add(modifiedProgramOfDeploNo);
+			modifiedProgramOfDeployNo = this.deployService.selectModifiedProgramOfDeploNoService(deployNo);
+			modifiedProgramsMap.put(deployNo, modifiedProgramOfDeployNo);
 			
-			List<ModifiedResourcesDto> modifiedResourceOfDeploNo = this.deployService.selectModifiedResourceOfDeploNoService(deployNo);
-			modifiedResources.add(modifiedResourceOfDeploNo);
-
+			modifiedResourceOfDeployNo = this.deployService.selectModifiedResourceOfDeploNoService(deployNo);
+			modifiedResourcesMap.put(deployNo, modifiedResourceOfDeployNo);
 		}
 		
+		
 		mv.addObject("deployRequests", deployRequests);
-		mv.addObject("modifiedPrograms",modifiedPrograms);
-		mv.addObject("modifiedResources",modifiedResources);
 		mv.addObject("chain", chain);
 		mv.addObject("categoryType", categoryType);
-		mv.addObject("statusCodeList", statusCodeList);
 		mv.addObject("categoryMasterCodes",categoryMasterCodes);
+		
+		mv.addObject("modifiedProgramsMap", modifiedProgramsMap);
+		mv.addObject("modifiedResourcesMap", modifiedResourcesMap);
 		return mv;
 	}
     
 	@GetMapping("/deploy/showDeployRequestDetail.do/{deployNo}")
-	//
 	public ModelAndView viewDeployUpdatePage(@PathVariable Long deployNo) {
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
 		DeployRequestDto deployRequestOfDeployNo = this.deployService.selectDeployRequestOfDeployNoService(deployNo);
 		List<ModifiedProgramsDto> modifiedProgramOfDeployNo = this.deployService.selectModifiedProgramOfDeploNoService(deployNo);
 		List<ModifiedResourcesDto> modifiedResourceOfDeployNo = this.deployService.selectModifiedResourceOfDeploNoService(deployNo);
-		List<MasterCodeDto> statusCodeList = this.deployService.selectAllMasterTableByStatusService();
+		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeTypeService();
+		Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
+		
+		CategoryTypeDto categoryType = new CategoryTypeDto();
+		
 		mv.addObject("modifiedProgramOfDeployNo",modifiedProgramOfDeployNo);
 		mv.addObject("modifiedResourceOfDeployNo", modifiedResourceOfDeployNo);
 		mv.addObject("deployRequestOfDeployNo", deployRequestOfDeployNo);
-		mv.addObject("statusCodeList", statusCodeList);
+		mv.addObject("categoryMasterCodes", categoryMasterCodes);
+		mv.addObject("categoryType", categoryType);
 		return mv;
 	}
 
@@ -293,7 +305,7 @@ public class DeployController {
 				out = response.getWriter();
 				out.println("<script>");
 				out.println("alert('수정실패')");
-				out.println("history.back()");
+				out.println("history.back()");				
 				out.println("</script>");
 			} catch (IOException e) {
 				e.printStackTrace();

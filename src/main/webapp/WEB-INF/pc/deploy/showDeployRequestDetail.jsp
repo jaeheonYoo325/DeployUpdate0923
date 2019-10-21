@@ -98,9 +98,9 @@ No : <input type="text" name="deployNo" id="deployNo" value="${deployRequestOfDe
 	  <input type="text" name="chainName" id="chainName" value="${deployRequestOfDeployNo.chainName}" readonly="readonly">
 	  <input type="button" value="검색" onclick="searchChain()"><br>
 작업유형 : <select name="workType" id="workType">
-         <option value="작업유형" <c:if test="${deployRequestOfDeployNo.workType eq ''}">selected="selected"</c:if>>작업유형</option> 
-         <option value="정기" <c:if test="${deployRequestOfDeployNo.workType eq '정기'}">selected="selected"</c:if>>정기</option> 
-         <option value="수시" <c:if test="${deployRequestOfDeployNo.workType eq '수시'}">selected="selected"</c:if>>수시</option>          
+			<c:forEach items="${categoryMasterCodes[categoryType.cateWtypeString]}" varStatus="status">
+				<option value="<c:out value='${categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}'></c:out>" <c:if test="${deployRequestOfDeployNo.workType eq categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}</option>
+			</c:forEach>			
        </select><br>
 요청날짜 : <input type="date" name="requestDate" value="${deployRequestOfDeployNo.requestDate}"><br>
 요청시간 : <input type="time" name="requestTime" value="${deployRequestOfDeployNo.requestTime}"><br>
@@ -137,13 +137,13 @@ Deploy담당자 : <input type="text" name="deployer" id="deployer" value="${depl
 확인(운영계) : <input type="text" name="productionConfirmer" id="productionConfirmer" value="${deployRequestOfDeployNo.productionConfirmer}" readonly="readonly">
             <input type="button" value="검색" onclick="searchEmployee('productionConfirmer')"><br>
 구분 : <select name="division">
-      <option value="" <c:if test="${deployRequestOfDeployNo.division eq ''}">selected="selected"</c:if>>구분</option>       
-      <option value="신규" <c:if test="${deployRequestOfDeployNo.division eq '신규'}">selected="selected"</c:if>>신규</option>       
-      <option value="변경" <c:if test="${deployRequestOfDeployNo.division eq '변경'}">selected="selected"</c:if>>변경</option>                         
+		<c:forEach items="${categoryMasterCodes[categoryType.cateDivisionString]}" varStatus="status">
+			<option value="<c:out value='${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}'></c:out>" <c:if test="${deployRequestOfDeployNo.division eq categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}</option>
+		</c:forEach>
      </select><br>
 상태 코드 :
-		<c:forEach items="${statusCodeList}" var="statusCode" varStatus="status">
-			<input type="radio" name="statusCode" value="0${status.index + 1}" <c:if test="${deployRequestOfDeployNo.statusCode eq statusCode.codeValue}">checked="checked"</c:if>>${statusCode.codeName}
+		<c:forEach items="${categoryMasterCodes[categoryType.cateStatusString]}" begin="1" varStatus="status">
+			<input type="radio" name="statusCode" value="0${status.index}" <c:if test="${deployRequestOfDeployNo.statusCode eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">checked="checked"</c:if>>${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName}
 		</c:forEach>
 		<br>		
 <input type="button" id="deployRequestUpdateBtn" value="수정">

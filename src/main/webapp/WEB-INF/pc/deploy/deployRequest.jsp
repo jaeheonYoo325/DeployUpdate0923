@@ -19,15 +19,15 @@ $(document).ready(function() {
     	var chainId = $("#chainId").val();
     	var chainName = $("#chainName").val();
     	
-    	if ( chainId == "" ) {
-    		alert("부문 ID를 검색해서 선택해주세요.");
-    		return;
-    	}
+//     	if ( chainId == "" ) {
+//     		alert("부문 ID를 검색해서 선택해주세요.");
+//     		return;
+//     	}
     	
-    	if ( chainName == "" ) {
-    		alert("부문 이름을 검색해서 선택해주세요.");
-    		return;
-    	}
+//     	if ( chainName == "" ) {
+//     		alert("부문 이름을 검색해서 선택해주세요.");
+//     		return;
+//     	}
      $("#deployRequestFrm").attr({
           method:"post",                                         
             action:"/deploy/deployRequest.do"
@@ -87,10 +87,11 @@ $(document).ready(function() {
      <input type="button" value="검색" onclick="searchChain()"><br>
      <form:errors id="errorsChainId" cssStyle="color: red;" path="chainId" /><br>
 작업유형 : <select name="workType" id="workType">
-         <option value="">작업유형</option>
-         <option value="정기">정기</option>
-         <option value="수시">수시</option>
+			<c:forEach items="${categoryMasterCodes[categoryType.cateWtypeString]}" varStatus="status">
+				<option value="<c:out value='${categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}'></c:out>" <c:if test="${deployRequestOfDeployNo.workType eq categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}</option>
+			</c:forEach>
        </select><br>
+<%--        <form:errors id="errorsWorkType" cssStyle="color: red;" path="workType" /><br> --%>
 요청날짜 : <input type="Date" name="requestDate"><br>
 요청시간 : <input type="Time" name="requestTime"><br>
 서비스요청_ID : <input type="text" name="serviceRequestId" id="serviceRequestId" readonly="readonly">
@@ -115,9 +116,9 @@ Deploy담당자 : <input type="text" name="deployer" id="deployer" readonly="rea
 확인(운영계) :  <input type="text" name="productionConfirmer" id="productionConfirmer" readonly="readonly">
              <input type="button" value="검색" onclick="searchEmployee('productionConfirmer')"><br>
 구분 : <select name="division">
-      <option value="">구분</option>
-      <option value="신규">신규</option>
-      <option value="변경">변경</option>
+		<c:forEach items="${categoryMasterCodes[categoryType.cateDivisionString]}" varStatus="status">
+			<option value="<c:out value='${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}'></c:out>" <c:if test="${deployRequestOfDeployNo.division eq categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}</option>
+		</c:forEach>
      </select><br>
 <input type="hidden" name="statusCode" value="요청">
 <input type="button" id="deployRequestBtn" value="요청">

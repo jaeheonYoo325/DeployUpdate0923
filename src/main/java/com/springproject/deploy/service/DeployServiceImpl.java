@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nhncorp.lucy.security.xss.XssFilter;
 import com.springproject.chain.dto.ChainDto;
 import com.springproject.deploy.dao.DeployDao;
 import com.springproject.deploy.dto.CategoryTypeDto;
@@ -29,16 +30,22 @@ public class DeployServiceImpl implements DeployService {
 	@Override
 	public boolean InsertDeployRequestService(DeployRequestDto deployRequestDto, ArrayList<String> modifiedPrograms,
 			ArrayList<String> modifiedProgramName, ArrayList<String> modifiedResources) {
+		
+		// XSS 방어로직
+		XssFilter xssFilter = XssFilter.getInstance("xssfilter/lucy-xss-superset.xml");
+		deployRequestDto.setModifiedContents(xssFilter.doFilter(deployRequestDto.getModifiedContents()));
+		
 		boolean insertDeployRequestSuccess = this.deployDao.InsertDeployRequestDao(deployRequestDto) > 0;
 		boolean insertModifiedResourceSuccess = true;
 		boolean insertModifiedProgramSuccess = true;
-
+		
 		Long deployNo = this.deployDao.selectMaxDeployNo();
 
 		for (int i = 0; i < modifiedResources.size(); i++) {
 			ModifiedResourcesDto modifiedResourcesDto = new ModifiedResourcesDto();
 			modifiedResourcesDto.setModifiedResources_deployNo(deployNo);
-			modifiedResourcesDto.setModifiedResources_wSourceName(modifiedResources.get(i).toString());
+//			modifiedResourcesDto.setModifiedResources_wSourceName(modifiedResources.get(i).toString());
+			modifiedResourcesDto.setModifiedResources_wSourceName(xssFilter.doFilter(modifiedResources.get(i).toString()));
 			insertModifiedResourceSuccess = insertModifiedResourceSuccess && (this.deployDao.insertModifiedResourceDao(modifiedResourcesDto) > 0);
 		}
 
@@ -65,13 +72,16 @@ public class DeployServiceImpl implements DeployService {
 	}
 
 	@Override
-	public boolean updateOneDeployRequestService(DeployRequestDto deployRequestDto, ArrayList<String> modifiedPrograms,
-			ArrayList<String> modifiedProgramName, ArrayList<String> modifiedResources) {
+	public boolean updateOneDeployRequestService(DeployRequestDto deployRequestDto, ArrayList<String> modifiedPrograms, ArrayList<String> modifiedProgramName, ArrayList<String> modifiedResources) {
 		Long deployNo = deployRequestDto.getDeployNo();
 
 		boolean updateFinalSuccess = true;
 		boolean insertModifiedResourceSuccess = true;
 		boolean insertModifiedProgramSuccess = true;
+		// XSS 방어로직
+		XssFilter xssFilter = XssFilter.getInstance("xssfilter/lucy-xss-superset.xml");
+//		deployRequestDto.setModifiedContents(xssFilter.doFilter(deployRequestDto.getModifiedContents()));
+		
 		boolean updateOneDeployRequestSuccess = this.deployDao.updateOneDeployRequestDao(deployRequestDto) > 0;
 		boolean deleteModifiedProgramOfDeployNoSuccess = this.deployDao.deleteModifiedProgramOfDeployNoDao(deployNo) > 0;
 		boolean deleteModifiedResourceOfDeployNoSuccess = this.deployDao.deleteModifiedResourceOfDeployNoDao(deployNo) > 0;
@@ -87,7 +97,8 @@ public class DeployServiceImpl implements DeployService {
 		for (int i = 0; i < modifiedResources.size(); i++) {
 			ModifiedResourcesDto modifiedResourcesDto = new ModifiedResourcesDto();
 			modifiedResourcesDto.setModifiedResources_deployNo(deployNo);
-			modifiedResourcesDto.setModifiedResources_wSourceName(modifiedResources.get(i).toString());
+//			modifiedResourcesDto.setModifiedResources_wSourceName(modifiedResources.get(i).toString());
+			modifiedResourcesDto.setModifiedResources_wSourceName(xssFilter.doFilter(modifiedResources.get(i).toString()));
 			insertModifiedResourceSuccess = insertModifiedResourceSuccess && (this.deployDao.insertModifiedResourceDao(modifiedResourcesDto) > 0);
 		}
 
@@ -181,27 +192,13 @@ public class DeployServiceImpl implements DeployService {
 	public Map<String, List<MasterCodeDto>> selectCategoryMasterCodesService(List<MasterCodeDto> categoryType) {
 		List<MasterCodeDto> categoryOneMasterCode = new ArrayList<MasterCodeDto>();
 		Map<String, List<MasterCodeDto>> masterDates = new HashMap<String, List<MasterCodeDto>>();
+		
 		for (int i = 0; i < categoryType.size(); i++) {
 			categoryOneMasterCode = this.deployDao.selectCategoryMasterCodesDao(categoryType.get(i).getCodeType());
 			masterDates.put(categoryType.get(i).getCodeType(), categoryOneMasterCode);			
 		}
-
-		CategoryTypeDto categoryTypeDto = new CategoryTypeDto();
-		for( int i = 0; i < masterDates.get(categoryTypeDto.getCateWtypeString()).size(); i++) {
-			System.out.println(masterDates.get(categoryTypeDto.getCateWtypeString()).get(i).getCodeName());
-		}
 		
-		for( int i = 0; i < masterDates.get(categoryTypeDto.getCateStatusString()).size(); i++) {
-			System.out.println(masterDates.get(categoryTypeDto.getCateStatusString()).get(i).getCodeName());
-		}
-//
-//		int i=0;
-//		while(masterDates.get(categoryTypeDto.getCateWtypeString()).size()-1 >=   i) {
-//			System.out.println(masterDates.get(categoryTypeDto.getCateWtypeString()).get(i).getCodeName());
-//			i++;
-//		}
-		
-
 		return masterDates;
 	}
+
 }

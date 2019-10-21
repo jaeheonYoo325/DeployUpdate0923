@@ -6,20 +6,26 @@ public class DeployRequestDto {
 
 	private Long deployNo;
 	
-	@NotEmpty(message = "필수 입력 값입니다.")
+	@NotEmpty(message = "부문은 필수 입력 값입니다.")
 	private String chainId;
 	
+//	@NotEmpty(message = "작업유형은 필수 입력 값입니다.")
 	private String workType;
+//	@NotEmpty(message = "요청날짜는 필수 입력 값입니다.")
 	private String requestDate;
+//	@NotEmpty(message = "요청시간은 필수 입력 값입니다.")
 	private String requestTime;
 	private String serviceRequestId;
+//	@NotEmpty(message = "요청자는 필수 입력 값입니다.")
 	private String worker;
+//	@NotEmpty(message = "변경내역은 필수 입력 값입니다.")
 	private String modifiedContents;
 	private String requester;
 	private String deployer;
 	private String developConfirmer;
 	private String testConfirmer;
 	private String productionConfirmer;
+//	@NotEmpty(message = "구분은 필수 입력 값입니다.")
 	private String division;
 	private String chainName;
 	private String statusCode;

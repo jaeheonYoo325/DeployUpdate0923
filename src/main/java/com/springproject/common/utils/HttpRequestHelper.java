@@ -57,7 +57,6 @@ public class HttpRequestHelper {
 		fullPath.append(folder);
 		fullPath.append(jsp);
 
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! fullPath : " + fullPath.toString());
 		return fullPath.toString();		
 	}
 }
