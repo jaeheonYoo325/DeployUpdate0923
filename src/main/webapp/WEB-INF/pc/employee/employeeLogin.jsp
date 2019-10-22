@@ -16,8 +16,8 @@
 <body>
 <h1>로그인</h1>
 <form:form id="employeeLoginFrm" modelAttribute="employeeDto">
-사원번호 : <input type="text" id="empNo" name="empNo"> <br>
-비밀번호 : <input type="text" id="empPw" name="empPw"> <br>
+사원번호 : <input type="text" id="employeeNo" name="employeeNo"> <br>
+비밀번호 : <input type="text" id="employeePassWord" name="employeePassWord"> <br>
 <input type="button" id="employeeLoginBtn" value="로그인">
 </form:form>
 </body>

@@ -17,19 +17,17 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%
-	request.setCharacterEncoding("utf-8");
-%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width initial-scale=1">	
 <title>Insert title here</title>
-<meta name="viewport" content="width=device-width initial-scale=1">
 <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
 <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
-<link rel="stylesheet"
-	href="<c:url value='/bootstrap/css/bootstrap.css' />">
+<link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
+<link rel="stylesheet" href="<c:url value='/css/common/footer.css' />">
+<link rel="stylesheet" href="<c:url value='/css/common/header.css' />">
 <script type="text/javascript">
    $(document).ready(function() {
       
@@ -51,6 +49,7 @@ function showDeployRequestDetail(thisDeployNo){
 
 </head>
 <body>
+<jsp:include page="/WEB-INF/pc/common/header.jsp" />
 	<h1>List</h1>
 	<form name="listFrm" id="listFrm">
 		<input type="button" value="카테고리검색" id="deployRequestOfcategoryBtn">
@@ -133,4 +132,5 @@ function showDeployRequestDetail(thisDeployNo){
 		</table>
 	</form>
 </body>
+<jsp:include page="/WEB-INF/pc/common/footer.jsp" />
 </html>

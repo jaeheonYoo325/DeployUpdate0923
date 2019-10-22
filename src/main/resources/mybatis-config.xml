@@ -13,5 +13,6 @@
 			<typeAlias type="com.springproject.modifiedresources.dto.ModifiedResourcesDto" alias="ModifiedResourcesDto"/>
 			<typeAlias type="com.springproject.deploy.dto.CategoryTypeDto" alias="CategoryTypeDto"/>
 			<typeAlias type="com.springproject.mastercode.dto.MasterCodeDto" alias="MasterCodeDto"/>
+			<typeAlias type="com.springproject.deploy.dto.DeployPayDto" alias="DeployPayDto"/>
  		</typeAliases>        
     </configuration>

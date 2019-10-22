@@ -215,8 +215,8 @@
    </delete>
    
     <select id="selectCategoryDeployRequestDao" parameterType="CategoryTypeDto" resultType="DeployRequestDto">
-	SELECT 
-     d.deployNo
+		SELECT 
+     					d.deployNo
 	         			, c.chainName
 						, d.chainId
                         , d.workType
@@ -232,17 +232,17 @@
                         , d.productionConfirmer
                         , d.division
                         , d.statusCode
-    FROM deploy d 
-    JOIN CHAINTABLE c
-	JOIN MASTERTABLE m
-    ON(d.chainId=c.chainId)
-    AND (d.statusCode=m.codeValue)
-	WHERE 1=1
+    	FROM deploy d 
+    	JOIN CHAINTABLE c
+		JOIN MASTERTABLE m
+    	ON(d.chainId=c.chainId)
+    	AND (d.statusCode=m.codeValue)
+		WHERE 1=1
 			AND d.chainId LIKE CONCAT(#{categoryChain}, '%')
 			AND d.workType LIKE CONCAT(#{categoryWorktype}, '%')
 			AND d.division LIKE CONCAT(#{categoryDivision}, '%')
 	        AND m.codeValue LIKE CONCAT(#{categoryStatus}, '%') AND m.codeType="CTGY_STATUS"
-	ORDER BY CASE WHEN #{categoryRequestDate} = '오름차순' THEN d.requestDate END ASC,
+		ORDER BY CASE WHEN #{categoryRequestDate} = '오름차순' THEN d.requestDate END ASC,
 		     CASE WHEN #{categoryRequestDate} = '내림차순' THEN d.requestDate END DESC,
 		     CASE WHEN #{categoryRequestDate} = '요청날짜' THEN d.requestDate END ASC;
     </select>
@@ -270,5 +270,22 @@
       FROM   MASTERTABLE
       WHERE   codeType LIKE "CTGY%"   
     </select>
+    
+    <insert id="insertDeployPayForDeployRequestDao" parameterType="DeployPayDto">
+	    INSERT INTO DEPLOYPAY(
+	       deployNo,
+	       deployDrafter,
+	       deployDraftDate,
+	       deployPayer,
+	       deployPayRequestDate   
+	    ) 
+	    VALUES(
+	       #{deployNo},
+	       #{deployDrafter},
+	       now(),
+	       "deployPayB0",
+	       now()
+	    )
+    </insert>
 </mapper>                         
                                   

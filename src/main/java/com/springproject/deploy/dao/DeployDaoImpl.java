@@ -12,6 +12,7 @@ import org.springframework.transaction.jta.UserTransactionAdapter;
 
 import com.springproject.chain.dto.ChainDto;
 import com.springproject.deploy.dto.CategoryTypeDto;
+import com.springproject.deploy.dto.DeployPayDto;
 import com.springproject.deploy.dto.DeployRequestDto;
 import com.springproject.employee.dto.EmployeeDto;
 import com.springproject.mastercode.dto.MasterCodeDto;
@@ -131,6 +132,11 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao {
 	@Override
 	public List<MasterCodeDto> selectCategoryMasterCodesDao(String codeType) {
 		return getSqlSession().selectList("DeployDao.selectCategoryMasterCodesDao", codeType);
+	}
+
+	@Override
+	public int insertDeployPayForDeployRequestDao(DeployPayDto deployPayDto) {
+		return getSqlSession().insert("DeployDao.insertDeployPayForDeployRequestDao",deployPayDto);
 	}
 
 }

@@ -13,6 +13,7 @@ import com.nhncorp.lucy.security.xss.XssFilter;
 import com.springproject.chain.dto.ChainDto;
 import com.springproject.deploy.dao.DeployDao;
 import com.springproject.deploy.dto.CategoryTypeDto;
+import com.springproject.deploy.dto.DeployPayDto;
 import com.springproject.deploy.dto.DeployRequestDto;
 import com.springproject.employee.dto.EmployeeDto;
 import com.springproject.mastercode.dto.MasterCodeDto;
@@ -57,7 +58,12 @@ public class DeployServiceImpl implements DeployService {
 			insertModifiedProgramSuccess = insertModifiedProgramSuccess && (this.deployDao.insertModifiedProgramDao(modifiedProgramsDto) > 0);
 		}
 
-		boolean requestSuccess = insertDeployRequestSuccess && insertModifiedProgramSuccess && insertModifiedResourceSuccess;
+		DeployPayDto deployPayDto = new DeployPayDto();
+	    deployPayDto.setDeployNo(deployNo);
+	    deployPayDto.setDeployDrafter(deployRequestDto.getRequester());   
+	    boolean insertDeployPayForDeployRequestSuccess = this.deployDao.insertDeployPayForDeployRequestDao(deployPayDto)>0;
+		
+		boolean requestSuccess = insertDeployRequestSuccess && insertModifiedProgramSuccess && insertModifiedResourceSuccess && insertDeployPayForDeployRequestSuccess;
 		return requestSuccess;
 	}
 

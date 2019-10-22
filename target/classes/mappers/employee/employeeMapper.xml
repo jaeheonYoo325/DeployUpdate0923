@@ -6,62 +6,131 @@
   <mapper namespace="EmployeeDao">
   	<insert id="insertOneEmployeeDao" parameterType="EmployeeDto">  								
 		INSERT INTO EMPLOYEE	(
-									empNo
-		                            , empName
-		                            , empPw
-		                            , empPh
-									, empPc
-		                            , empCad
-		                            , empDad
-		                            , empCph
-		                            , empEmail
-		                            , empJoinDate
-		                            , empRegDate
-		                            , empModDate
+									employeeNo
+		                            , employeeName
+		                            , employeePassWord
+		                            , employeePhoneNumber
+									, employeePostcode
+		                            , employeeCommonaddress
+		                            , employeeDetailaddress
+		                            , employeeCompanyPhoneNumber
+		                            , employeeEmail
+		                            , employeeJoinDate
+		                            , employeeRegisterDate
+		                            , employeeModifyDate
 		                            , salt
-		                            , depNo
+		                            , departmentNo
 		                            , positionNo
 								)
 		VALUES					(
-									#{empNo}
-		                            , #{empName}
-		                            , #{empPw}
-		                            , #{empPh}
-		                            , #{empPc}
-		                            , #{empCad}
-		                            , #{empDad}
-		                            , #{empCph}
-		                            , #{empEmail}
-		                            , #{empJoinDate}
+									#{employeeNo}
+		                            , #{employeeName}
+		                            , #{employeePassWord}
+		                            , #{employeePhoneNumber}
+		                            , #{employeePostcode}
+		                            , #{employeeCommonaddress}
+		                            , #{employeeDetailaddress}
+		                            , #{employeeCompanyPhoneNumber}
+		                            , #{employeeEmail}
+		                            , #{employeeJoinDate}
 		                            , now()
 		                            , now()
 		                            , #{salt}
-		                            , #{depNo}
+		                            , #{departmentNo}
 		                            , #{positionNo}
 		                        )	  								
   	</insert>
   	
   	<select id="selectOneEmployeeDao" parameterType="EmployeeDto" resultType="EmployeeDto">
-  		SELECT	empNo      
-				, empName  
-				, empPw     
-				, empPh     
-				, empPc     
-				, empCad    
-				, empDad    
-				, empCph    
-				, empEmail 
-				, empjoinDate
-				, empRegDate 
-				, empModDate 
+  		SELECT	employeeNo      
+				, employeeName  
+				, employeePassWord     
+				, employeePhoneNumber     
+				, employeePostcode     
+				, employeeCommonaddress    
+				, employeeDetailaddress    
+				, employeeCompanyPhoneNumber    
+				, employeeEmail 
+				, employeeJoinDate
+				, employeeRegisterDate 
+				, employeeModifyDate 
   		FROM	EMPLOYEE
-  		WHERE	empNo = #{empNo}
-  		AND		empPw = #{empPw}
+  		WHERE	employeeNo = #{employeeNo}
+  		AND		employeePassWord = #{employeePassWord}
   	</select>
   	
   	<select id="getSaltByEmployeeNumber" parameterType="EmployeeDto" resultType="string">
-  		SELECT	SALT
+  		SELECT	salt
   		FROM	EMPLOYEE
-  		WHERE	empNo = #{empNo}
+  		WHERE	employeeNo = #{employeeNo}
   	</select>
+  	
+  	<select id="selectMyDeployPayDao" parameterType="EmployeeDto" resultType="DeployPayDto">
+        SELECT
+              d.deployNo,
+              d.deployDrafter,
+              e.employeeName,
+              d.deployDraftDate,
+              d.deployPayer,
+              d.deployPayRequestDate,
+              d.deployPayDate
+        FROM DEPLOYPAY d
+      	JOIN EMPLOYEE e
+        ON d.deployDrafter=e.employeeNo
+        where d.deployPayer in (SELECT roleCode FROM authority WHERE employeeNo=#{employeeNo})
+        AND d.deployPayDate is null
+     </select>
+     
+     <update id="myDeployDoPayingOfCompleteNowPayDao" parameterType="DeployPayDto">
+	      UPDATE    DeployPay
+	      SET     
+	              deployPayDate = now(),
+	              deployDoingPayer = #{deployDoingPayer}
+	      WHERE   deployNo = #{deployNo}
+     </update>
+     
+     <insert id="myDeployDoPayingOfAddNextPayDao" parameterType="DeployPayDto">
+	    INSERT INTO DEPLOYPAY(
+	       deployNo,
+	       deployDrafter,
+	       deployDraftDate,
+	       deployPayer,
+	       deployPayRequestDate   
+	    ) 
+	    VALUES(
+	       #{deployNo},
+	       #{deployDrafter},
+	       #{deployDraftDate},
+	       #{deployPayer},
+	       now()   
+	    )
+    </insert>
+    
+    <insert id="myDeployDoFinalCompleteOfPayDao" parameterType="DeployPayDto">
+	     INSERT INTO DEPLOYPAY(
+	       deployNo,
+	       deployDrafter,
+	       deployDraftDate,
+	       deployPayer,
+	       deployPayRequestDate,
+	       deployPayDate,
+	       deployDoingPayer   
+	    ) 
+	    VALUES(
+	       #{deployNo},
+	       #{deployDrafter},
+	       #{deployDraftDate},
+	       #{deployPayer},
+	       now(),
+	       now(),
+	       #{deployDoingPayer}
+	    )
+    </insert>
+    
+    <update id="changeStatusCodeForDeloyDoPayingDao" parameterType="DeployRequestDto">
+	    UPDATE DEPLOY
+	    SET statusCode=#{statusCode}
+	    WHERE deployNo=#{deployNo}
+    </update>
+    
   </mapper>

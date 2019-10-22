@@ -27,12 +27,12 @@ var controller = $.extend(new $.CommonObj(),  {
 		
 	}, validationLoginCheck : function() {
 		
-		if( $("#empNo").val() == "" ) {
+		if( $("#employeeNo").val() == "" ) {
 			alert("사원번호를 입력해주세요.");
 			return true;
 		}
 		
-		if ( $("#empPw").val() == "" ) {
+		if ( $("#employeePassWord").val() == "" ) {
 			alert("비밀번호를 입력해주세요.");
 			return true;
 		}

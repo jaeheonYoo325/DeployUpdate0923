@@ -6,11 +6,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<meta name="viewport" content="width=device-width initial-scale=1">	
+<title>배포 요청 페이지</title>
 <%-- <jsp:include page="/WEB-INF/pc/CommonScript/commonScript.jsp"/> --%>
 <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
 <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
 <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
+<link rel="stylesheet" href="<c:url value='/css/common/footer.css' />">
+<link rel="stylesheet" href="<c:url value='/css/common/header.css' />">
 <%-- <script src="<c:url value='/js/deploy/deployRequest.js' />"></script> --%>
 </head>
 <script>
@@ -80,7 +83,8 @@ $(document).ready(function() {
 	}
 </script>
 <body>
-<h1>request</h1>
+<jsp:include page="/WEB-INF/pc/common/header.jsp" />
+<h1>배포 요청 페이지</h1>
 <form:form id="deployRequestFrm" modelAttribute="deployRequestDto" name="deployRequestFrm">
 부문 : <input type="text" name="chainId" id="chainId" readonly="readonly">
      <input type="text" name="chainName" id="chainName" readonly="readonly">
@@ -124,4 +128,5 @@ Deploy담당자 : <input type="text" name="deployer" id="deployer" readonly="rea
 <input type="button" id="deployRequestBtn" value="요청">
 </form:form>
 </body>
+<jsp:include page="/WEB-INF/pc/common/footer.jsp" />
 </html>
