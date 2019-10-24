@@ -141,11 +141,11 @@ Deploy담당자 : <input type="text" name="deployer" id="deployer" value="${depl
 			<option value="<c:out value='${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}'></c:out>" <c:if test="${deployRequestOfDeployNo.division eq categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}</option>
 		</c:forEach>
      </select><br>
-상태 코드 :
-		<c:forEach items="${categoryMasterCodes[categoryType.cateStatusString]}" begin="1" varStatus="status">
-			<input type="radio" name="statusCode" value="0${status.index}" <c:if test="${deployRequestOfDeployNo.statusCode eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">checked="checked"</c:if>>${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName}
-		</c:forEach>
-		<br>		
+<!-- 상태 코드 : -->
+<%-- 		<c:forEach items="${categoryMasterCodes[categoryType.cateStatusString]}" begin="1" varStatus="status"> --%>
+<%-- 			<input type="radio" name="statusCode" value="0${status.index}" <c:if test="${deployRequestOfDeployNo.statusCode eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">checked="checked"</c:if>>${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName} --%>
+<%-- 		</c:forEach> --%>
+<!-- 		<br>		 -->
 <input type="button" id="deployRequestUpdateBtn" value="수정">
 <input type="button" id="DeployRequestDeleteBtn" value="삭제" onclick="location.href='/deploy/deployRequestDelete.do/'+${deployRequestOfDeployNo.deployNo}"/>
 </form:form>

@@ -109,7 +109,7 @@ $(document).ready(function() {
 변경소스명   : <input type="button" class="addModifiedResources" value="추가"><input type='button' class='removeModifiedResources'id='removeModifiedResources' value='전체삭제'><br> 	
 		  <div class="divModifiedResources">     
 		  </div>
-요청자 : <input type="text" name="requester" id="requester" readonly="readonly">
+요청자 : <input type="text" name="requesterName" id="requesterName" readonly="readonly"><input type="hidden" id="requester" name="requester">
        <input type="button" value="검색" onclick="searchEmployee('requester')"><br>
 Deploy담당자 : <input type="text" name="deployer" id="deployer" readonly="readonly">
              <input type="button" value="검색" onclick="searchEmployee('deployer')"><br>

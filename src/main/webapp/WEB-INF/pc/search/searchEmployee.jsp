@@ -32,7 +32,8 @@ $(document).ready(function() {
 	      opener.document.getElementById("worker").value=employeeName
 	   }
 	   else if(employeeSearchWhere=='requester'){
-	      opener.document.getElementById("requester").value=employeeName
+	      opener.document.getElementById("requesterName").value=employeeName
+	      opener.document.getElementById("requester").value=employeeNo
 	   }
 	   else if(employeeSearchWhere=='deployer'){
 	      opener.document.getElementById("deployer").value=employeeName

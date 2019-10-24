@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -29,11 +30,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springproject.chain.dto.ChainDto;
+import com.springproject.common.session.Session;
 import com.springproject.common.utils.HttpRequestHelper;
 import com.springproject.deploy.dto.CategoryTypeDto;
 import com.springproject.deploy.dto.DeployRequestDto;
 import com.springproject.deploy.service.DeployService;
 import com.springproject.employee.dto.EmployeeDto;
+import com.springproject.employee.service.EmployeeService;
 import com.springproject.mastercode.dto.MasterCodeDto;
 import com.springproject.modifiedprograms.dto.ModifiedProgramsDto;
 import com.springproject.modifiedresources.dto.ModifiedResourcesDto;
@@ -44,6 +47,9 @@ public class DeployController {
 	@Autowired
 	private DeployService deployService;
 
+	@Autowired
+	private EmployeeService employeeService;
+	
 	@GetMapping("/main/main.do")
 	public String viewMainPage() {
 		return HttpRequestHelper.getJspPath();
@@ -54,18 +60,18 @@ public class DeployController {
 		return HttpRequestHelper.getJspPath();
 	}
 
-
 	@GetMapping("/search/searchEmployee.do")
-	public String viewsearchEmployeePage(@RequestParam("employeeSearchWhere") String employeeSearchWhere) {
-		return HttpRequestHelper.getJspPath();
+	public ModelAndView viewsearchEmployeePage(@RequestParam("employeeSearchWhere") String employeeSearchWhere) {
+		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+		List<EmployeeDto> searchEmployees = this.deployService.selectSearchAllEmployeesService();
+		mv.addObject("searchEmployees", searchEmployees);
+		return mv;
 	}
 	
 	@PostMapping("/search/searchEmployee.do")
 	public ModelAndView doSearchEmployeeAction(@ModelAttribute EmployeeDto employeeDto) {
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
-		System.out.println("modelattrubtue로 받아온 이름"+employeeDto.getEmployeeName());
 		List<EmployeeDto> searchEmployees = this.deployService.selectSearchEmployeesService(employeeDto);
-		System.out.println("DB검색후이름"+searchEmployees.get(0).getEmployeeName());
 		mv.addObject("searchEmployees", searchEmployees);
 		return mv;
 	}
@@ -116,18 +122,33 @@ public class DeployController {
 	}
 	
 	@GetMapping("/deploy/deployRequest.do")
-	public ModelAndView viewDeployRequestPage() {
-		
-		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
-		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeTypeService();
-		Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
-		CategoryTypeDto categoryType = new CategoryTypeDto();
-		
-		mv.addObject("categoryType", categoryType);
-		mv.addObject("categoryMasterCodes", categoryMasterCodes);
-		
-		return mv;
-//		return HttpRequestHelper.getJspPath();
+	public ModelAndView viewDeployRequestPage(HttpSession session, HttpServletResponse response) {
+		//1022추가
+		ModelAndView mv=null;
+		boolean isThisUserHaveAuthorityOfRequest=this.employeeService.checkThisUserHaveAuthorityOfRequestService((EmployeeDto)session.getAttribute(Session.USER));
+		//
+		if(isThisUserHaveAuthorityOfRequest) {
+			mv = new ModelAndView(HttpRequestHelper.getJspPath());
+			List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeTypeService();
+			Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
+			CategoryTypeDto categoryType = new CategoryTypeDto();
+			mv.addObject("categoryType", categoryType);
+			mv.addObject("categoryMasterCodes", categoryMasterCodes);
+			return mv;
+		}
+		else {
+			try {
+				PrintWriter out;
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('요청권한이 없습니다')");
+				out.println("history.back()");
+				out.println("</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return mv;
+		}
 	}
 	
 	@PostMapping("/deploy/deployRequest.do")
@@ -179,7 +200,7 @@ public class DeployController {
 			try {
 				out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('오류')");
+				out.println("alert('요청실패')");
 				out.println("history.back()");
 				out.println("</script>");
 			} catch (IOException e) {
@@ -197,18 +218,24 @@ public class DeployController {
 		Map<Long, List<ModifiedResourcesDto>> modifiedResourcesMap = new HashMap<Long, List<ModifiedResourcesDto>>();
 		List<DeployRequestDto> deployRequests = new ArrayList<DeployRequestDto>();
 	    CategoryTypeDto categoryType = new CategoryTypeDto();
-	    List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeTypeService();
-	    Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
+	    List<MasterCodeDto> masterCodeOfCategory = this.deployService.selectMasterCodeOfCategoryService();
+	    Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeOfCategory);
 	    List<ModifiedProgramsDto> modifiedProgramOfDeployNo = new ArrayList<ModifiedProgramsDto>();
 	    List<ModifiedResourcesDto> modifiedResourceOfDeployNo = new ArrayList<ModifiedResourcesDto>();
-	    Long deployNo = 0L;
+	    Map<String, List<MasterCodeDto>> masterCodeOfSearchTypeMap = this.deployService.selectMasterCodeOfSearchTypeService(categoryType.getSearchTypeString());
 	    
-	    if(request.getParameter("categoryChain") != null && request.getParameter("categoryWorktype") != null && request.getParameter("categoryRequestDate") != null && request.getParameter("categoryDivision") != null && request.getParameter("categoryStatus")!=null) {
+	    Long deployNo = 0L;
+		
+	    if(request.getParameter("searchType") != null && request.getParameter("searchKeyword") != null && request.getParameter("categoryChain") != null && request.getParameter("categoryWorktype") != null && request.getParameter("categoryRequestDate") != null && request.getParameter("categoryDivision") != null && request.getParameter("categoryStatus")!=null) {
+	    	  String searchType = request.getParameter("searchType"); 
+	    	  String searchKeyword = request.getParameter("searchKeyword");
 	    	  String categoryChain = request.getParameter("categoryChain");
 		      String categoryWorkType=request.getParameter("categoryWorktype");
 		      String categoryRequestDate = request.getParameter("categoryRequestDate");
 		      String categoryDivision = request.getParameter("categoryDivision");
 		      String categoryStatus = request.getParameter("categoryStatus");
+		      categoryType.setSearchType(searchType);
+		      categoryType.setSearchKeyword(searchKeyword);
 		      categoryType.setCategoryChain(categoryChain);
 		      categoryType.setCategoryWorktype(categoryWorkType);
 		      categoryType.setCategoryRequestDate(categoryRequestDate);
@@ -216,6 +243,8 @@ public class DeployController {
 		      categoryType.setCategoryStatus(categoryStatus);
 		      deployRequests = this.deployService.selectCategoryDeployRequestService(categoryType);
 	    } else {
+	    	 categoryType.setSearchType("검색타입");
+	    	 categoryType.setSearchKeyword("");
 	         categoryType.setCategoryChain("부문");
 	         categoryType.setCategoryWorktype("작업유형");
 	         categoryType.setCategoryRequestDate("요청날짜");
@@ -242,6 +271,8 @@ public class DeployController {
 		
 		mv.addObject("modifiedProgramsMap", modifiedProgramsMap);
 		mv.addObject("modifiedResourcesMap", modifiedResourcesMap);
+		
+		mv.addObject("masterCodeOfSearchTypeMap", masterCodeOfSearchTypeMap);
 		return mv;
 	}
     

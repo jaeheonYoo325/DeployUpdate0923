@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.springproject.deploy.dto.DeployPayDto;
 import com.springproject.deploy.dto.DeployRequestDto;
+import com.springproject.employee.dto.AuthorityDto;
 import com.springproject.employee.dto.EmployeeDto;
 
 @Repository
@@ -51,14 +52,47 @@ public class EmployeeDaoImpl extends SqlSessionDaoSupport implements EmployeeDao
 	}
 
 	@Override
-	public int myDeployDoFinalCompleteOfPayDao(DeployPayDto deployPayDto) {
-		return this.getSqlSession().insert("EmployeeDao.myDeployDoFinalCompleteOfPayDao",deployPayDto);
-	}
-
-	@Override
 	public int changeStatusCodeForDeloyDoPayingDao(DeployRequestDto deployRequestDto) {
 		return this.getSqlSession().update("EmployeeDao.changeStatusCodeForDeloyDoPayingDao",deployRequestDto);
 	}
 
-	
+	@Override
+	public DeployPayDto selectMyDeployPayOfdeployNoDao(Long deployNo) {
+		return this.getSqlSession().selectOne("EmployeeDao.selectMyDeployPayOfdeployNoDao",deployNo);
+	}
+
+	@Override
+	public List<AuthorityDto> checkThisUserHaveAuthorityOfRequestDao(EmployeeDto employeeDto) {
+		return this.getSqlSession().selectList("EmployeeDao.checkThisUserHaveAuthorityOfRequestDao",employeeDto);
+	}
+
+	@Override
+	public int myDeployDoReturningOfNextPayDao(DeployPayDto deployPayDto) {
+		return this.getSqlSession().insert("EmployeeDao.myDeployDoReturningOfNextPayDao",deployPayDto);
+	}
+
+	@Override
+	public List<DeployPayDto> selectMyDeployPaidDao(EmployeeDto employeeDto) {
+		return this.getSqlSession().selectList("EmployeeDao.selectMyDeployPaidDao",employeeDto);
+	}
+
+	@Override
+	public List<DeployPayDto> selectMyDeployWillDeployDao(EmployeeDto employeeDto) {
+		return this.getSqlSession().selectList("EmployeeDao.selectMyDeployWillDeployDao",employeeDto);
+	}
+
+	@Override
+	public DeployPayDto selectMyDeployDoingDeployOfdeployNoDao(DeployPayDto deployPayDtoForSearch) {
+		return this.getSqlSession().selectOne("EmployeeDao.selectMyDeployDoingDeployOfdeployNoDao",deployPayDtoForSearch);
+	}
+
+	@Override
+	public List<AuthorityDto> checkThisUserHaveAuthorityOfDeployDao(EmployeeDto employeeDto) {
+		return this.getSqlSession().selectList("EmployeeDao.checkThisUserHaveAuthorityOfDeployDao",employeeDto);
+	}
+
+	@Override
+	public List<DeployPayDto> selectMyDeployDeployedDao(EmployeeDto employeeDto) {
+		return this.getSqlSession().selectList("EmployeeDao.selectMyDeployDeployedDao",employeeDto);
+	}
 }

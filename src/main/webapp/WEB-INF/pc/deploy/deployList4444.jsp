@@ -94,8 +94,8 @@ function showDeployRequestDetail(thisDeployNo){
 <body>
 <jsp:include page="/WEB-INF/pc/common/header.jsp" />
 	<h1>List</h1>
-	<form name="listFrm" id="listFrm">
-	<select name="searchType" id="searchType">
+	<form:form name="listFrm" id="listFrm">
+		<select name="searchType" id="searchType">
 <%-- 			<c:forEach items="${masterCodeOfSearchTypeMap[categoryType.searchTypeString]}" varStatus="status"> --%>
 <%-- 				<option value="<c:out value='${masterCodeOfSearchTypeMap[categoryType.searchTypeString][status.index].codeName}'></c:out>" <c:if test="${categoryType.searchType eq masterCodeOfSearchTypeMap[categoryType.searchTypeString][status.index].codeName}">selected="selected"</c:if>>${masterCodeOfSearchTypeMap[categoryType.searchTypeString][status.index].codeName}</option> --%>
 <%-- 			</c:forEach> --%>
@@ -107,6 +107,7 @@ function showDeployRequestDetail(thisDeployNo){
 
 		<input type="text" name="searchKeyword" id="searchKeyword" value="${categoryType.searchKeyword}">
 		<input type="button" value="검색" id="searchBtn">
+		
 		<table border="1" class="table table-hover">
 			<tr>
 				<td>No</td>
@@ -184,7 +185,7 @@ function showDeployRequestDetail(thisDeployNo){
 				</tr>
 			</c:forEach>
 		</table>
-	</form>
+	</form:form>
 </body>
 <jsp:include page="/WEB-INF/pc/common/footer.jsp" />
 </html>

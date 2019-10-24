@@ -19,7 +19,6 @@
 <script src="<c:url value='/js/deploy/deployUpdate.js' />"></script>
 </head>
 <h1>MyDeployPayDeatail</h1>
-<form:form id="deployRequestDetailFrm" modelAttribute="deployRequestOfDeployNo" name="deployRequestDetailFrm">
 No : <input type="text" name="deployNo" id="deployNo" value="${deployRequestOfDeployNo.deployNo}" readonly="readonly"><br>
 부문 :  <input type="text" name="chainId" id="chainId" value="${deployRequestOfDeployNo.chainId}" readonly="readonly">
      <input type="text" name="chainName" id="chainName" value="${deployRequestOfDeployNo.chainName}" readonly="readonly"><br>
@@ -58,11 +57,15 @@ Deploy담당자 : <input type="text" name="deployer" id="deployer" value="${depl
       <option value="신규" <c:if test="${deployRequestOfDeployNo.division eq '신규'}" >selected="selected"</c:if>>신규</option>       
       <option value="변경" <c:if test="${deployRequestOfDeployNo.division eq '변경'}" >selected="selected"</c:if>>변경</option>                         
      </select><br>
-현재 상태 :
-      <c:forEach items="${statusCodeList}" var="statusCode" varStatus="status">
-         <input type="radio" name="statusCode" value="0${status.index + 1}" <c:if test="${deployRequestOfDeployNo.statusCode eq statusCode.codeValue}">checked="checked"</c:if>>${statusCode.codeName}
-      </c:forEach>
-      <br>      
-</form:form>
+     
+ <c:if test="${deployPayDetailCode eq 'myDeployPayDetail'}">
+<input type="button" value="결제하기" onclick="location.href='/employee/MyDeployDoingPay.do/${deployRequestOfDeployNo.deployNo}'">
+<input type="button" value="반려하기" onclick="location.href='/employee/MyDeployDoingReturn.do/${deployRequestOfDeployNo.deployNo}'">   
+ </c:if>    
+ 
+ <c:if test="${deployPayDetailCode eq 'myDeployWillDeploy'}">
+ <input type="button" value="배포하기" onclick="location.href='/employee/myDeployDoingDeploy.do/${deployRequestOfDeployNo.deployNo}'">
+<input type="button" value="반려하기" onclick="location.href='/employee/MyDeployDoingReturn.do/${deployRequestOfDeployNo.deployNo}'">   
+ </c:if>  
 </body>
 </html>

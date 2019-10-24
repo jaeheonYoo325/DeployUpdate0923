@@ -191,7 +191,7 @@ public class DeployServiceImpl implements DeployService {
 
 	@Override
 	public List<MasterCodeDto> selectMasterCodeTypeService() {
-		return this.deployDao.selectMasterCodeTypeDao();
+		return this.deployDao.selectMasterCodeOfCategoryDao();
 	}
 
 	@Override
@@ -205,6 +205,27 @@ public class DeployServiceImpl implements DeployService {
 		}
 		
 		return masterDates;
+	}
+
+	@Override
+	public List<MasterCodeDto> selectMasterCodeOfCategoryService() {
+		return this.deployDao.selectMasterCodeOfCategoryDao();
+	}
+
+	@Override
+	public Map<String, List<MasterCodeDto>> selectMasterCodeOfSearchTypeService(String searchTypeString) {
+		List<MasterCodeDto> searchTypeOneMasterCode = new ArrayList<MasterCodeDto>();
+		Map<String, List<MasterCodeDto>> masterDates = new HashMap<String, List<MasterCodeDto>>();
+		
+		searchTypeOneMasterCode = this.deployDao.selectMasterCodeOfSearchTypeDao(searchTypeString);
+		masterDates.put("SEARCHTYPE", searchTypeOneMasterCode);
+		
+		return masterDates;
+	}
+
+	@Override
+	public List<EmployeeDto> selectSearchAllEmployeesService() {
+		return this.deployDao.selectSearchAllEmployeesDao();
 	}
 
 }

@@ -53,10 +53,14 @@ public interface DeployDao {
 
 	public List<MasterCodeDto> selectAllMasterTableByStatusDao();
 
-	public List<MasterCodeDto> selectMasterCodeTypeDao();
-
 	public List<MasterCodeDto> selectCategoryMasterCodesDao(String codeType);
 
 	public int insertDeployPayForDeployRequestDao(DeployPayDto deployPayDto);
+
+	public List<MasterCodeDto> selectMasterCodeOfCategoryDao();
+
+	public List<MasterCodeDto> selectMasterCodeOfSearchTypeDao(String searchTypeString);
+
+	public List<EmployeeDto> selectSearchAllEmployeesDao();
 
 }

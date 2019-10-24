@@ -7,8 +7,8 @@ public class CategoryTypeDto {
 	private String categoryRequestDate;
 	private String categoryDivision;
 	private String categoryStatus;
-
-
+	private String searchType;
+	private String searchKeyword;
 
 	public String getCategoryChain() {
 		return categoryChain;
@@ -50,6 +50,22 @@ public class CategoryTypeDto {
 		this.categoryStatus = categoryStatus;
 	}
 
+	public String getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
+	public String getSearchKeyword() {
+		return searchKeyword;
+	}
+
+	public void setSearchKeyword(String searchKeyword) {
+		this.searchKeyword = searchKeyword;
+	}
+
 	public String getCateWtypeString() {
 		return "CTGY_WTYPE";
 	}
@@ -68,5 +84,9 @@ public class CategoryTypeDto {
 
 	public String getCateChainString() {
 		return "CTGY_CHAIN";
+	}
+	
+	public String getSearchTypeString() {
+		return "SEARCHTYPE";
 	}
 }

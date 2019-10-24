@@ -1,8 +1,12 @@
 package com.springproject.employee.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,7 @@ import com.springproject.common.session.Session;
 import com.springproject.common.utils.HttpRequestHelper;
 import com.springproject.department.dto.DepartmentDto;
 import com.springproject.department.service.DepartmentService;
+import com.springproject.deploy.dto.CategoryTypeDto;
 import com.springproject.deploy.dto.DeployPayDto;
 import com.springproject.deploy.dto.DeployRequestDto;
 import com.springproject.deploy.service.DeployService;
@@ -91,7 +96,7 @@ public class EmployeeController {
 		return mv;
 	}
 	
-   @GetMapping("/employee/myDeployPay.do")
+   @GetMapping("/employee/myDeployWillPay.do")
    public ModelAndView viewMyDeployPayPage(HttpSession session) {
       List<DeployPayDto> deployPay = this.employeeService.selectMyDeployPayService((EmployeeDto)session.getAttribute(Session.USER));
       ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
@@ -99,8 +104,8 @@ public class EmployeeController {
       return mv;
    }
    
-   @GetMapping("/employee/showMyDeployPayDetail.do/{deployNo}")
-   public ModelAndView viewMyDeployPayDetail(@PathVariable Long deployNo,HttpServletRequest request) {
+   @GetMapping("/employee/showDeployPayDetail.do/{deployNo}/{deployPayDetailCode}")
+   public ModelAndView viewMyDeployPayDetail(@PathVariable Long deployNo,@PathVariable String deployPayDetailCode,HttpServletRequest request) {
       ModelAndView mv=new ModelAndView(HttpRequestHelper.getJspPath());
       DeployRequestDto deployRequestOfDeployNo = this.deployService.selectDeployRequestOfDeployNoService(deployNo);
       List<ModifiedProgramsDto> modifiedProgramOfDeployNo = this.deployService.selectModifiedProgramOfDeploNoService(deployNo);
@@ -110,25 +115,168 @@ public class EmployeeController {
       mv.addObject("modifiedResourceOfDeployNo", modifiedResourceOfDeployNo);
       mv.addObject("deployRequestOfDeployNo", deployRequestOfDeployNo);
       mv.addObject("statusCodeList", statusCodeList);
+      mv.addObject("deployPayDetailCode",deployPayDetailCode);
       return mv;
    }
    
-   @PostMapping("/employee/MyDeployDoingPay.do")
-   public ModelAndView doMyDeployPayAction(@ModelAttribute DeployPayDto deployPayDto,HttpSession session) {
-      ModelAndView mv=new ModelAndView("redirect:/employee/myDeployPay.do");
-      deployPayDto.setDeployDoingPayer(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
+   @GetMapping("/employee/MyDeployDoingPay.do/{deployNo}")
+   public void doMyDeployPayAction(@PathVariable Long deployNo,HttpSession session,HttpServletResponse response) {
+      DeployPayDto deployPayDto=this.employeeService.selectMyDeployPayOfdeployNoService(deployNo);
+      deployPayDto.setDeployPayLineConfirm(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
       boolean isDoingPaySuccess =this.employeeService.myDeployDoPayingService(deployPayDto);
-//      조건문추가필요
+      PrintWriter out;
+		if (isDoingPaySuccess) {
+			response.setContentType("text/html;charset=UTF-8");
+
+			try {
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('결제완료')");
+				out.println("window.opener.location.reload()");
+				out.println("window.close()");
+				out.println("</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('오류')");
+				out.println("history.back()");
+				out.println("</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+   }
+   
+   @GetMapping("/employee/MyDeployDoingReturn.do/{deployNo}")
+   public void doMyDeployReturnAction(@PathVariable Long deployNo,HttpSession session,HttpServletResponse response) {
+      DeployPayDto deployPayDto=this.employeeService.selectMyDeployPayOfdeployNoService(deployNo);
+      deployPayDto.setDeployPayLineConfirm(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
+      boolean isDoingReturnSuccess=this.employeeService.myDeployDoReturningService(deployPayDto);
+      PrintWriter out;
+		if (isDoingReturnSuccess) {
+			response.setContentType("text/html;charset=UTF-8");
+
+			try {
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('반려완료')");
+				out.println("window.opener.location.reload()");
+				out.println("window.close()");
+				out.println("</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('반려실패')");
+				out.println("history.back()");
+				out.println("</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+   }
+   
+   @GetMapping("/employee/myDeployPaid.do")
+   public ModelAndView viewMyDeployPaidPage(HttpSession session) {
+      List<DeployPayDto> deployPaid = this.employeeService.selectMyDeployPaidService((EmployeeDto)session.getAttribute(Session.USER));
+      ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+      mv.addObject("deployPaid",deployPaid);
       return mv;
    }
    
-   @PostMapping("/employee/MyDeployDoingReturn.do")
-   public ModelAndView doMyDeployReturnAction(@ModelAttribute DeployPayDto deployPayDto,HttpSession session) {
-      ModelAndView mv=new ModelAndView("redirect:/employee/myDeployPay.do");
-      deployPayDto.setDeployDoingPayer(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
-      boolean isDoingReturnSuccess=this.employeeService.myDeployDoReturningService(deployPayDto);
-      //조건문추가필요
-      return mv;   
-}
-	
+   @GetMapping("/employee/myDeployWillDeploy.do")
+   public ModelAndView viewMyDeployWillDeployPage(HttpSession session, HttpServletResponse response) {
+	 		ModelAndView mv=null;
+	 		boolean isThisUserHaveAuthorityOfDeploy=this.employeeService.checkThisUserHaveAuthorityOfDeployService((EmployeeDto)session.getAttribute(Session.USER));
+	 		//
+	 		if(isThisUserHaveAuthorityOfDeploy) {
+	 			mv = new ModelAndView(HttpRequestHelper.getJspPath());
+	 		      List<DeployPayDto> deployWillDeploy = this.employeeService.selectMyDeployWillDeployService((EmployeeDto)session.getAttribute(Session.USER));
+	 		      mv.addObject("deployWillDeploy",deployWillDeploy);
+	 			return mv;
+	 		}
+	 		else {
+	 			try {
+	 				PrintWriter out;
+	 				out = response.getWriter();
+	 				out.println("<script>");
+	 				out.println("alert('배포권한이 없습니다')");
+	 				out.println("history.back()");
+	 				out.println("</script>");
+	 			} catch (IOException e) {
+	 				e.printStackTrace();
+	 			}
+	 			return mv;
+	 		}
+   }
+   
+   @GetMapping("/employee/myDeployDoingDeploy.do/{deployNo}")
+   public void doMyDeployDoDeployingAction(@PathVariable Long deployNo,HttpSession session,HttpServletResponse response) {
+	  DeployPayDto deploypayDtoForSearch=new DeployPayDto();
+	  deploypayDtoForSearch.setDeployNo(deployNo);
+	  deploypayDtoForSearch.setDeployPayLine(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
+	  
+      DeployPayDto deployPayDto=this.employeeService.selectMyDeployDoingDeployOfdeployNoService(deploypayDtoForSearch);
+      deployPayDto.setDeployPayLineConfirm(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
+      System.out.println("deployDtoset후"+deployPayDto.getDeployPayLineConfirm());
+      boolean isDoDeployingSuccess =this.employeeService.myDeployDoDeployingService(deployPayDto);
+      PrintWriter out;
+		if (isDoDeployingSuccess) {
+			response.setContentType("text/html;charset=UTF-8");
+
+			try {
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('배포완료')");
+				out.println("window.opener.location.reload()");
+				out.println("window.close()");
+				out.println("</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('배포실패')");
+				out.println("history.back()");
+				out.println("</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+   }
+   
+   @GetMapping("/employee/myDeployDeployed.do")
+   public ModelAndView viewMyDeployDeployedPage(HttpSession session, HttpServletResponse response) {
+	 		ModelAndView mv=null;
+	 		boolean isThisUserHaveAuthorityOfDeploy=this.employeeService.checkThisUserHaveAuthorityOfDeployService((EmployeeDto)session.getAttribute(Session.USER));
+	 		
+	 		if(isThisUserHaveAuthorityOfDeploy) {
+	 			mv = new ModelAndView(HttpRequestHelper.getJspPath());
+	 		      List<DeployPayDto> deployDeployed = this.employeeService.selectMyDeployDeployedService((EmployeeDto)session.getAttribute(Session.USER));
+	 		      mv.addObject("deployDeployed",deployDeployed);
+	 			return mv;
+	 		}
+	 		else {
+	 			try {
+	 				PrintWriter out;
+	 				out = response.getWriter();
+	 				out.println("<script>");
+	 				out.println("alert('배포권한이 없습니다')");
+	 				out.println("history.back()");
+	 				out.println("</script>");
+	 			} catch (IOException e) {
+	 				e.printStackTrace();
+	 			}
+	 			return mv;
+	 		}
+   }
 }

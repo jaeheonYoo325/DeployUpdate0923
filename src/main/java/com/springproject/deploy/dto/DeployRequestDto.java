@@ -29,6 +29,15 @@ public class DeployRequestDto {
 	private String division;
 	private String chainName;
 	private String statusCode;
+	private String employeeName;
+
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
 
 	public Long getDeployNo() {
 		return deployNo;

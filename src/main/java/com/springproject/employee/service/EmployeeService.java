@@ -16,5 +16,20 @@ public interface EmployeeService {
 	public boolean myDeployDoPayingService(DeployPayDto deployPayDto);
 
 	public boolean myDeployDoReturningService(DeployPayDto deployPayDto);
-	
+
+	public DeployPayDto selectMyDeployPayOfdeployNoService(Long deployNo);
+
+	public boolean checkThisUserHaveAuthorityOfRequestService(EmployeeDto employeeDto);
+
+	public List<DeployPayDto> selectMyDeployPaidService(EmployeeDto employeeDto);
+
+	public List<DeployPayDto> selectMyDeployWillDeployService(EmployeeDto employeeDto);
+
+	public DeployPayDto selectMyDeployDoingDeployOfdeployNoService(DeployPayDto deployPayDtoForSearch);
+
+	public boolean myDeployDoDeployingService(DeployPayDto deployPayDto);
+
+	public boolean checkThisUserHaveAuthorityOfDeployService(EmployeeDto employeeDto);
+
+	public List<DeployPayDto> selectMyDeployDeployedService(EmployeeDto employeeDto);
 }
