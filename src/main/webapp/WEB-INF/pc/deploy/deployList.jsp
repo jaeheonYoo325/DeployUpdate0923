@@ -70,6 +70,7 @@
     		   alert("검색타입과 검색 키워드 모두 사용해주세요.");
     		   return;
     	   }
+
     	   commonDeployListSubmit();    	  
     	   
        });       
@@ -94,7 +95,7 @@ function showDeployRequestDetail(thisDeployNo){
 <body>
 <jsp:include page="/WEB-INF/pc/common/header.jsp" />
 	<h1>List</h1>
-	<form name="listFrm" id="listFrm">
+	<form:form name="listFrm" id="listFrm">
 	<select name="searchType" id="searchType">
 <%-- 			<c:forEach items="${masterCodeOfSearchTypeMap[categoryType.searchTypeString]}" varStatus="status"> --%>
 <%-- 				<option value="<c:out value='${masterCodeOfSearchTypeMap[categoryType.searchTypeString][status.index].codeName}'></c:out>" <c:if test="${categoryType.searchType eq masterCodeOfSearchTypeMap[categoryType.searchTypeString][status.index].codeName}">selected="selected"</c:if>>${masterCodeOfSearchTypeMap[categoryType.searchTypeString][status.index].codeName}</option> --%>
@@ -184,7 +185,7 @@ function showDeployRequestDetail(thisDeployNo){
 				</tr>
 			</c:forEach>
 		</table>
-	</form>
+	</form:form>
 </body>
 <jsp:include page="/WEB-INF/pc/common/footer.jsp" />
 </html>

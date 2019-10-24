@@ -30,60 +30,60 @@ var controller = $.extend(new $.CommonObj(), {
 		
 		
 	}, validationRegistCheck : function() {
-		var empNo = $("#empNo").val();
-		var empPw = $("#empPw").val();
-		var empName = $("#empName").val();
-		var empPh = $("#empPh").val();
-		var empPc = $("#empPc").val();
-		var empCad = $("#empCad").val();
-		var empDad = $("#empDad").val();
-		var empCph = $("#empCph").val();
-		var empEmail = $("#empEmail").val();
-		var empjoinDate = $("#empjoinDate").val();
-		var depNo = $("#depNo").val();
+		var employeeNo = $("#employeeNo").val();
+		var employeePassWord = $("#employeePassWord").val();
+		var employeeName = $("#employeeName").val();
+		var employeePhoneNumber = $("#employeePhoneNumber").val();
+		var employeePostcode = $("#employeePostcode").val();
+		var employeeCommonaddress = $("#employeeCommonaddress").val();
+		var employeeDetailaddress = $("#employeeDetailaddress").val();
+		var employeeCompanyPhoneNumber = $("#employeeCompanyPhoneNumber").val();
+		var employeeEmail = $("#employeeEmail").val();
+		var employeeJoinDate = $("#employeeJoinDate").val();
+		var departmentNo = $("#departmentNo").val();
 		var positionNo = $("#positionNo").val();
 		
-		if ( empNo == "") {
+		if ( employeeNo == "") {
 			alert("사원번호를 입력해주세요.");
 			return true;
 		}
-		if ( empPw == "") {
+		if ( employeePassWord == "") {
 			alert("비밀번호를 입력해주세요.");
 			return true;
 		}
-		if ( empName == "") {
+		if ( employeeName == "") {
 			alert("사원이름를 입력해주세요.");
 			return true;
 		}
-		if ( empPh == "") {
+		if ( employeePhoneNumber == "") {
 			alert("전화번호를 입력해주세요.");
 			return true;
 		}
-		if ( empPc == "") {
+		if ( employeePostcode == "") {
 			alert("우편번호를 입력해주세요.");
 			return true;
 		}
-		if ( empCad == "") {
+		if ( employeeCommonaddress == "") {
 			alert("주소를 입력해주세요.");
 			return true;
 		}
-		if ( empCph == "") {
+		if ( employeeCompanyPhoneNumber == "") {
 			alert("회사 전화번호를 입력해주세요.");
 			return true;
 		}
-		if ( empjoinDate == "") {
+		if ( employeeJoinDate == "") {
 			alert("사원번호를 입력해주세요.");
 			return true;
 		}
-		if ( empEmail == "") {
+		if ( employeeEmail == "") {
 			alert("이메일을 입력해주세요.");
 			return true;
 		}
-		if ( empjoinDate == "") {
+		if ( employeeJoinDate == "") {
 			alert("입사일을 입력해주세요.");
 			return true;
 		}			
-		/*if ( depNo == "") {
+		/*if ( departmentNo == "") {
 			alert("부서번호를 입력해주세요.");
 			return true;
 		}
@@ -126,13 +126,13 @@ var controller = $.extend(new $.CommonObj(), {
 
                // 우편번호와 주소 정보를 해당 필드에 넣는다.
               // $("zipCode").val() = data.zonecode;
-               document.getElementById('empPc').value = data.zonecode;
+               document.getElementById('employeePostcode').value = data.zonecode;
                //5자리 새우편번호 사용
                //$("address").val() = fullAddr;
-               document.getElementById('empCad').value = fullAddr;
+               document.getElementById('employeeCommonaddress').value = fullAddr;
                // 커서를 상세주소 필드로 이동한다.
                //$("Daddress").focus();
-               document.getElementById('empDad').focus();
+               document.getElementById('employeeDetailaddress').focus();
             }
         }).open();
 		

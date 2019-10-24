@@ -123,13 +123,11 @@ public class DeployController {
 	
 	@GetMapping("/deploy/deployRequest.do")
 	public ModelAndView viewDeployRequestPage(HttpSession session, HttpServletResponse response) {
-		//1022추가
 		ModelAndView mv=null;
 		boolean isThisUserHaveAuthorityOfRequest=this.employeeService.checkThisUserHaveAuthorityOfRequestService((EmployeeDto)session.getAttribute(Session.USER));
-		//
 		if(isThisUserHaveAuthorityOfRequest) {
 			mv = new ModelAndView(HttpRequestHelper.getJspPath());
-			List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeTypeService();
+			List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeOfCategoryService();
 			Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
 			CategoryTypeDto categoryType = new CategoryTypeDto();
 			mv.addObject("categoryType", categoryType);
@@ -150,6 +148,20 @@ public class DeployController {
 			return mv;
 		}
 	}
+		
+		
+	public ModelAndView viewDeployRequestPage() {
+		
+		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeOfCategoryService();
+		Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
+		CategoryTypeDto categoryType = new CategoryTypeDto();
+		
+		mv.addObject("categoryType", categoryType);
+		mv.addObject("categoryMasterCodes", categoryMasterCodes);
+		
+		return mv;
+	}
 	
 	@PostMapping("/deploy/deployRequest.do")
 	public ModelAndView doDeployAction(@Valid @ModelAttribute DeployRequestDto deployRequestDto, Errors errors, HttpServletRequest request, HttpServletResponse response) {
@@ -159,7 +171,8 @@ public class DeployController {
 		ArrayList<String> modifiedResources = new ArrayList<String>();
 		
 		if ( errors.hasErrors() ) {
-			mv.setViewName("pc/deploy/deployRequest");
+			mv.setViewName("redirect:/deploy/deployRequest.do");
+//			mv.addObject("deployRequestDto", deployRequestDto);
 			return mv;
 		}
 		
@@ -178,7 +191,6 @@ public class DeployController {
 			modifiedResources.add(request.getParameter("modifiedResources_wSourceName"+i));
 		}
 
-		
 		boolean deployInsertSuccess = this.deployService.InsertDeployRequestService(deployRequestDto, modifiedPrograms, modifiedProgramName, modifiedResources);
 		
 		PrintWriter out;
@@ -212,6 +224,7 @@ public class DeployController {
 	
 	@RequestMapping("/deploy/deployList.do")
 	public ModelAndView doDeployListAction(HttpServletRequest request) {
+		
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
 		List<ChainDto> chain = this.deployService.selectSearchAllChainService();
 		Map<Long, List<ModifiedProgramsDto>> modifiedProgramsMap = new HashMap<Long, List<ModifiedProgramsDto>>(); 
@@ -282,7 +295,7 @@ public class DeployController {
 		DeployRequestDto deployRequestOfDeployNo = this.deployService.selectDeployRequestOfDeployNoService(deployNo);
 		List<ModifiedProgramsDto> modifiedProgramOfDeployNo = this.deployService.selectModifiedProgramOfDeploNoService(deployNo);
 		List<ModifiedResourcesDto> modifiedResourceOfDeployNo = this.deployService.selectModifiedResourceOfDeploNoService(deployNo);
-		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeTypeService();
+		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeOfCategoryService();
 		Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
 		
 		CategoryTypeDto categoryType = new CategoryTypeDto();

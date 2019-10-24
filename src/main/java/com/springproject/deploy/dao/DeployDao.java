@@ -2,6 +2,7 @@ package com.springproject.deploy.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.springproject.chain.dto.ChainDto;
 import com.springproject.deploy.dto.CategoryTypeDto;
@@ -56,11 +57,12 @@ public interface DeployDao {
 	public List<MasterCodeDto> selectCategoryMasterCodesDao(String codeType);
 
 	public int insertDeployPayForDeployRequestDao(DeployPayDto deployPayDto);
-
+	
+	public List<EmployeeDto> selectSearchAllEmployeesDao();
+	
 	public List<MasterCodeDto> selectMasterCodeOfCategoryDao();
 
 	public List<MasterCodeDto> selectMasterCodeOfSearchTypeDao(String searchTypeString);
 
-	public List<EmployeeDto> selectSearchAllEmployeesDao();
 
 }

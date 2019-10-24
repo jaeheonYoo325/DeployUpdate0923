@@ -85,8 +85,8 @@ public class DeployServiceImpl implements DeployService {
 		boolean insertModifiedResourceSuccess = true;
 		boolean insertModifiedProgramSuccess = true;
 		// XSS 방어로직
-		XssFilter xssFilter = XssFilter.getInstance("xssfilter/lucy-xss-superset.xml");
-//		deployRequestDto.setModifiedContents(xssFilter.doFilter(deployRequestDto.getModifiedContents()));
+		XssFilter xssFilter = XssFilter.getInstance("xssfilter/lucy-xss-superset.xml", true);
+		deployRequestDto.setModifiedContents(xssFilter.doFilter(deployRequestDto.getModifiedContents()));
 		
 		boolean updateOneDeployRequestSuccess = this.deployDao.updateOneDeployRequestDao(deployRequestDto) > 0;
 		boolean deleteModifiedProgramOfDeployNoSuccess = this.deployDao.deleteModifiedProgramOfDeployNoDao(deployNo) > 0;
@@ -96,7 +96,8 @@ public class DeployServiceImpl implements DeployService {
 			ModifiedProgramsDto modifiedProgramsDto = new ModifiedProgramsDto();
 			modifiedProgramsDto.setModifiedPrograms_deployNo(deployNo);
 			modifiedProgramsDto.setModifiedPrograms_pageId(modifiedPrograms.get(i).toString());
-			modifiedProgramsDto.setModifiedPrograms_pageName(modifiedProgramName.get(i).toString());
+//			modifiedProgramsDto.setModifiedPrograms_pageName(modifiedProgramName.get(i).toString());
+			modifiedProgramsDto.setModifiedPrograms_pageName(xssFilter.doFilter(modifiedProgramName.get(i).toString()));
 			insertModifiedProgramSuccess = insertModifiedProgramSuccess && (this.deployDao.insertModifiedProgramDao(modifiedProgramsDto) > 0);
 		}
 
@@ -156,6 +157,19 @@ public class DeployServiceImpl implements DeployService {
 	@Override
 	public List<DeployRequestDto> selectCategoryDeployRequestService(CategoryTypeDto deployCateListDto) {
 		CategoryTypeDto deployRequestForCatetory = new CategoryTypeDto();
+
+		if (deployCateListDto.getSearchType().equals("검색타입")) {
+			deployRequestForCatetory.setSearchType("%");
+		} else {
+			deployRequestForCatetory.setSearchType(deployCateListDto.getSearchType());
+		}
+		
+		if (deployCateListDto.getSearchKeyword().equals("") ) {
+			deployRequestForCatetory.setSearchKeyword("%");
+		} else {
+			deployRequestForCatetory.setSearchKeyword(deployCateListDto.getSearchKeyword());
+		}
+		
 		if (deployCateListDto.getCategoryChain().equals("부문")) {
 			deployRequestForCatetory.setCategoryChain("%");
 		} else {
@@ -190,7 +204,7 @@ public class DeployServiceImpl implements DeployService {
 	}
 
 	@Override
-	public List<MasterCodeDto> selectMasterCodeTypeService() {
+	public List<MasterCodeDto> selectMasterCodeOfCategoryService() {
 		return this.deployDao.selectMasterCodeOfCategoryDao();
 	}
 
@@ -207,10 +221,6 @@ public class DeployServiceImpl implements DeployService {
 		return masterDates;
 	}
 
-	@Override
-	public List<MasterCodeDto> selectMasterCodeOfCategoryService() {
-		return this.deployDao.selectMasterCodeOfCategoryDao();
-	}
 
 	@Override
 	public Map<String, List<MasterCodeDto>> selectMasterCodeOfSearchTypeService(String searchTypeString) {
@@ -222,10 +232,11 @@ public class DeployServiceImpl implements DeployService {
 		
 		return masterDates;
 	}
-
+	
 	@Override
 	public List<EmployeeDto> selectSearchAllEmployeesService() {
 		return this.deployDao.selectSearchAllEmployeesDao();
 	}
+
 
 }

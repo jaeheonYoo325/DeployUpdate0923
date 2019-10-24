@@ -11,11 +11,14 @@
 <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
 <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
 <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css'/>">
+<link rel="stylesheet" href="<c:url value='/css/common/footer.css' />">
+<link rel="stylesheet" href="<c:url value='/css/common/header.css' />">
 <script src="<c:url value='/js/common/common.js' />"></script>
 <script src="<c:url value='/js/employee/employeeRegist.js' />"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
+<jsp:include page="/WEB-INF/pc/common/header.jsp" />
 <h1>직원등록(관리자)</h1>
 <input type="button" id="employeeRegistBtnModal" class="btn btn-success" data-toggle="modal" data-backdrop="static" data-target="#employeesRegistModal" value="직원 추가">
 <div class="modal fade" id="employeesRegistModal">
@@ -50,5 +53,6 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<jsp:include page="/WEB-INF/pc/common/footer.jsp" />
 </body>
 </html>

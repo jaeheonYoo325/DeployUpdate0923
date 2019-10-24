@@ -124,11 +124,11 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao {
 		return getSqlSession().selectList("DeployDao.selectAllMasterTableByStatusDao");
 	}
 
-//	@Override
-//	public List<MasterCodeDto> selectMasterCodeTypeDao() {
-//		 return getSqlSession().selectList("DeployDao.selectMasterCodeTypeDao");
-//	}
-
+	@Override
+	public List<MasterCodeDto> selectMasterCodeOfCategoryDao() {
+		 return getSqlSession().selectList("DeployDao.selectMasterCodeOfCategoryDao");
+	}
+	
 	@Override
 	public List<MasterCodeDto> selectCategoryMasterCodesDao(String codeType) {
 		return getSqlSession().selectList("DeployDao.selectCategoryMasterCodesDao", codeType);
@@ -138,21 +138,15 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao {
 	public int insertDeployPayForDeployRequestDao(DeployPayDto deployPayDto) {
 		return getSqlSession().insert("DeployDao.insertDeployPayForDeployRequestDao",deployPayDto);
 	}
-
+	
 	@Override
-	public List<MasterCodeDto> selectMasterCodeOfCategoryDao() {
-		return getSqlSession().selectList("DeployDao.selectMasterCodeOfCategoryDao");	
-		}
+	public List<EmployeeDto> selectSearchAllEmployeesDao() {
+		return getSqlSession().selectList("DeployDao.selectSearchAllEmployeesDao");
+	}
 
 	@Override
 	public List<MasterCodeDto> selectMasterCodeOfSearchTypeDao(String searchTypeString) {
 		return getSqlSession().selectList("DeployDao.selectMasterCodeOfSearchTypeDao", searchTypeString);
 	}
-
-	@Override
-	public List<EmployeeDto> selectSearchAllEmployeesDao() {
-		return getSqlSession().selectList("DeployDao.selectSearchAllEmployeesDao");
-
-	}
-
+	
 }
