@@ -51,8 +51,8 @@ function showMyDeployPayDetail(thisDeployNo){
 <td>결제요청일</td>
 <td>결제/반려일</td>
 <td>상세내역</td>
-<td>결제하기</td>
-<td>반려하기</td>
+<!-- <td>결제하기</td> -->
+<!-- <td>반려하기</td> -->
 </tr>
 
 
@@ -70,8 +70,8 @@ function showMyDeployPayDetail(thisDeployNo){
       <td><input type="text" name="deployPayRequestDate" value="${deployPay.deployPayRequestDate}" readonly="readonly"></td>
       <td><input type="text" name="deployPayDate" value="${deployPay.deployPayDate}" readonly="readonly"></td>
       <td><input type="button" value="상세보기" onclick="showMyDeployPayDetail(${deployPay.deployNo})"></td>
-      <td><input type="button" id="MyDeployDoingPayBtn" name="MyDeployDoingPayBtn" value="결제하기"></td>
-      <td><input type="button" id="MyDeployDoingReturnBtn" name="MyDeployDoingReturnBtn" value="반려하기"></td>
+<!--       <td><input type="button" id="MyDeployDoingPayBtn" name="MyDeployDoingPayBtn" value="결제하기"></td> -->
+<!--       <td><input type="button" id="MyDeployDoingReturnBtn" name="MyDeployDoingReturnBtn" value="반려하기"></td> -->
    </form:form>
       
    </tr>

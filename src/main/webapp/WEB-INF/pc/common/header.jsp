@@ -17,8 +17,10 @@
 		<ul class="nav navbar-nav">				
 			<li><a href="<c:url value='/deploy/deployRequest.do' />">요청</a></li>
 			<li><a href="<c:url value='/deploy/deployList.do' />">배포 리스트</a></li>				
-			<li><a href="<c:url value='/employee/myDeployPay.do' />">My 결제</a></li>				
+			<li><a href="<c:url value='/employee/myDeployPay.do' />">My 결제</a></li>
+			<li><a href="<c:url value='/employee/employeeRegist.do' />">직원등록(관리자)</a></li>				
 		</ul>
+
 		<c:choose>
 			<c:when test="${not empty sessionScope._USER_}">
 				<ul class="nav navbar-nav navbar-right">

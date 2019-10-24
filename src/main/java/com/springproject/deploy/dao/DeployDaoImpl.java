@@ -125,8 +125,8 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao {
 	}
 
 	@Override
-	public List<MasterCodeDto> selectMasterCodeTypeDao() {
-		 return getSqlSession().selectList("DeployDao.selectMasterCodeTypeDao");
+	public List<MasterCodeDto> selectMasterCodeOfCategoryDao() {
+		 return getSqlSession().selectList("DeployDao.selectMasterCodeOfCategoryDao");
 	}
 
 	@Override
@@ -139,4 +139,14 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao {
 		return getSqlSession().insert("DeployDao.insertDeployPayForDeployRequestDao",deployPayDto);
 	}
 
+	@Override
+	public List<EmployeeDto> selectSearchAllEmployeesDao() {
+		return getSqlSession().selectList("DeployDao.selectSearchAllEmployeesDao");
+	}
+
+	@Override
+	public List<MasterCodeDto> selectMasterCodeOfSearchTypeDao(String searchType) {
+		return getSqlSession().selectList("DeployDao.selectMasterCodeOfSearchTypeDao", searchType);
+	}
+	
 }

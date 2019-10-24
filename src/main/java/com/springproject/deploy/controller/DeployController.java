@@ -56,8 +56,11 @@ public class DeployController {
 
 
 	@GetMapping("/search/searchEmployee.do")
-	public String viewsearchEmployeePage(@RequestParam("employeeSearchWhere") String employeeSearchWhere) {
-		return HttpRequestHelper.getJspPath();
+	public ModelAndView viewsearchEmployeePage(@RequestParam("employeeSearchWhere") String employeeSearchWhere) {
+		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+		List<EmployeeDto> searchEmployees = this.deployService.selectSearchAllEmployeesService();
+		mv.addObject("searchEmployees", searchEmployees);
+		return mv;
 	}
 	
 	@PostMapping("/search/searchEmployee.do")
@@ -65,7 +68,7 @@ public class DeployController {
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
 		System.out.println("modelattrubtue로 받아온 이름"+employeeDto.getEmployeeName());
 		List<EmployeeDto> searchEmployees = this.deployService.selectSearchEmployeesService(employeeDto);
-		System.out.println("DB검색후이름"+searchEmployees.get(0).getEmployeeName());
+//		System.out.println("DB검색후이름"+searchEmployees.get(0).getEmployeeName());
 		mv.addObject("searchEmployees", searchEmployees);
 		return mv;
 	}
@@ -119,7 +122,7 @@ public class DeployController {
 	public ModelAndView viewDeployRequestPage() {
 		
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
-		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeTypeService();
+		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeOfCategoryService();
 		Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
 		CategoryTypeDto categoryType = new CategoryTypeDto();
 		
@@ -138,7 +141,8 @@ public class DeployController {
 		ArrayList<String> modifiedResources = new ArrayList<String>();
 		
 		if ( errors.hasErrors() ) {
-			mv.setViewName("pc/deploy/deployRequest");
+			mv.setViewName("redirect:/deploy/deployRequest.do");
+//			mv.addObject("deployRequestDto", deployRequestDto);
 			return mv;
 		}
 		
@@ -157,7 +161,6 @@ public class DeployController {
 			modifiedResources.add(request.getParameter("modifiedResources_wSourceName"+i));
 		}
 
-		
 		boolean deployInsertSuccess = this.deployService.InsertDeployRequestService(deployRequestDto, modifiedPrograms, modifiedProgramName, modifiedResources);
 		
 		PrintWriter out;
@@ -191,24 +194,31 @@ public class DeployController {
 	
 	@RequestMapping("/deploy/deployList.do")
 	public ModelAndView doDeployListAction(HttpServletRequest request) {
+		
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
 		List<ChainDto> chain = this.deployService.selectSearchAllChainService();
 		Map<Long, List<ModifiedProgramsDto>> modifiedProgramsMap = new HashMap<Long, List<ModifiedProgramsDto>>(); 
 		Map<Long, List<ModifiedResourcesDto>> modifiedResourcesMap = new HashMap<Long, List<ModifiedResourcesDto>>();
 		List<DeployRequestDto> deployRequests = new ArrayList<DeployRequestDto>();
 	    CategoryTypeDto categoryType = new CategoryTypeDto();
-	    List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeTypeService();
-	    Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
+	    List<MasterCodeDto> masterCodeOfCategory = this.deployService.selectMasterCodeOfCategoryService();
+	    Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeOfCategory);
 	    List<ModifiedProgramsDto> modifiedProgramOfDeployNo = new ArrayList<ModifiedProgramsDto>();
 	    List<ModifiedResourcesDto> modifiedResourceOfDeployNo = new ArrayList<ModifiedResourcesDto>();
-	    Long deployNo = 0L;
+	    Map<String, List<MasterCodeDto>> masterCodeOfSearchTypeMap = this.deployService.selectMasterCodeOfSearchTypeService(categoryType.getSearchTypeString());
 	    
-	    if(request.getParameter("categoryChain") != null && request.getParameter("categoryWorktype") != null && request.getParameter("categoryRequestDate") != null && request.getParameter("categoryDivision") != null && request.getParameter("categoryStatus")!=null) {
+	    Long deployNo = 0L;
+		
+	    if(request.getParameter("searchType") != null && request.getParameter("searchKeyword") != null && request.getParameter("categoryChain") != null && request.getParameter("categoryWorktype") != null && request.getParameter("categoryRequestDate") != null && request.getParameter("categoryDivision") != null && request.getParameter("categoryStatus")!=null) {
+	    	  String searchType = request.getParameter("searchType"); 
+	    	  String searchKeyword = request.getParameter("searchKeyword");
 	    	  String categoryChain = request.getParameter("categoryChain");
 		      String categoryWorkType=request.getParameter("categoryWorktype");
 		      String categoryRequestDate = request.getParameter("categoryRequestDate");
 		      String categoryDivision = request.getParameter("categoryDivision");
 		      String categoryStatus = request.getParameter("categoryStatus");
+		      categoryType.setSearchType(searchType);
+		      categoryType.setSearchKeyword(searchKeyword);
 		      categoryType.setCategoryChain(categoryChain);
 		      categoryType.setCategoryWorktype(categoryWorkType);
 		      categoryType.setCategoryRequestDate(categoryRequestDate);
@@ -216,6 +226,8 @@ public class DeployController {
 		      categoryType.setCategoryStatus(categoryStatus);
 		      deployRequests = this.deployService.selectCategoryDeployRequestService(categoryType);
 	    } else {
+	    	 categoryType.setSearchType("검색타입");
+	    	 categoryType.setSearchKeyword("");
 	         categoryType.setCategoryChain("부문");
 	         categoryType.setCategoryWorktype("작업유형");
 	         categoryType.setCategoryRequestDate("요청날짜");
@@ -242,6 +254,8 @@ public class DeployController {
 		
 		mv.addObject("modifiedProgramsMap", modifiedProgramsMap);
 		mv.addObject("modifiedResourcesMap", modifiedResourcesMap);
+		
+		mv.addObject("masterCodeOfSearchTypeMap", masterCodeOfSearchTypeMap);
 		return mv;
 	}
     
@@ -251,7 +265,7 @@ public class DeployController {
 		DeployRequestDto deployRequestOfDeployNo = this.deployService.selectDeployRequestOfDeployNoService(deployNo);
 		List<ModifiedProgramsDto> modifiedProgramOfDeployNo = this.deployService.selectModifiedProgramOfDeploNoService(deployNo);
 		List<ModifiedResourcesDto> modifiedResourceOfDeployNo = this.deployService.selectModifiedResourceOfDeploNoService(deployNo);
-		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeTypeService();
+		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeOfCategoryService();
 		Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
 		
 		CategoryTypeDto categoryType = new CategoryTypeDto();

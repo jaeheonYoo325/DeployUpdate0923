@@ -30,14 +30,58 @@
 <link rel="stylesheet" href="<c:url value='/css/common/header.css' />">
 <script type="text/javascript">
    $(document).ready(function() {
-      
-       $("#deployRequestOfcategoryBtn").click(function() {
-           $("#listFrm").attr({
-                method:"post",                                         
-                  action:"/deploy/deployList.do"
-           }).submit();
-          });  
+     
+       $("#categoryChain").change(function(){
+    	  var categoryChain = $(this).val();
+    	  commonDeployListSubmit();    	  
+       });
+       
+       $("#categoryWorktype").change(function(){
+     	  var categoryWorktype = $(this).val();
+     	  commonDeployListSubmit();
+        });
+       
+       $("#categoryRequestDate").change(function(){
+     	  var categoryChain = $(this).val();
+     	  commonDeployListSubmit();
+        });
+       
+       $("#categoryDivision").change(function(){
+     	  var categoryChain = $(this).val();
+     	  commonDeployListSubmit();
+        });
+       
+       $("#categoryStatus").change(function(){
+     	 var categoryChain = $(this).val();
+     	 commonDeployListSubmit();
+			
+        });
+       
+       $("#searchBtn").click(function(e) {
+    	   e.preventDefault();
+    	   var searchType = $("#searchType").val();
+    	   var searchKeyword = $("#searchKeyword").val();
+    	   
+    	   if ( searchType != "검색타입" && searchKeyword == "") {
+    		   alert("검색타입과 검색 키워드 모두 사용해주세요.");
+    		   return;
+    	   }
+    	   if ( searchType == "검색타입" && searchKeyword != "") {
+    		   alert("검색타입과 검색 키워드 모두 사용해주세요.");
+    		   return;
+    	   }
+
+    	   commonDeployListSubmit();    	  
+    	   
+       });       
     });
+   
+   function commonDeployListSubmit() {
+	   $("#listFrm").attr({
+           method:"post",                                         
+             action:"/deploy/deployList.do"
+      }).submit();
+   }
 </script>
 
 <script>
@@ -51,8 +95,20 @@ function showDeployRequestDetail(thisDeployNo){
 <body>
 <jsp:include page="/WEB-INF/pc/common/header.jsp" />
 	<h1>List</h1>
-	<form name="listFrm" id="listFrm">
-		<input type="button" value="카테고리검색" id="deployRequestOfcategoryBtn">
+	<form:form name="listFrm" id="listFrm">
+		<select name="searchType" id="searchType">
+<%-- 			<c:forEach items="${masterCodeOfSearchTypeMap[categoryType.searchTypeString]}" varStatus="status"> --%>
+<%-- 				<option value="<c:out value='${masterCodeOfSearchTypeMap[categoryType.searchTypeString][status.index].codeName}'></c:out>" <c:if test="${categoryType.searchType eq masterCodeOfSearchTypeMap[categoryType.searchTypeString][status.index].codeName}">selected="selected"</c:if>>${masterCodeOfSearchTypeMap[categoryType.searchTypeString][status.index].codeName}</option> --%>
+<%-- 			</c:forEach> --%>
+			<option value="검색타입" <c:if test="${categoryType.searchType eq '검색타입'}">selected="selected"</c:if>>검색타입</option>
+			<option value="requester" <c:if test="${categoryType.searchType eq 'requester'}">selected="selected"</c:if>>요청자</option>
+			<option value="modifiedPrograms" <c:if test="${categoryType.searchType eq 'modifiedPrograms'}">selected="selected"</c:if>>변경프로그램목록</option>
+			<option value="modifiedResources" <c:if test="${categoryType.searchType eq 'modifiedResources'}">selected="selected"</c:if>>변경소스명</option>
+		</select> 
+
+		<input type="text" name="searchKeyword" id="searchKeyword" value="${categoryType.searchKeyword}">
+		<input type="button" value="검색" id="searchBtn">
+		
 		<table border="1" class="table table-hover">
 			<tr>
 				<td>No</td>
@@ -130,7 +186,7 @@ function showDeployRequestDetail(thisDeployNo){
 				</tr>
 			</c:forEach>
 		</table>
-	</form>
+	</form:form>
 </body>
 <jsp:include page="/WEB-INF/pc/common/footer.jsp" />
 </html>

@@ -42,8 +42,11 @@ public interface DeployService {
 
 	public List<MasterCodeDto> selectAllMasterTableByStatusService();
 
-	public List<MasterCodeDto> selectMasterCodeTypeService();
+	public List<MasterCodeDto> selectMasterCodeOfCategoryService();
 
 	public Map<String, List<MasterCodeDto>> selectCategoryMasterCodesService(List<MasterCodeDto> categoryType);
 
+	public List<EmployeeDto> selectSearchAllEmployeesService();
+	
+	public Map<String, List<MasterCodeDto>> selectMasterCodeOfSearchTypeService(String searchType);
 }

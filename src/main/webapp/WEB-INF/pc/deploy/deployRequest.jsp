@@ -95,7 +95,7 @@ $(document).ready(function() {
 				<option value="<c:out value='${categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}'></c:out>" <c:if test="${deployRequestOfDeployNo.workType eq categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}</option>
 			</c:forEach>
        </select><br>
-<%--        <form:errors id="errorsWorkType" cssStyle="color: red;" path="workType" /><br> --%>
+       <form:errors id="errorsWorkType" cssStyle="color: red;" path="workType" /><br>
 요청날짜 : <input type="Date" name="requestDate"><br>
 요청시간 : <input type="Time" name="requestTime"><br>
 서비스요청_ID : <input type="text" name="serviceRequestId" id="serviceRequestId" readonly="readonly">
