@@ -42,11 +42,11 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 
    <tr>
       <td><input type="text" name="deployNo" value="${deployPay.deployNo}" readonly="readonly"></td>
-      <td><input type="text" name="employeeName" value="${deployPay.employeeName}" readonly="readonly"><input type="hidden" name="deployDrafter" value="${deployPay.deployDrafter}"></td>
+      <td><input type="text" name="deployDrafterName" value="${deployPay.deployDrafterName}" readonly="readonly"><input type="hidden" name="deployDrafter" value="${deployPay.deployDrafter}"></td>
       <td><input type="text" name="deployDraftDate" value="${deployPay.deployDraftDate}" readonly="readonly"></td>
       <td><input type="text" name="codeName" value="${deployPay.codeName}" readonly="readonly"><input type="hidden" name="deployPayDescription" value="${deployPay.deployPayDescription}"></td>
       <td><input type="text" name="deployPayRequestDate" value="${deployPay.deployPayRequestDate}" readonly="readonly"></td>
-      <td><input type="text" name="deployPayLine" value="${deployPay.deployPayLine}" readonly="readonly"></td>
+      <td><input type="text" name="deployPayLineName" value="${deployPay.deployPayLineName}" readonly="readonly"><input type="hidden" name="deployPayLine" value="${deployPay.deployPayLine}"></td>
       <td><input type="button" value="상세내역" onclick="showPayDetail(${deployPay.deployNo},'myDeployPayDetail')"></td>
    </tr>
 </c:forEach>

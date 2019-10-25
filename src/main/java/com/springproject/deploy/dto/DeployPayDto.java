@@ -9,20 +9,10 @@ public class DeployPayDto {
 	private String deployPayDescription;
 	private String deployPayDate;
 	private String deployPayLineConfirm;
-	private String employeeName;
+	private String deployDrafterName;
+	private String deployPayLineName;
+	private String deployPayLineConfirmName;
 	private String codeName;
-	public String getCodeName() {
-		return codeName;
-	}
-	public void setCodeName(String codeName) {
-		this.codeName = codeName;
-	}
-	public String getEmployeeName() {
-		return employeeName;
-	}
-	public void setEmployeeName(String employeeName) {
-		this.employeeName = employeeName;
-	}
 	public Long getDeployNo() {
 		return deployNo;
 	}
@@ -71,4 +61,29 @@ public class DeployPayDto {
 	public void setDeployPayLineConfirm(String deployPayLineConfirm) {
 		this.deployPayLineConfirm = deployPayLineConfirm;
 	}
+	public String getDeployDrafterName() {
+		return deployDrafterName;
+	}
+	public void setDeployDrafterName(String deployDrafterName) {
+		this.deployDrafterName = deployDrafterName;
+	}
+	public String getDeployPayLineName() {
+		return deployPayLineName;
+	}
+	public void setDeployPayLineName(String deployPayLineName) {
+		this.deployPayLineName = deployPayLineName;
+	}
+	public String getDeployPayLineConfirmName() {
+		return deployPayLineConfirmName;
+	}
+	public void setDeployPayLineConfirmName(String deployPayLineConfirmName) {
+		this.deployPayLineConfirmName = deployPayLineConfirmName;
+	}
+	public String getCodeName() {
+		return codeName;
+	}
+	public void setCodeName(String codeName) {
+		this.codeName = codeName;
+	}
+	
 }

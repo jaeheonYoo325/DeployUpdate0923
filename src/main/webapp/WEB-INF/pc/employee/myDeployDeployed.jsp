@@ -20,7 +20,7 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 
 </script>
 <body>
-<h1>MyDeployPaid</h1>
+<h1>MyDeployDeployed</h1>
 
 
 <table border="1">
@@ -43,13 +43,13 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 
    <tr>
       <td><input type="text" name="deployNo" value="${deployDeployed.deployNo}" readonly="readonly"></td>
-      <td><input type="text" name="employeeName" value="${deployDeployed.employeeName}" readonly="readonly"><input type="hidden" name="deployDrafter" value="${deployDeployed.deployDrafter}"></td>
+      <td><input type="text" name="employeeName" value="${deployDeployed.deployDrafterName}" readonly="readonly"><input type="hidden" name="deployDrafter" value="${deployDeployed.deployDrafter}"></td>
       <td><input type="text" name="deployDraftDate" value="${deployDeployed.deployDraftDate}" readonly="readonly"></td>
       <td><input type="text" name="codeName" value="${deployPaid.codeName}" readonly="readonly"><input type="hidden" name="deployPayDescription" value="${deployDeployed.deployPayDescription}"></td>
       <td><input type="text" name="deployPayRequestDate" value="${deployDeployed.deployPayRequestDate}" readonly="readonly"></td>
-      <td><input type="text" name="deployPayLine" value="${deployDeployed.deployPayLine}" readonly="readonly"></td>
+      <td><input type="text" name="deployPayLineName" value="${deployDeployed.deployPayLineName}" readonly="readonly"><input type="hidden" name="deployPayLine" value="${deployDeployed.deployPayLine}"></td>
       <td><input type="text" name="deployPayDate" value="${deployDeployed.deployPayDate}" readonly="readonly"></td>
-      <td><input type="text" name="deployPayLineConfirm" value="${deployDeployed.deployPayLineConfirm}" readonly="readonly"></td>
+      <td><input type="text" name="deployPayLineConfirmName" value="${deployDeployed.deployPayLineConfirmName}" readonly="readonly"><input type="hidden" name="deployPayLineConfirm" value="${deployDeployed.deployPayLineConfirm}"></td>
       <td><input type="button" value="상세내역" onclick="showPayDetail(${deployDeployed.deployNo},'myDeploy')"></td>
    </tr>
 </c:forEach>
