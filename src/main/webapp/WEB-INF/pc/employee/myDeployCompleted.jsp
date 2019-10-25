@@ -32,7 +32,7 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 <td>결제요청일</td>
 <td>결제라인</td>
 <td>결제일</td>
-<td>결제자/반려자/배포</td>
+<td>결제확인(결제라인)</td>
 <td>상세내역</td>
 </tr>
 
