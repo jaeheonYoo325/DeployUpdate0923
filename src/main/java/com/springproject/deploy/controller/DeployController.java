@@ -289,24 +289,6 @@ public class DeployController {
 		return mv;
 	}
     
-	@GetMapping("/deploy/showDeployRequestDetail.do/{deployNo}")
-	public ModelAndView viewDeployUpdatePage(@PathVariable Long deployNo) {
-		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
-		DeployRequestDto deployRequestOfDeployNo = this.deployService.selectDeployRequestOfDeployNoService(deployNo);
-		List<ModifiedProgramsDto> modifiedProgramOfDeployNo = this.deployService.selectModifiedProgramOfDeploNoService(deployNo);
-		List<ModifiedResourcesDto> modifiedResourceOfDeployNo = this.deployService.selectModifiedResourceOfDeploNoService(deployNo);
-		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeOfCategoryService();
-		Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
-		
-		CategoryTypeDto categoryType = new CategoryTypeDto();
-		
-		mv.addObject("modifiedProgramOfDeployNo",modifiedProgramOfDeployNo);
-		mv.addObject("modifiedResourceOfDeployNo", modifiedResourceOfDeployNo);
-		mv.addObject("deployRequestOfDeployNo", deployRequestOfDeployNo);
-		mv.addObject("categoryMasterCodes", categoryMasterCodes);
-		mv.addObject("categoryType", categoryType);
-		return mv;
-	}
 
 	@PostMapping("/deploy/deployRequestModify.do")
 	public void doDeployUpdateAction(@ModelAttribute DeployRequestDto deployRequestDto, HttpServletResponse response, HttpServletRequest request) {

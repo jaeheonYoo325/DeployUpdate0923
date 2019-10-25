@@ -95,4 +95,14 @@ public class EmployeeDaoImpl extends SqlSessionDaoSupport implements EmployeeDao
 	public List<DeployPayDto> selectMyDeployDeployedDao(EmployeeDto employeeDto) {
 		return this.getSqlSession().selectList("EmployeeDao.selectMyDeployDeployedDao",employeeDto);
 	}
+
+	@Override
+	public List<DeployPayDto> selectMyDeployReturnedDao(EmployeeDto employeeDto) {
+		return this.getSqlSession().selectList("EmployeeDao.selectMyDeployReturnedDao",employeeDto);
+	}
+
+	@Override
+	public List<DeployPayDto> selectMyDeployCompletedDao(EmployeeDto employeeDto) {
+		return this.getSqlSession().selectList("EmployeeDao.selectMyDeployCompletedDao",employeeDto);
+	}
 }

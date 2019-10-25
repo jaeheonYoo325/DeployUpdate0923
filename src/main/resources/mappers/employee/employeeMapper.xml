@@ -80,7 +80,7 @@
       	JOIN MASTERTABLE m
         ON d.deployDrafter=e.employeeNo AND d.deployPayDescription=m.codeValue
         WHERE d.deployPayLine=#{employeeNo}
-        AND d.deployPayDate is null AND NOT deployPayDescription="deployPayE0"
+        AND d.deployPayDate is null AND NOT deployPayDescription="deployPayE0" AND NOT deployPayDescription="deployPayA1"
      </select>
      
      <update id="myDeployDoPayingOfCompleteNowPayDao" parameterType="DeployPayDto">
@@ -117,9 +117,7 @@
 	     deployDraftDate,
 	     deployPayRequestDate,
 	     deployPayLine,
-	     deployPayDescription,
-	     deployPayDate,
-	     deployPayLineConfirm
+	     deployPayDescription
 	    ) 
 	    VALUES(
 	    #{deployNo},
@@ -127,9 +125,7 @@
 	    #{deployDraftDate},
 	    now(),
 	    #{deployPayLineConfirm},
-	    #{deployPayDescription},
-	    now(),
-	    #{deployPayLineConfirm} 
+	    #{deployPayDescription}
 	    )
     </insert>
     
@@ -181,7 +177,7 @@
     JOIN EMPLOYEE e
     JOIN MASTERTABLE m
     ON d.deployDrafter=e.employeeNo AND d.deployPayDescription=m.codeValue
-    WHERE d.deployPayLine=#{employeeNo} AND NOT deployPayDescription="deployPayE0" AND deployPayDate is NOT NULL
+    WHERE d.deployPayLineConfirm=#{employeeNo} AND NOT deployPayDescription="deployPayE0" AND deployPayDate is NOT NULL
     </select>
     
     <select id="selectMyDeployWillDeployDao" parameterType="EmployeeDto" resultType="DeployPayDto">
@@ -244,6 +240,43 @@
     JOIN EMPLOYEE e
     JOIN MASTERTABLE m
     ON d.deployDrafter=e.employeeNo AND d.deployPayDescription=m.codeValue
-    WHERE d.deployPayDescription="deployPayE0" AND d.deployPayDate is not null AND d.deployPayLine=#{employeeNo}
+    WHERE d.deployPayDescription="deployPayE0" AND d.deployPayDate is not null AND d.deployPayLineConfirm=#{employeeNo}
     </select>
+    
+    <select id="selectMyDeployReturnedDao" parameterType="EmployeeDto" resultType="DeployPayDto">
+    SELECT 
+    	d.deployNo,
+    	d.deployDrafter,
+    	e.employeeName,
+    	d.deployDraftDate,
+    	d.deployPayRequestDate,
+    	d.deployPayLine,
+    	d.deployPayDescription,
+    	m.codeName
+   	FROM DEPLOYPAY d
+    JOIN EMPLOYEE e
+    JOIN MASTERTABLE m
+    ON d.deployDrafter=e.employeeNo AND d.deployPayDescription=m.codeValue
+    WHERE d.deployPayDescription="deployPayA1" AND d.deployPayDate is null AND d.deployDrafter=#{employeeNo}
+    </select>
+    
+    <select id="selectMyDeployCompletedDao" parameterType="EmployeeDto" resultType="DeployPayDto">
+    SELECT 
+    	d.deployNo,
+    	d.deployDrafter,
+    	e.employeeName,
+    	d.deployDraftDate,
+    	d.deployPayRequestDate,
+    	d.deployPayLine,
+    	d.deployPayDescription,
+    	m.codeName,
+    	d.deployPayDate,
+    	d.deployPayLineConfirm
+   	FROM DEPLOYPAY d
+    JOIN EMPLOYEE e
+    JOIN MASTERTABLE m
+    ON d.deployDrafter=e.employeeNo AND d.deployPayDescription=m.codeValue
+    WHERE d.deployPayDescription="deployPayE0" AND d.deployPayDate is not null AND d.deployDrafter=#{employeeNo}
+    </select>
+    
   </mapper>

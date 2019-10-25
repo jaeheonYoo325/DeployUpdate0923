@@ -279,4 +279,39 @@ public class EmployeeController {
 	 			return mv;
 	 		}
    }
+   
+   @GetMapping("/employee/myDeployReturned.do")
+   public ModelAndView viewMyDeployReturnedPage(HttpSession session) {
+      List<DeployPayDto> deployReturned = this.employeeService.selectMyDeployReturnedService((EmployeeDto)session.getAttribute(Session.USER));
+      ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+      mv.addObject("deployReturned",deployReturned);
+      return mv;
+   }
+   
+	@GetMapping("/employee/showMyPayReturnedDetail.do/{deployNo}")
+	public ModelAndView viewDeployUpdatePage(@PathVariable Long deployNo) {
+		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+		DeployRequestDto deployRequestOfDeployNo = this.deployService.selectDeployRequestOfDeployNoService(deployNo);
+		List<ModifiedProgramsDto> modifiedProgramOfDeployNo = this.deployService.selectModifiedProgramOfDeploNoService(deployNo);
+		List<ModifiedResourcesDto> modifiedResourceOfDeployNo = this.deployService.selectModifiedResourceOfDeploNoService(deployNo);
+		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeOfCategoryService();
+		Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
+		
+		CategoryTypeDto categoryType = new CategoryTypeDto();
+		
+		mv.addObject("modifiedProgramOfDeployNo",modifiedProgramOfDeployNo);
+		mv.addObject("modifiedResourceOfDeployNo", modifiedResourceOfDeployNo);
+		mv.addObject("deployRequestOfDeployNo", deployRequestOfDeployNo);
+		mv.addObject("categoryMasterCodes", categoryMasterCodes);
+		mv.addObject("categoryType", categoryType);
+		return mv;
+	}
+	
+	@GetMapping("/employee/myDeployCompleted.do")
+	   public ModelAndView viewMyDeployCompletedPage(HttpSession session) {
+	      List<DeployPayDto> deployCompleted = this.employeeService.selectMyDeployCompletedService((EmployeeDto)session.getAttribute(Session.USER));
+	      ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+	      mv.addObject("deployCompleted",deployCompleted);
+	      return mv;
+	}
 }

@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
 <script src="<c:url value='/js/deploy/deployUpdate.js' />"></script>
 </head>
-<h1>MyDeployPayDeatail</h1>
+<h1>MyDeployDetail</h1>
 No : <input type="text" name="deployNo" id="deployNo" value="${deployRequestOfDeployNo.deployNo}" readonly="readonly"><br>
 부문 :  <input type="text" name="chainId" id="chainId" value="${deployRequestOfDeployNo.chainId}" readonly="readonly">
      <input type="text" name="chainName" id="chainName" value="${deployRequestOfDeployNo.chainName}" readonly="readonly"><br>

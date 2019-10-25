@@ -181,4 +181,14 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public List<DeployPayDto> selectMyDeployDeployedService(EmployeeDto employeeDto) {
 		return this.employeeDao.selectMyDeployDeployedDao(employeeDto);
 	}
+
+	@Override
+	public List<DeployPayDto> selectMyDeployReturnedService(EmployeeDto employeeDto) {
+		return this.employeeDao.selectMyDeployReturnedDao(employeeDto);
+	}
+
+	@Override
+	public List<DeployPayDto> selectMyDeployCompletedService(EmployeeDto employeeDto) {
+		return this.employeeDao.selectMyDeployCompletedDao(employeeDto);
+	}
 }

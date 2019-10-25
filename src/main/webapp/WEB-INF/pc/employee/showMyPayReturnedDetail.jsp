@@ -146,8 +146,8 @@ Deploy담당자 : <input type="text" name="deployer" id="deployer" value="${depl
 <%-- 			<input type="radio" name="statusCode" value="0${status.index}" <c:if test="${deployRequestOfDeployNo.statusCode eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">checked="checked"</c:if>>${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName} --%>
 <%-- 		</c:forEach> --%>
 <!-- 		<br>		 -->
-<input type="button" id="deployRequestUpdateBtn" value="수정">
-<input type="button" id="DeployRequestDeleteBtn" value="삭제" onclick="location.href='/deploy/deployRequestDelete.do/'+${deployRequestOfDeployNo.deployNo}"/>
+<input type="button" id="deployRequestUpdateBtn" value="재요청하기">
+<%-- <input type="button" id="DeployRequestDeleteBtn" value="삭제" onclick="location.href='/deploy/deployRequestDelete.do/'+${deployRequestOfDeployNo.deployNo}"/> --%>
 </form:form>
 </body>
 </html>

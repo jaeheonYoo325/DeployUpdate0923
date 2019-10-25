@@ -15,7 +15,9 @@ import com.springproject.deploy.dao.DeployDao;
 import com.springproject.deploy.dto.CategoryTypeDto;
 import com.springproject.deploy.dto.DeployPayDto;
 import com.springproject.deploy.dto.DeployRequestDto;
+import com.springproject.employee.dao.EmployeeDao;
 import com.springproject.employee.dto.EmployeeDto;
+import com.springproject.employee.service.EmployeeService;
 import com.springproject.mastercode.dto.MasterCodeDto;
 import com.springproject.modifiedprograms.dto.ModifiedProgramsDto;
 import com.springproject.modifiedresources.dto.ModifiedResourcesDto;
@@ -27,6 +29,11 @@ public class DeployServiceImpl implements DeployService {
 
 	@Autowired
 	private DeployDao deployDao;
+	
+	@Autowired
+	private EmployeeDao employeeDao;
+	
+	@Autowired EmployeeService employeeService;
 
 	@Override
 	public boolean InsertDeployRequestService(DeployRequestDto deployRequestDto, ArrayList<String> modifiedPrograms,
@@ -87,7 +94,7 @@ public class DeployServiceImpl implements DeployService {
 		// XSS 방어로직
 		XssFilter xssFilter = XssFilter.getInstance("xssfilter/lucy-xss-superset.xml", true);
 		deployRequestDto.setModifiedContents(xssFilter.doFilter(deployRequestDto.getModifiedContents()));
-		
+		deployRequestDto.setStatusCode("01");
 		boolean updateOneDeployRequestSuccess = this.deployDao.updateOneDeployRequestDao(deployRequestDto) > 0;
 		boolean deleteModifiedProgramOfDeployNoSuccess = this.deployDao.deleteModifiedProgramOfDeployNoDao(deployNo) > 0;
 		boolean deleteModifiedResourceOfDeployNoSuccess = this.deployDao.deleteModifiedResourceOfDeployNoDao(deployNo) > 0;
@@ -108,9 +115,17 @@ public class DeployServiceImpl implements DeployService {
 			modifiedResourcesDto.setModifiedResources_wSourceName(xssFilter.doFilter(modifiedResources.get(i).toString()));
 			insertModifiedResourceSuccess = insertModifiedResourceSuccess && (this.deployDao.insertModifiedResourceDao(modifiedResourcesDto) > 0);
 		}
+		
+		DeployPayDto deployPayDto=this.employeeService.selectMyDeployPayOfdeployNoService(deployNo);
+	    deployPayDto.setDeployPayLineConfirm(deployRequestDto.getRequester());
+	    boolean isDoPayingSuccessOfCompleteNowPay = this.employeeDao.myDeployDoPayingOfCompleteNowPayDao(deployPayDto)>0;
+	    deployPayDto.setDeployPayLine("14");
+	    deployPayDto.setDeployPayDescription("deployPayB0");
+	    boolean isDoPayingSuccessOfNextPay = this.employeeDao.myDeployDoPayingOfAddNextPayDao(deployPayDto)>0;
+
 
 		updateFinalSuccess = updateFinalSuccess && updateOneDeployRequestSuccess && deleteModifiedProgramOfDeployNoSuccess && deleteModifiedResourceOfDeployNoSuccess && insertModifiedProgramSuccess
-				&& insertModifiedResourceSuccess;
+				&& insertModifiedResourceSuccess&&isDoPayingSuccessOfCompleteNowPay&&isDoPayingSuccessOfNextPay;
 		return updateFinalSuccess;
 	}
 

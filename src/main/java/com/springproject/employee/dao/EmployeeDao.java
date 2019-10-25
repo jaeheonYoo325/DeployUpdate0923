@@ -37,4 +37,8 @@ public interface EmployeeDao {
 	public List<AuthorityDto> checkThisUserHaveAuthorityOfDeployDao(EmployeeDto employeeDto);
 
 	public List<DeployPayDto> selectMyDeployDeployedDao(EmployeeDto employeeDto);
+
+	public List<DeployPayDto> selectMyDeployReturnedDao(EmployeeDto employeeDto);
+
+	public List<DeployPayDto> selectMyDeployCompletedDao(EmployeeDto employeeDto);
 }

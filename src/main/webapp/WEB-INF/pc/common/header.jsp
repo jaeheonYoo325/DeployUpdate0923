@@ -21,7 +21,9 @@
 			<li><a href="<c:url value='/employee/myDeployPaid.do' />">결제한거</a></li>
 			<li><a href="<c:url value='/employee/myDeployWillDeploy.do' />">배포할거</a></li>
 			<li><a href="<c:url value='/employee/myDeployDeployed.do' />">배포한거</a></li>
-			<li><a href="<c:url value='/employee/employeeRegist.do' />">직원등록(관리자)</a></li>				
+			<li><a href="<c:url value='/employee/employeeRegist.do' />">직원등록(관리자)</a></li>
+			<li><a href="<c:url value='/employee/myDeployReturned.do' />">반려함</a></li>
+			<li><a href="<c:url value='/employee/myDeployCompleted.do' />">완료함</a></li>
 		</ul>
 
 		<c:choose>

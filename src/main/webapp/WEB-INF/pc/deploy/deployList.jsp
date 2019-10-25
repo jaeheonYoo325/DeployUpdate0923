@@ -85,10 +85,10 @@
 </script>
 
 <script>
-function showDeployRequestDetail(thisDeployNo){
-   var deployNo=thisDeployNo;
-   window.open("/deploy/showDeployRequestDetail.do/"+deployNo,"상세보기", "width=1000, height=800");
-}
+function showPayDetail(thisDeployNo,deployPayDetailCode){
+	   var deployNo=thisDeployNo;
+	   window.open("/employee/showDeployPayDetail.do/"+deployNo+"/"+deployPayDetailCode,"상세보기", "width=1000, height=800");
+	}
 </script>
 
 </head>
@@ -176,7 +176,7 @@ function showDeployRequestDetail(thisDeployNo){
 					<td>${deploy.testConfirmer}</td>
 					<td>${deploy.productionConfirmer}</td>
 					<td>${deploy.division}</td>
-					<td><input type="button" value="상세보기" onclick="showDeployRequestDetail(${deploy.deployNo})"></td>
+					<td><input type="button" value="상세내역" onclick="showPayDetail(${deployPaid.deployNo},'myDeploy')"></td>
 					<td>	
 						<c:forEach items="${categoryMasterCodes[categoryType.cateStatusString]}" begin="1" varStatus="status">
 							<input type="radio" name="statusCode${deploy.deployNo}"  <c:if test="${deploy.statusCode eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">checked="checked"</c:if>disabled="disabled">${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName}
