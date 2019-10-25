@@ -243,7 +243,7 @@ public class DeployServiceImpl implements DeployService {
 		Map<String, List<MasterCodeDto>> masterDates = new HashMap<String, List<MasterCodeDto>>();
 		
 		searchTypeOneMasterCode = this.deployDao.selectMasterCodeOfSearchTypeDao(searchTypeString);
-		masterDates.put("SEARCHTYPE", searchTypeOneMasterCode);
+		masterDates.put(searchTypeString, searchTypeOneMasterCode);
 		
 		return masterDates;
 	}

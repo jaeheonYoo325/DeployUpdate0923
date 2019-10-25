@@ -97,13 +97,13 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 	<h1>List</h1>
 	<form:form name="listFrm" id="listFrm">
 	<select name="searchType" id="searchType">
-<%-- 			<c:forEach items="${masterCodeOfSearchTypeMap[categoryType.searchTypeString]}" varStatus="status"> --%>
-<%-- 				<option value="<c:out value='${masterCodeOfSearchTypeMap[categoryType.searchTypeString][status.index].codeName}'></c:out>" <c:if test="${categoryType.searchType eq masterCodeOfSearchTypeMap[categoryType.searchTypeString][status.index].codeName}">selected="selected"</c:if>>${masterCodeOfSearchTypeMap[categoryType.searchTypeString][status.index].codeName}</option> --%>
-<%-- 			</c:forEach> --%>
-			<option value="검색타입" <c:if test="${categoryType.searchType eq '검색타입'}">selected="selected"</c:if>>검색타입</option>
-			<option value="requester" <c:if test="${categoryType.searchType eq 'requester'}">selected="selected"</c:if>>요청자</option>
-			<option value="modifiedPrograms" <c:if test="${categoryType.searchType eq 'modifiedPrograms'}">selected="selected"</c:if>>변경프로그램목록</option>
-			<option value="modifiedResources" <c:if test="${categoryType.searchType eq 'modifiedResources'}">selected="selected"</c:if>>변경소스명</option>
+			<c:forEach items="${masterCodeOfSearchTypeMap[categoryType.searchTypeString]}" varStatus="status">
+				<option value="<c:out value='${masterCodeOfSearchTypeMap[categoryType.searchTypeString][status.index].codeName}'></c:out>" <c:if test="${categoryType.searchType eq masterCodeOfSearchTypeMap[categoryType.searchTypeString][status.index].codeName}">selected="selected"</c:if>>${masterCodeOfSearchTypeMap[categoryType.searchTypeString][status.index].codeName}</option>
+			</c:forEach>
+<%-- 			<option value="검색타입" <c:if test="${categoryType.searchType eq '검색타입'}">selected="selected"</c:if>>검색타입</option> --%>
+<%-- 			<option value="requester" <c:if test="${categoryType.searchType eq 'requester'}">selected="selected"</c:if>>요청자</option> --%>
+<%-- 			<option value="modifiedPrograms" <c:if test="${categoryType.searchType eq 'modifiedPrograms'}">selected="selected"</c:if>>변경프로그램목록</option> --%>
+<%-- 			<option value="modifiedResources" <c:if test="${categoryType.searchType eq 'modifiedResources'}">selected="selected"</c:if>>변경소스명</option> --%>
 		</select> 
 
 		<input type="text" name="searchKeyword" id="searchKeyword" value="${categoryType.searchKeyword}">
@@ -176,7 +176,7 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 					<td>${deploy.testConfirmer}</td>
 					<td>${deploy.productionConfirmer}</td>
 					<td>${deploy.division}</td>
-					<td><input type="button" value="상세내역" onclick="showPayDetail(${deployPaid.deployNo},'myDeploy')"></td>
+					<td><input type="button" value="상세내역" onclick="showPayDetail(${deploy.deployNo},'myDeploy')"></td>
 					<td>	
 						<c:forEach items="${categoryMasterCodes[categoryType.cateStatusString]}" begin="1" varStatus="status">
 							<input type="radio" name="statusCode${deploy.deployNo}"  <c:if test="${deploy.statusCode eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">checked="checked"</c:if>disabled="disabled">${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName}

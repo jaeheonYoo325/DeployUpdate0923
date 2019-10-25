@@ -249,18 +249,13 @@
     	AND (d.deployNo=p.modifiedPrograms_deployNo)
     	AND (d.deployNo=s.modifiedResources_deployNo)
 		WHERE 1=1
-<!-- 			<if test="searchType == 검색타입"> -->
-<!-- 				AND d.requester LIKE CONCAT(#{searchKeyword}, '%') -->
-<!-- 				AND p.modifiedPrograms_pageName LIKE CONCAT(#{searchKeyword}, '%') -->
-<!-- 				AND s.modifiedResources_wSourceName LIKE CONCAT(#{searchKeyword}, '%') -->
-<!-- 			</if> -->
-			<if test="searchType == 'requester' and searchKeyword != ''" >
-				AND d.requester LIKE CONCAT(#{searchKeyword}, '%')
+			<if test="searchType == '요청자' and searchKeyword != ''" >
+				AND e.employeeName LIKE CONCAT(#{searchKeyword}, '%')
 			</if>						 
-			<if test="searchType == 'modifiedPrograms' and searchKeyword != ''">
+			<if test="searchType == '변경된프로그램목록' and searchKeyword != ''">
 				AND p.modifiedPrograms_pageName LIKE CONCAT(#{searchKeyword}, '%')
 			</if>						 
-			<if test="searchType == 'modifiedResources' and searchKeyword != ''">
+			<if test="searchType == '변경된소스명' and searchKeyword != ''">
 				AND s.modifiedResources_wSourceName LIKE CONCAT(#{searchKeyword}, '%')
 			</if>						 
 			AND d.chainId LIKE CONCAT(#{categoryChain}, '%')
@@ -268,6 +263,7 @@
 			AND d.division LIKE CONCAT(#{categoryDivision}, '%')
 	        AND m.codeValue LIKE CONCAT(#{categoryStatus}, '%') 
 	        AND m.codeType="CTGY_STATUS"
+	    GROUP BY d.deployNo
 		ORDER BY CASE WHEN #{categoryRequestDate} = '오름차순' THEN d.requestDate END ASC,
 		     CASE WHEN #{categoryRequestDate} = '내림차순' THEN d.requestDate END DESC,
 		     CASE WHEN #{categoryRequestDate} = '요청날짜' THEN d.requestDate END ASC;
