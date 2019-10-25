@@ -125,6 +125,10 @@ public class DeployController {
 	public ModelAndView viewDeployRequestPage(HttpSession session, HttpServletResponse response) {
 		ModelAndView mv=null;
 		boolean isThisUserHaveAuthorityOfRequest=this.employeeService.checkThisUserHaveAuthorityOfRequestService((EmployeeDto)session.getAttribute(Session.USER));
+		
+		response.setCharacterEncoding("UTF-8"); 
+		response.setContentType("text/html; charset=UTF-8");
+		
 		if(isThisUserHaveAuthorityOfRequest) {
 			mv = new ModelAndView(HttpRequestHelper.getJspPath());
 			List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeOfCategoryService();
@@ -165,6 +169,10 @@ public class DeployController {
 	
 	@PostMapping("/deploy/deployRequest.do")
 	public ModelAndView doDeployAction(@Valid @ModelAttribute DeployRequestDto deployRequestDto, Errors errors, HttpServletRequest request, HttpServletResponse response) {
+		
+		response.setCharacterEncoding("UTF-8"); 
+		response.setContentType("text/html; charset=UTF-8"); 
+		
 		ModelAndView mv = new ModelAndView();
 		ArrayList<String> modifiedPrograms = new ArrayList<String>();
 		ArrayList<String> modifiedProgramName = new ArrayList<String>();
@@ -292,6 +300,10 @@ public class DeployController {
 
 	@PostMapping("/deploy/deployRequestModify.do")
 	public void doDeployUpdateAction(@ModelAttribute DeployRequestDto deployRequestDto, HttpServletResponse response, HttpServletRequest request) {
+		
+		response.setCharacterEncoding("UTF-8"); 
+		response.setContentType("text/html; charset=UTF-8"); 
+		
 		ArrayList<String> modifiedPrograms = new ArrayList<String>();
 		ArrayList<String> modifiedProgramName = new ArrayList<String>();
 		ArrayList<String> modifiedResources = new ArrayList<String>();
@@ -341,11 +353,15 @@ public class DeployController {
 
 	@RequestMapping("/deploy/deployRequestDelete.do/{deployNo}")
 	public void doDeployDeleteAction(@PathVariable Long deployNo, HttpServletResponse response) {
+		
+	    response.setCharacterEncoding("UTF-8"); 
+	    response.setContentType("text/html; charset=UTF-8"); 
+		
 		boolean deleteOneDeployRequestOfDeployNoSuccess = this.deployService.deleteOneDeployRequestOfDeployNoService(deployNo);
 		
 		PrintWriter out;
 		if (deleteOneDeployRequestOfDeployNoSuccess) {
-			response.setContentType("text/html;charset=UTF-8");
+			
 
 			try {
 				out = response.getWriter();

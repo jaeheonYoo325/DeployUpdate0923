@@ -121,13 +121,14 @@ public class EmployeeController {
    
    @GetMapping("/employee/MyDeployDoingPay.do/{deployNo}")
    public void doMyDeployPayAction(@PathVariable Long deployNo,HttpSession session,HttpServletResponse response) {
+	  response.setCharacterEncoding("UTF-8"); 
+	  response.setContentType("text/html; charset=UTF-8");
+	  
       DeployPayDto deployPayDto=this.employeeService.selectMyDeployPayOfdeployNoService(deployNo);
       deployPayDto.setDeployPayLineConfirm(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
       boolean isDoingPaySuccess =this.employeeService.myDeployDoPayingService(deployPayDto);
       PrintWriter out;
 		if (isDoingPaySuccess) {
-			response.setContentType("text/html;charset=UTF-8");
-
 			try {
 				out = response.getWriter();
 				out.println("<script>");
@@ -153,13 +154,14 @@ public class EmployeeController {
    
    @GetMapping("/employee/MyDeployDoingReturn.do/{deployNo}")
    public void doMyDeployReturnAction(@PathVariable Long deployNo,HttpSession session,HttpServletResponse response) {
+	  response.setCharacterEncoding("UTF-8"); 
+	  response.setContentType("text/html; charset=UTF-8");
+	  
       DeployPayDto deployPayDto=this.employeeService.selectMyDeployPayOfdeployNoService(deployNo);
       deployPayDto.setDeployPayLineConfirm(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
       boolean isDoingReturnSuccess=this.employeeService.myDeployDoReturningService(deployPayDto);
       PrintWriter out;
 		if (isDoingReturnSuccess) {
-			response.setContentType("text/html;charset=UTF-8");
-
 			try {
 				out = response.getWriter();
 				out.println("<script>");
@@ -193,32 +195,38 @@ public class EmployeeController {
    
    @GetMapping("/employee/myDeployWillDeploy.do")
    public ModelAndView viewMyDeployWillDeployPage(HttpSession session, HttpServletResponse response) {
-	 		ModelAndView mv=null;
-	 		boolean isThisUserHaveAuthorityOfDeploy=this.employeeService.checkThisUserHaveAuthorityOfDeployService((EmployeeDto)session.getAttribute(Session.USER));
-	 		//
-	 		if(isThisUserHaveAuthorityOfDeploy) {
-	 			mv = new ModelAndView(HttpRequestHelper.getJspPath());
-	 		      List<DeployPayDto> deployWillDeploy = this.employeeService.selectMyDeployWillDeployService((EmployeeDto)session.getAttribute(Session.USER));
-	 		      mv.addObject("deployWillDeploy",deployWillDeploy);
-	 			return mv;
-	 		}
-	 		else {
-	 			try {
-	 				PrintWriter out;
-	 				out = response.getWriter();
-	 				out.println("<script>");
-	 				out.println("alert('배포권한이 없습니다')");
-	 				out.println("history.back()");
-	 				out.println("</script>");
-	 			} catch (IOException e) {
-	 				e.printStackTrace();
-	 			}
-	 			return mv;
-	 		}
+	   
+	   	response.setCharacterEncoding("UTF-8"); 
+	    response.setContentType("text/html; charset=UTF-8"); 	   	
+ 		ModelAndView mv=null;
+ 		boolean isThisUserHaveAuthorityOfDeploy=this.employeeService.checkThisUserHaveAuthorityOfDeployService((EmployeeDto)session.getAttribute(Session.USER));
+
+ 		if(isThisUserHaveAuthorityOfDeploy) {
+ 			mv = new ModelAndView(HttpRequestHelper.getJspPath());
+ 		      List<DeployPayDto> deployWillDeploy = this.employeeService.selectMyDeployWillDeployService((EmployeeDto)session.getAttribute(Session.USER));
+ 		      mv.addObject("deployWillDeploy",deployWillDeploy);
+ 			return mv;
+ 		}
+ 		else {
+ 			try {
+ 				PrintWriter out;
+ 				out = response.getWriter();
+ 				out.println("<script>");
+ 				out.println("alert('배포권한이 없습니다')");
+ 				out.println("history.back()");
+ 				out.println("</script>");
+ 			} catch (IOException e) {
+ 				e.printStackTrace();
+ 			}
+ 			return mv;
+ 		}
    }
    
    @GetMapping("/employee/myDeployDoingDeploy.do/{deployNo}")
    public void doMyDeployDoDeployingAction(@PathVariable Long deployNo,HttpSession session,HttpServletResponse response) {
+	  response.setCharacterEncoding("UTF-8"); 
+	  response.setContentType("text/html; charset=UTF-8");
+	  
 	  DeployPayDto deploypayDtoForSearch=new DeployPayDto();
 	  deploypayDtoForSearch.setDeployNo(deployNo);
 	  deploypayDtoForSearch.setDeployPayLine(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
@@ -229,8 +237,6 @@ public class EmployeeController {
       boolean isDoDeployingSuccess =this.employeeService.myDeployDoDeployingService(deployPayDto);
       PrintWriter out;
 		if (isDoDeployingSuccess) {
-			response.setContentType("text/html;charset=UTF-8");
-
 			try {
 				out = response.getWriter();
 				out.println("<script>");
@@ -256,28 +262,31 @@ public class EmployeeController {
    
    @GetMapping("/employee/myDeployDeployed.do")
    public ModelAndView viewMyDeployDeployedPage(HttpSession session, HttpServletResponse response) {
-	 		ModelAndView mv=null;
-	 		boolean isThisUserHaveAuthorityOfDeploy=this.employeeService.checkThisUserHaveAuthorityOfDeployService((EmployeeDto)session.getAttribute(Session.USER));
-	 		
-	 		if(isThisUserHaveAuthorityOfDeploy) {
-	 			mv = new ModelAndView(HttpRequestHelper.getJspPath());
-	 		      List<DeployPayDto> deployDeployed = this.employeeService.selectMyDeployDeployedService((EmployeeDto)session.getAttribute(Session.USER));
-	 		      mv.addObject("deployDeployed",deployDeployed);
-	 			return mv;
-	 		}
-	 		else {
-	 			try {
-	 				PrintWriter out;
-	 				out = response.getWriter();
-	 				out.println("<script>");
-	 				out.println("alert('배포권한이 없습니다')");
-	 				out.println("history.back()");
-	 				out.println("</script>");
-	 			} catch (IOException e) {
-	 				e.printStackTrace();
-	 			}
-	 			return mv;
-	 		}
+	   response.setCharacterEncoding("UTF-8"); 
+	   response.setContentType("text/html; charset=UTF-8"); 	   	
+	   
+		ModelAndView mv=null;
+		boolean isThisUserHaveAuthorityOfDeploy=this.employeeService.checkThisUserHaveAuthorityOfDeployService((EmployeeDto)session.getAttribute(Session.USER));
+		
+		if(isThisUserHaveAuthorityOfDeploy) {
+			mv = new ModelAndView(HttpRequestHelper.getJspPath());
+		      List<DeployPayDto> deployDeployed = this.employeeService.selectMyDeployDeployedService((EmployeeDto)session.getAttribute(Session.USER));
+		      mv.addObject("deployDeployed",deployDeployed);
+			return mv;
+		}
+		else {
+			try {
+				PrintWriter out;
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('배포권한이 없습니다')");
+				out.println("history.back()");
+				out.println("</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return mv;
+		}
    }
    
    @GetMapping("/employee/myDeployReturned.do")
