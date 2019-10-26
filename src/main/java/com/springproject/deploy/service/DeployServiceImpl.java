@@ -13,7 +13,7 @@ import com.nhncorp.lucy.security.xss.XssFilter;
 import com.springproject.chain.dto.ChainDto;
 import com.springproject.deploy.dao.DeployDao;
 import com.springproject.deploy.dto.CategoryTypeDto;
-import com.springproject.deploy.dto.DeployPayDto;
+import com.springproject.deploy.dto.DeployApprovalDto;
 import com.springproject.deploy.dto.DeployRequestDto;
 import com.springproject.employee.dao.EmployeeDao;
 import com.springproject.employee.dto.EmployeeDto;
@@ -65,12 +65,12 @@ public class DeployServiceImpl implements DeployService {
 			insertModifiedProgramSuccess = insertModifiedProgramSuccess && (this.deployDao.insertModifiedProgramDao(modifiedProgramsDto) > 0);
 		}
 
-		DeployPayDto deployPayDto = new DeployPayDto();
-	    deployPayDto.setDeployNo(deployNo);
-	    deployPayDto.setDeployDrafter(deployRequestDto.getRequester());   
-	    boolean insertDeployPayForDeployRequestSuccess = this.deployDao.insertDeployPayForDeployRequestDao(deployPayDto)>0;
+		DeployApprovalDto deployApprovalDto = new DeployApprovalDto();
+	    deployApprovalDto.setDeployNo(deployNo);
+	    deployApprovalDto.setDeployDrafter(deployRequestDto.getRequester());   
+	    boolean insertDeployApprovalForDeployRequestSuccess = this.deployDao.insertDeployApprovalForDeployRequestDao(deployApprovalDto)>0;
 		
-		boolean requestSuccess = insertDeployRequestSuccess && insertModifiedProgramSuccess && insertModifiedResourceSuccess && insertDeployPayForDeployRequestSuccess;
+		boolean requestSuccess = insertDeployRequestSuccess && insertModifiedProgramSuccess && insertModifiedResourceSuccess && insertDeployApprovalForDeployRequestSuccess;
 		return requestSuccess;
 	}
 
@@ -116,16 +116,16 @@ public class DeployServiceImpl implements DeployService {
 			insertModifiedResourceSuccess = insertModifiedResourceSuccess && (this.deployDao.insertModifiedResourceDao(modifiedResourcesDto) > 0);
 		}
 		
-		DeployPayDto deployPayDto=this.employeeService.selectMyDeployPayOfdeployNoService(deployNo);
-	    deployPayDto.setDeployPayLineConfirm(deployRequestDto.getRequester());
-	    boolean isDoPayingSuccessOfCompleteNowPay = this.employeeDao.myDeployDoPayingOfCompleteNowPayDao(deployPayDto)>0;
-	    deployPayDto.setDeployPayLine("14");
-	    deployPayDto.setDeployPayDescription("deployPayB0");
-	    boolean isDoPayingSuccessOfNextPay = this.employeeDao.myDeployDoPayingOfAddNextPayDao(deployPayDto)>0;
+		DeployApprovalDto deployApprovalDto=this.employeeService.selectMyDeployApprovalOfdeployNoService(deployNo);
+	    deployApprovalDto.setDeployApprovalLineConfirm(deployRequestDto.getRequester());
+	    boolean isDoApprovalingSuccessOfCompleteNowApproval = this.employeeDao.myDeployDoApprovalingOfCompleteNowApprovalDao(deployApprovalDto)>0;
+	    deployApprovalDto.setDeployApprovalLine("14");
+	    deployApprovalDto.setDeployApprovalDescription("deployApprovalB0");
+	    boolean isDoApprovalingSuccessOfNextApproval = this.employeeDao.myDeployDoApprovalingOfAddNextApprovalDao(deployApprovalDto)>0;
 
 
 		updateFinalSuccess = updateFinalSuccess && updateOneDeployRequestSuccess && deleteModifiedProgramOfDeployNoSuccess && deleteModifiedResourceOfDeployNoSuccess && insertModifiedProgramSuccess
-				&& insertModifiedResourceSuccess&&isDoPayingSuccessOfCompleteNowPay&&isDoPayingSuccessOfNextPay;
+				&& insertModifiedResourceSuccess&&isDoApprovalingSuccessOfCompleteNowApproval&&isDoApprovalingSuccessOfNextApproval;
 		return updateFinalSuccess;
 	}
 

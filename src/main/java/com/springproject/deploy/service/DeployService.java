@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.springproject.chain.dto.ChainDto;
 import com.springproject.deploy.dto.CategoryTypeDto;
-import com.springproject.deploy.dto.DeployPayDto;
+import com.springproject.deploy.dto.DeployApprovalDto;
 import com.springproject.deploy.dto.DeployRequestDto;
 import com.springproject.employee.dto.EmployeeDto;
 import com.springproject.mastercode.dto.MasterCodeDto;

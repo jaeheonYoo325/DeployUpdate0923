@@ -58,12 +58,12 @@ Deploy담당자 : <input type="text" name="deployer" id="deployer" value="${depl
       <option value="변경" <c:if test="${deployRequestOfDeployNo.division eq '변경'}" >selected="selected"</c:if>>변경</option>                         
      </select><br>
      
- <c:if test="${deployPayDetailCode eq 'myDeployPayDetail'}">
-<input type="button" value="결제하기" onclick="location.href='/employee/MyDeployDoingPay.do/${deployRequestOfDeployNo.deployNo}'">
+ <c:if test="${deployApprovalDetailCode eq 'myDeployApprovalDetail'}">
+<input type="button" value="결제하기" onclick="location.href='/employee/MyDeployDoingApproval.do/${deployRequestOfDeployNo.deployNo}'">
 <input type="button" value="반려하기" onclick="location.href='/employee/MyDeployDoingReturn.do/${deployRequestOfDeployNo.deployNo}'">   
  </c:if>    
  
- <c:if test="${deployPayDetailCode eq 'myDeployWillDeploy'}">
+ <c:if test="${deployApprovalDetailCode eq 'myDeployWillDeploy'}">
  <input type="button" value="배포하기" onclick="location.href='/employee/myDeployDoingDeploy.do/${deployRequestOfDeployNo.deployNo}'">
 <input type="button" value="반려하기" onclick="location.href='/employee/MyDeployDoingReturn.do/${deployRequestOfDeployNo.deployNo}'">   
  </c:if>  

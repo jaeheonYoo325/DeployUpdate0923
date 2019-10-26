@@ -293,14 +293,14 @@
       WHERE   codeType LIKE "CTGY%"   
     </select>
     
-    <insert id="insertDeployPayForDeployRequestDao" parameterType="DeployPayDto">
-	    INSERT INTO DEPLOYPAY(
+    <insert id="insertDeployApprovalForDeployRequestDao" parameterType="DeployApprovalDto">
+	    INSERT INTO DEPLOYApproval(
 	       deployNo,
 	       deployDrafter,
 	       deployDraftDate,
-	       deployPayRequestDate,
-	       deployPayLine,
-	       deployPayDescription
+	       deployApprovalRequestDate,
+	       deployApprovalLine,
+	       deployApprovalDescription
 	    ) 
 	    VALUES(
 	       #{deployNo},
@@ -308,7 +308,7 @@
 	       now(),
 	       now(),
 	       "14",
-	       "deployPayB0"
+	       "deployApprovalB0"
 	    )
     </insert>
     

@@ -13,9 +13,9 @@
 <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
 <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
 <script> 
-function showPayDetail(thisDeployNo,deployPayDetailCode){
+function showApprovalDetail(thisDeployNo,deployApprovalDetailCode){
    var deployNo=thisDeployNo;
-   window.open("/employee/showDeployPayDetail.do/"+deployNo+"/"+deployPayDetailCode,"상세보기", "width=1000, height=800");
+   window.open("/employee/showDeployApprovalDetail.do/"+deployNo+"/"+deployApprovalDetailCode,"상세보기", "width=1000, height=800");
 }
 
 </script>
@@ -45,12 +45,12 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
       <td><input type="text" name="deployNo" value="${deployDeployed.deployNo}" readonly="readonly"></td>
       <td><input type="text" name="employeeName" value="${deployDeployed.deployDrafterName}" readonly="readonly"><input type="hidden" name="deployDrafter" value="${deployDeployed.deployDrafter}"></td>
       <td><input type="text" name="deployDraftDate" value="${deployDeployed.deployDraftDate}" readonly="readonly"></td>
-      <td><input type="text" name="codeName" value="${deployPaid.codeName}" readonly="readonly"><input type="hidden" name="deployPayDescription" value="${deployDeployed.deployPayDescription}"></td>
-      <td><input type="text" name="deployPayRequestDate" value="${deployDeployed.deployPayRequestDate}" readonly="readonly"></td>
-      <td><input type="text" name="deployPayLineName" value="${deployDeployed.deployPayLineName}" readonly="readonly"><input type="hidden" name="deployPayLine" value="${deployDeployed.deployPayLine}"></td>
-      <td><input type="text" name="deployPayDate" value="${deployDeployed.deployPayDate}" readonly="readonly"></td>
-      <td><input type="text" name="deployPayLineConfirmName" value="${deployDeployed.deployPayLineConfirmName}" readonly="readonly"><input type="hidden" name="deployPayLineConfirm" value="${deployDeployed.deployPayLineConfirm}"></td>
-      <td><input type="button" value="상세내역" onclick="showPayDetail(${deployDeployed.deployNo},'myDeploy')"></td>
+      <td><input type="text" name="codeName" value="${deployPaid.codeName}" readonly="readonly"><input type="hidden" name="deployApprovalDescription" value="${deployDeployed.deployApprovalDescription}"></td>
+      <td><input type="text" name="deployApprovalRequestDate" value="${deployDeployed.deployApprovalRequestDate}" readonly="readonly"></td>
+      <td><input type="text" name="deployApprovalLineName" value="${deployDeployed.deployApprovalLineName}" readonly="readonly"><input type="hidden" name="deployApprovalLine" value="${deployDeployed.deployApprovalLine}"></td>
+      <td><input type="text" name="deployApprovalDate" value="${deployDeployed.deployApprovalDate}" readonly="readonly"></td>
+      <td><input type="text" name="deployApprovalLineConfirmName" value="${deployDeployed.deployApprovalLineConfirmName}" readonly="readonly"><input type="hidden" name="deployApprovalLineConfirm" value="${deployDeployed.deployApprovalLineConfirm}"></td>
+      <td><input type="button" value="상세내역" onclick="showApprovalDetail(${deployDeployed.deployNo},'myDeploy')"></td>
    </tr>
 </c:forEach>
 

@@ -65,91 +65,91 @@
   		WHERE	employeeNo = #{employeeNo}
   	</select>
   	
-  	<select id="selectMyDeployPayDao" parameterType="EmployeeDto" resultType="DeployPayDto">
+  	<select id="selectMyDeployApprovalDao" parameterType="EmployeeDto" resultType="DeployApprovalDto">
         SELECT
               d.deployNo,
               d.deployDrafter,
               (select employeeName from employee where employeeNo = d.deployDrafter) as deployDrafterName,
               d.deployDraftDate,
-              d.deployPayRequestDate,
-              d.deployPayLine,
-              (select employeeName from employee where employeeNo = d.deployPayLine) as deployPayLineName,
-              d.deployPayDescription,
+              d.deployApprovalRequestDate,
+              d.deployApprovalLine,
+              (select employeeName from employee where employeeNo = d.deployApprovalLine) as deployApprovalLineName,
+              d.deployApprovalDescription,
               m.codeName
-        FROM DEPLOYPAY d
+        FROM DEPLOYApproval d
       	JOIN MASTERTABLE m
-        ON d.deployPayDescription=m.codeValue
-        WHERE d.deployPayLine=#{employeeNo}
-        AND d.deployPayDate is null AND NOT deployPayDescription="deployPayE0" AND NOT deployPayDescription="deployPayA1"
+        ON d.deployApprovalDescription=m.codeValue
+        WHERE d.deployApprovalLine=#{employeeNo}
+        AND d.deployApprovalDate is null AND NOT deployApprovalDescription="deployApprovalE0" AND NOT deployApprovalDescription="deployApprovalA1"
      </select>
      
-     <update id="myDeployDoPayingOfCompleteNowPayDao" parameterType="DeployPayDto">
-	      UPDATE    DeployPay
+     <update id="myDeployDoApprovalingOfCompleteNowApprovalDao" parameterType="DeployApprovalDto">
+	      UPDATE    DeployApproval
 	      SET     
-	              deployPayDate = now(),
-	              deployPayLineConfirm = #{deployPayLineConfirm}
-	      WHERE   deployNo = #{deployNo} AND deployPayDate is null
+	              deployApprovalDate = now(),
+	              deployApprovalLineConfirm = #{deployApprovalLineConfirm}
+	      WHERE   deployNo = #{deployNo} AND deployApprovalDate is null
      </update>
      
-     <insert id="myDeployDoPayingOfAddNextPayDao" parameterType="DeployPayDto">
-	    INSERT INTO DEPLOYPAY(
+     <insert id="myDeployDoApprovalingOfAddNextApprovalDao" parameterType="DeployApprovalDto">
+	    INSERT INTO DEPLOYApproval(
 	       deployNo,
 	       deployDrafter,
 	       deployDraftDate,
-	       deployPayRequestDate,
-	       deployPayLine,
-	       deployPayDescription
+	       deployApprovalRequestDate,
+	       deployApprovalLine,
+	       deployApprovalDescription
 	    ) 
 	    VALUES(
 	       #{deployNo},
 	       #{deployDrafter},
 	       #{deployDraftDate},
 	       now(),
-	       #{deployPayLine},
-	       #{deployPayDescription}
+	       #{deployApprovalLine},
+	       #{deployApprovalDescription}
 	    )
     </insert>
     
-    <insert id="myDeployDoReturningOfNextPayDao" parameterType="DeployPayDto">
-	     INSERT INTO DEPLOYPAY(
+    <insert id="myDeployDoReturningOfNextApprovalDao" parameterType="DeployApprovalDto">
+	     INSERT INTO DEPLOYApproval(
 	     deployNo,
 	     deployDrafter,
 	     deployDraftDate,
-	     deployPayRequestDate,
-	     deployPayLine,
-	     deployPayDescription
+	     deployApprovalRequestDate,
+	     deployApprovalLine,
+	     deployApprovalDescription
 	    ) 
 	    VALUES(
 	    #{deployNo},
 	    #{deployDrafter},
 	    #{deployDraftDate},
 	    now(),
-	    #{deployPayLineConfirm},
-	    #{deployPayDescription}
+	    #{deployApprovalLineConfirm},
+	    #{deployApprovalDescription}
 	    )
     </insert>
     
-    <update id="changeStatusCodeForDeloyDoPayingDao" parameterType="DeployRequestDto">
+    <update id="changeStatusCodeForDeloyDoApprovalingDao" parameterType="DeployRequestDto">
 	    UPDATE DEPLOY
 	    SET statusCode=#{statusCode}
 	    WHERE deployNo=#{deployNo}
     </update>
     
-    <select id="selectMyDeployPayOfdeployNoDao" parameterType="Long" resultType="DeployPayDto">
+    <select id="selectMyDeployApprovalOfdeployNoDao" parameterType="Long" resultType="DeployApprovalDto">
         SELECT
               d.deployNo,
               d.deployDrafter,
               e.employeeName,
               d.deployDraftDate,
-              d.deployPayRequestDate,
-              d.deployPayLine,
-              d.deployPayDescription,
+              d.deployApprovalRequestDate,
+              d.deployApprovalLine,
+              d.deployApprovalDescription,
               m.codeName
-        FROM DEPLOYPAY d
+        FROM DEPLOYApproval d
       	JOIN EMPLOYEE e
       	JOIN MASTERTABLE m
-        ON d.deployDrafter=e.employeeNo AND d.deployPayDescription=m.codeValue
-        WHERE d.deployNo=#{deployNo} AND d.deployPayDate is null
+        ON d.deployDrafter=e.employeeNo AND d.deployApprovalDescription=m.codeValue
+        WHERE d.deployNo=#{deployNo} AND d.deployApprovalDate is null
     </select>
     
 <!--     1022추가 -->
@@ -161,61 +161,61 @@
     WHERE employeeNo=#{employeeNo} AND roleCode="RequestOfDeploy"
     </select>
     
-    <select id="selectMyDeployPaidDao" parameterType="EmployeeDto" resultType="DeployPayDto">
+    <select id="selectMyDeployApprovedDao" parameterType="EmployeeDto" resultType="DeployApprovalDto">
     SELECT 
     	d.deployNo,
     	d.deployDrafter,
     	(select employeeName from employee where employeeNo = d.deployDrafter) as deployDrafterName,
     	d.deployDraftDate,
-    	d.deployPayRequestDate,
-    	d.deployPayLine,
-    	(select employeeName from employee where employeeNo = d.deployPayLine) as deployPayLineName,
-    	d.deployPayDescription,
+    	d.deployApprovalRequestDate,
+    	d.deployApprovalLine,
+    	(select employeeName from employee where employeeNo = d.deployApprovalLine) as deployApprovalLineName,
+    	d.deployApprovalDescription,
     	m.codeName,
-    	d.deployPayDate,
-    	d.deployPayLineConfirm,
-    	(select employeeName from employee where employeeNo = d.deployPayLineConfirm) as deployPayLineConfirmName
-   	FROM DEPLOYPAY d
+    	d.deployApprovalDate,
+    	d.deployApprovalLineConfirm,
+    	(select employeeName from employee where employeeNo = d.deployApprovalLineConfirm) as deployApprovalLineConfirmName
+   	FROM DEPLOYApproval d
     JOIN MASTERTABLE m
-    ON d.deployPayDescription=m.codeValue
-    WHERE d.deployPayLineConfirm=#{employeeNo} AND NOT deployPayDescription="deployPayE0" AND deployPayDate is NOT NULL
+    ON d.deployApprovalDescription=m.codeValue
+    WHERE d.deployApprovalLineConfirm=#{employeeNo} AND NOT deployApprovalDescription="deployApprovalE0" AND deployApprovalDate is NOT NULL
     </select>
     
-    <select id="selectMyDeployWillDeployDao" parameterType="EmployeeDto" resultType="DeployPayDto">
+    <select id="selectMyDeployWillDeployDao" parameterType="EmployeeDto" resultType="DeployApprovalDto">
     SELECT 
     	d.deployNo,
     	d.deployDrafter,
     	(select employeeName from employee where employeeNo = d.deployDrafter) as deployDrafterName,
     	d.deployDraftDate,
-    	d.deployPayRequestDate,
-    	d.deployPayLine,
-    	(select employeeName from employee where employeeNo = d.deployPayLine) as deployPayLineName, 
-    	d.deployPayDescription,
+    	d.deployApprovalRequestDate,
+    	d.deployApprovalLine,
+    	(select employeeName from employee where employeeNo = d.deployApprovalLine) as deployApprovalLineName, 
+    	d.deployApprovalDescription,
     	m.codeName,
-    	d.deployPayDate,
-    	d.deployPayLineConfirm,
-    	(select employeeName from employee where employeeNo = d.deployPayLineConfirm) as deployPayLineConfirmName
-   	FROM DEPLOYPAY d
+    	d.deployApprovalDate,
+    	d.deployApprovalLineConfirm,
+    	(select employeeName from employee where employeeNo = d.deployApprovalLineConfirm) as deployApprovalLineConfirmName
+   	FROM DEPLOYApproval d
     JOIN MASTERTABLE m
-    ON d.deployPayDescription=m.codeValue
-    WHERE d.deployPayDescription="deployPayE0" AND d.deployPayDate is null AND d.deployPayLine=#{employeeNo}
+    ON d.deployApprovalDescription=m.codeValue
+    WHERE d.deployApprovalDescription="deployApprovalE0" AND d.deployApprovalDate is null AND d.deployApprovalLine=#{employeeNo}
     </select>
     
-    <select id="selectMyDeployDoingDeployOfdeployNoDao" parameterType="DeployPayDto" resultType="DeployPayDto">
+    <select id="selectMyDeployDoingDeployOfdeployNoDao" parameterType="DeployApprovalDto" resultType="DeployApprovalDto">
         SELECT
               d.deployNo,
               d.deployDrafter,
               e.employeeName,
               d.deployDraftDate,
-              d.deployPayRequestDate,
-              d.deployPayLine,
-              d.deployPayDescription,
+              d.deployApprovalRequestDate,
+              d.deployApprovalLine,
+              d.deployApprovalDescription,
               m.codeName
-        FROM DEPLOYPAY d
+        FROM DEPLOYApproval d
       	JOIN EMPLOYEE e
       	JOIN MASTERTABLE m
-        ON d.deployDrafter=e.employeeNo AND d.deployPayDescription=m.codeValue
-        WHERE d.deployNo=#{deployNo} AND d.deployPayDate is null AND d.deployPayDescription="deployPayE0" AND d.deployPayLine=#{deployPayLine}
+        ON d.deployDrafter=e.employeeNo AND d.deployApprovalDescription=m.codeValue
+        WHERE d.deployNo=#{deployNo} AND d.deployApprovalDate is null AND d.deployApprovalDescription="deployApprovalE0" AND d.deployApprovalLine=#{deployApprovalLine}
     </select>
     
     <select id="checkThisUserHaveAuthorityOfDeployDao" parameterType="EmployeeDto" resultType="AuthorityDto">
@@ -226,61 +226,61 @@
     WHERE employeeNo=#{employeeNo} AND roleCode="DeployOfDeploy"
     </select>
     
-    <select id="selectMyDeployDeployedDao" parameterType="EmployeeDto" resultType="DeployPayDto">
+    <select id="selectMyDeployDeployedDao" parameterType="EmployeeDto" resultType="DeployApprovalDto">
     SELECT 
     	d.deployNo,
     	d.deployDrafter,
     	(select employeeName from employee where employeeNo = d.deployDrafter) as deployDrafterName,
     	d.deployDraftDate,
-    	d.deployPayRequestDate,
-    	d.deployPayLine,
-    	(select employeeName from employee where employeeNo = d.deployPayLine) as deployPayLineName, 
-    	d.deployPayDescription,
+    	d.deployApprovalRequestDate,
+    	d.deployApprovalLine,
+    	(select employeeName from employee where employeeNo = d.deployApprovalLine) as deployApprovalLineName, 
+    	d.deployApprovalDescription,
     	m.codeName,
-    	d.deployPayDate,
-    	d.deployPayLineConfirm,
-    	(select employeeName from employee where employeeNo = d.deployPayLineConfirm) as deployPayLineConfirmName
-   	FROM DEPLOYPAY d
+    	d.deployApprovalDate,
+    	d.deployApprovalLineConfirm,
+    	(select employeeName from employee where employeeNo = d.deployApprovalLineConfirm) as deployApprovalLineConfirmName
+   	FROM DEPLOYApproval d
     JOIN MASTERTABLE m
-    ON d.deployPayDescription=m.codeValue
-    WHERE d.deployPayDescription="deployPayE0" AND d.deployPayDate is not null AND d.deployPayLineConfirm=#{employeeNo}
+    ON d.deployApprovalDescription=m.codeValue
+    WHERE d.deployApprovalDescription="deployApprovalE0" AND d.deployApprovalDate is not null AND d.deployApprovalLineConfirm=#{employeeNo}
     </select>
     
-    <select id="selectMyDeployReturnedDao" parameterType="EmployeeDto" resultType="DeployPayDto">
+    <select id="selectMyDeployReturnedDao" parameterType="EmployeeDto" resultType="DeployApprovalDto">
     SELECT 
     	d.deployNo,
     	d.deployDrafter,
     	(select employeeName from employee where employeeNo = d.deployDrafter) as deployDrafterName,
     	d.deployDraftDate,
-    	d.deployPayRequestDate,
-    	d.deployPayLine,
-    	(select employeeName from employee where employeeNo = d.deployPayLine) as deployPayLineName, 
-    	d.deployPayDescription,
+    	d.deployApprovalRequestDate,
+    	d.deployApprovalLine,
+    	(select employeeName from employee where employeeNo = d.deployApprovalLine) as deployApprovalLineName, 
+    	d.deployApprovalDescription,
     	m.codeName
-   	FROM DEPLOYPAY d
+   	FROM DEPLOYApproval d
     JOIN MASTERTABLE m
-    ON d.deployPayDescription=m.codeValue
-    WHERE d.deployPayDescription="deployPayA1" AND d.deployPayDate is null AND d.deployDrafter=#{employeeNo}
+    ON d.deployApprovalDescription=m.codeValue
+    WHERE d.deployApprovalDescription="deployApprovalA1" AND d.deployApprovalDate is null AND d.deployDrafter=#{employeeNo}
     </select>
     
-    <select id="selectMyDeployCompletedDao" parameterType="EmployeeDto" resultType="DeployPayDto">
+    <select id="selectMyDeployCompletedDao" parameterType="EmployeeDto" resultType="DeployApprovalDto">
     SELECT 
     	d.deployNo,
     	d.deployDrafter,
     	(select employeeName from employee where employeeNo = d.deployDrafter) as deployDrafterName,
     	d.deployDraftDate,
-    	d.deployPayRequestDate,
-    	d.deployPayLine,
-    	(select employeeName from employee where employeeNo = d.deployPayLine) as deployPayLineName, 
-    	d.deployPayDescription,
+    	d.deployApprovalRequestDate,
+    	d.deployApprovalLine,
+    	(select employeeName from employee where employeeNo = d.deployApprovalLine) as deployApprovalLineName, 
+    	d.deployApprovalDescription,
     	m.codeName,
-    	d.deployPayDate,
-    	d.deployPayLineConfirm,
-    	(select employeeName from employee where employeeNo = d.deployPayLineConfirm) as deployPayLineConfirmName
-   	FROM DEPLOYPAY d
+    	d.deployApprovalDate,
+    	d.deployApprovalLineConfirm,
+    	(select employeeName from employee where employeeNo = d.deployApprovalLineConfirm) as deployApprovalLineConfirmName
+   	FROM DEPLOYApproval d
     JOIN MASTERTABLE m
-    ON d.deployPayDescription=m.codeValue
-    WHERE d.deployPayDescription="deployPayE0" AND d.deployPayDate is not null AND d.deployDrafter=#{employeeNo}
+    ON d.deployApprovalDescription=m.codeValue
+    WHERE d.deployApprovalDescription="deployApprovalE0" AND d.deployApprovalDate is not null AND d.deployDrafter=#{employeeNo}
     </select>
     
   </mapper>

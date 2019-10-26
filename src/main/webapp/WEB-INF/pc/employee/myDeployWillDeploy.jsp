@@ -13,9 +13,9 @@
 <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
 <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
 <script> 
-function showPayDetail(thisDeployNo,deployPayDetailCode){
+function showApprovalDetail(thisDeployNo,deployApprovalDetailCode){
    var deployNo=thisDeployNo;
-   window.open("/employee/showDeployPayDetail.do/"+deployNo+"/"+deployPayDetailCode,"상세보기", "width=1000, height=800");
+   window.open("/employee/showDeployApprovalDetail.do/"+deployNo+"/"+deployApprovalDetailCode,"상세보기", "width=1000, height=800");
 }
 
 </script>
@@ -43,10 +43,10 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
       <td><input type="text" name="deployNo" value="${deployWillDeploy.deployNo}" readonly="readonly"></td>
       <td><input type="text" name="deployDrafterName" value="${deployWillDeploy.deployDrafterName}" readonly="readonly"><input type="hidden" name="deployDrafter" value="${deployWillDeploy.deployDrafter}"></td>
       <td><input type="text" name="deployDraftDate" value="${deployWillDeploy.deployDraftDate}" readonly="readonly"></td>
-      <td><input type="text" name="codeName" value="${deployWillDeploy.codeName}" readonly="readonly"><input type="hidden" name="deployPayDescription" value="${deployWillDeploy.deployPayDescription}"></td>
-      <td><input type="text" name="deployPayRequestDate" value="${deployWillDeploy.deployPayRequestDate}" readonly="readonly"></td>
-      <td><input type="text" name="deployPayLineName" value="${deployWillDeploy.deployPayLineName}" readonly="readonly"><input type="hidden" name="deployPayLine" value="${deployWillDeploy.deployPayLine}" readonly="readonly"></td>
-      <td><input type="button" value="상세내역" onclick="showPayDetail(${deployWillDeploy.deployNo},'myDeployWillDeploy')"></td>
+      <td><input type="text" name="codeName" value="${deployWillDeploy.codeName}" readonly="readonly"><input type="hidden" name="deployApprovalDescription" value="${deployWillDeploy.deployApprovalDescription}"></td>
+      <td><input type="text" name="deployApprovalRequestDate" value="${deployWillDeploy.deployApprovalRequestDate}" readonly="readonly"></td>
+      <td><input type="text" name="deployApprovalLineName" value="${deployWillDeploy.deployApprovalLineName}" readonly="readonly"><input type="hidden" name="deployApprovalLine" value="${deployWillDeploy.deployApprovalLine}" readonly="readonly"></td>
+      <td><input type="button" value="상세내역" onclick="showApprovalDetail(${deployWillDeploy.deployNo},'myDeployWillDeploy')"></td>
    </tr>
 </c:forEach>
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.springproject.common.utils.SHA256Util;
 import com.springproject.deploy.dao.DeployDao;
-import com.springproject.deploy.dto.DeployPayDto;
+import com.springproject.deploy.dto.DeployApprovalDto;
 import com.springproject.deploy.dto.DeployRequestDto;
 import com.springproject.employee.dao.EmployeeDao;
 import com.springproject.employee.dto.AuthorityDto;
@@ -53,35 +53,35 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public List<DeployPayDto> selectMyDeployPayService(EmployeeDto employeeDto) {
-		return this.employeeDao.selectMyDeployPayDao(employeeDto);
+	public List<DeployApprovalDto> selectMyDeployApprovalService(EmployeeDto employeeDto) {
+		return this.employeeDao.selectMyDeployApprovalDao(employeeDto);
 	}
 
 	@Override
-	public boolean myDeployDoPayingService(DeployPayDto deployPayDto) {
-		boolean isDoPayingSuccess=true;
-	    boolean isDoPayingSuccessOfNextPay=false;
-	    boolean isDoPayingSuccessOfCompleteNowPay = false;
+	public boolean myDeployDoApprovalingService(DeployApprovalDto deployApprovalDto) {
+		boolean isDoApprovalingSuccess=true;
+	    boolean isDoApprovalingSuccessOfNextApproval=false;
+	    boolean isDoApprovalingSuccessOfCompleteNowApproval = false;
 
-//	    if(!deployPayDto.getDeployPayDescription().equals("deployPayE0")) {
-	    	  isDoPayingSuccessOfCompleteNowPay=this.employeeDao.myDeployDoPayingOfCompleteNowPayDao(deployPayDto)>0;
-		      if(deployPayDto.getDeployPayDescription().equals("deployPayB0")) {
-			         deployPayDto.setDeployPayDescription("deployPayC0");
-			         deployPayDto.setDeployPayLine("15");
+//	    if(!deployApprovalDto.getDeployApprovalDescription().equals("deployApprovalE0")) {
+	    	  isDoApprovalingSuccessOfCompleteNowApproval=this.employeeDao.myDeployDoApprovalingOfCompleteNowApprovalDao(deployApprovalDto)>0;
+		      if(deployApprovalDto.getDeployApprovalDescription().equals("deployApprovalB0")) {
+			         deployApprovalDto.setDeployApprovalDescription("deployApprovalC0");
+			         deployApprovalDto.setDeployApprovalLine("15");
 			      }
 			      
-			      else if(deployPayDto.getDeployPayDescription().equals("deployPayC0")) {
-			         deployPayDto.setDeployPayDescription("deployPayD0");
-			         deployPayDto.setDeployPayLine("16");
+			      else if(deployApprovalDto.getDeployApprovalDescription().equals("deployApprovalC0")) {
+			         deployApprovalDto.setDeployApprovalDescription("deployApprovalD0");
+			         deployApprovalDto.setDeployApprovalLine("16");
 			      }
 			      
-			      else if(deployPayDto.getDeployPayDescription().equals("deployPayD0")) {
-			         deployPayDto.setDeployPayDescription("deployPayE0");
-			         deployPayDto.setDeployPayLine("17");
+			      else if(deployApprovalDto.getDeployApprovalDescription().equals("deployApprovalD0")) {
+			         deployApprovalDto.setDeployApprovalDescription("deployApprovalE0");
+			         deployApprovalDto.setDeployApprovalLine("17");
 			      }
-	         isDoPayingSuccessOfNextPay = this.employeeDao.myDeployDoPayingOfAddNextPayDao(deployPayDto)>0;
+	         isDoApprovalingSuccessOfNextApproval = this.employeeDao.myDeployDoApprovalingOfAddNextApprovalDao(deployApprovalDto)>0;
 	      
-	      DeployRequestDto deployRequestDto=this.deployDao.selectDeployRequestOfDeployNoDao(deployPayDto.getDeployNo());
+	      DeployRequestDto deployRequestDto=this.deployDao.selectDeployRequestOfDeployNoDao(deployApprovalDto.getDeployNo());
 	      
 	      if(deployRequestDto.getStatusCode().equals("01")) {
 	         deployRequestDto.setStatusCode("02");
@@ -94,46 +94,46 @@ public class EmployeeServiceImpl implements EmployeeService{
 	         deployRequestDto.setStatusCode("04");
 	      }
 	      
-	      boolean isChangeDeployRequestStatusCodeSuccess = this.employeeDao.changeStatusCodeForDeloyDoPayingDao(deployRequestDto)>0;
+	      boolean isChangeDeployRequestStatusCodeSuccess = this.employeeDao.changeStatusCodeForDeloyDoApprovalingDao(deployRequestDto)>0;
 
-	      isDoPayingSuccess=isDoPayingSuccess&&isDoPayingSuccessOfCompleteNowPay&&isDoPayingSuccessOfNextPay&&isChangeDeployRequestStatusCodeSuccess;
+	      isDoApprovalingSuccess=isDoApprovalingSuccess&&isDoApprovalingSuccessOfCompleteNowApproval&&isDoApprovalingSuccessOfNextApproval&&isChangeDeployRequestStatusCodeSuccess;
 	      
-	      return isDoPayingSuccess;
+	      return isDoApprovalingSuccess;
 	}
 	
 	@Override
-	public boolean myDeployDoDeployingService(DeployPayDto deployPayDto) {
+	public boolean myDeployDoDeployingService(DeployApprovalDto deployApprovalDto) {
 		boolean isDoDeployingSuccess=true;
-	    boolean isDoDeployingSuccessOfCompleteNowPay = false;
-	    isDoDeployingSuccessOfCompleteNowPay=this.employeeDao.myDeployDoPayingOfCompleteNowPayDao(deployPayDto)>0;
-	    DeployRequestDto deployRequestDto=this.deployDao.selectDeployRequestOfDeployNoDao(deployPayDto.getDeployNo());
+	    boolean isDoDeployingSuccessOfCompleteNowApproval = false;
+	    isDoDeployingSuccessOfCompleteNowApproval=this.employeeDao.myDeployDoApprovalingOfCompleteNowApprovalDao(deployApprovalDto)>0;
+	    DeployRequestDto deployRequestDto=this.deployDao.selectDeployRequestOfDeployNoDao(deployApprovalDto.getDeployNo());
 	    if(deployRequestDto.getStatusCode().equals("04")) {
         deployRequestDto.setStatusCode("05");
 	    }
-	    boolean isChangeDeployRequestStatusCodeSuccess = this.employeeDao.changeStatusCodeForDeloyDoPayingDao(deployRequestDto)>0;
-	    isDoDeployingSuccess=isDoDeployingSuccess&&isDoDeployingSuccessOfCompleteNowPay&&isChangeDeployRequestStatusCodeSuccess;
+	    boolean isChangeDeployRequestStatusCodeSuccess = this.employeeDao.changeStatusCodeForDeloyDoApprovalingDao(deployRequestDto)>0;
+	    isDoDeployingSuccess=isDoDeployingSuccess&&isDoDeployingSuccessOfCompleteNowApproval&&isChangeDeployRequestStatusCodeSuccess;
 		return isDoDeployingSuccess;
 	}
 
 	@Override
-	public boolean myDeployDoReturningService(DeployPayDto deployPayDto) {
+	public boolean myDeployDoReturningService(DeployApprovalDto deployApprovalDto) {
 	      boolean isDoReturningSuccess=true;
 	      
-	      boolean isDoReturningSuccessOfNowPayForReturn=this.employeeDao.myDeployDoPayingOfCompleteNowPayDao(deployPayDto)>0;
-	      deployPayDto.setDeployPayDescription("deployPayA1");
-	      boolean isDoReturningSuccessOfNextPayForReturn=this.employeeDao.myDeployDoReturningOfNextPayDao(deployPayDto)>0;
+	      boolean isDoReturningSuccessOfNowApprovalForReturn=this.employeeDao.myDeployDoApprovalingOfCompleteNowApprovalDao(deployApprovalDto)>0;
+	      deployApprovalDto.setDeployApprovalDescription("deployApprovalA1");
+	      boolean isDoReturningSuccessOfNextApprovalForReturn=this.employeeDao.myDeployDoReturningOfNextApprovalDao(deployApprovalDto)>0;
 	      
-	      DeployRequestDto deployRequestDto=this.deployDao.selectDeployRequestOfDeployNoDao(deployPayDto.getDeployNo());
+	      DeployRequestDto deployRequestDto=this.deployDao.selectDeployRequestOfDeployNoDao(deployApprovalDto.getDeployNo());
 	      deployRequestDto.setStatusCode("06");
-	      boolean isChangeDeployRequestStatusCodeSuccess=this.employeeDao.changeStatusCodeForDeloyDoPayingDao(deployRequestDto)>0;
+	      boolean isChangeDeployRequestStatusCodeSuccess=this.employeeDao.changeStatusCodeForDeloyDoApprovalingDao(deployRequestDto)>0;
 	      
-	      isDoReturningSuccess=isDoReturningSuccess&&isDoReturningSuccessOfNextPayForReturn&&isDoReturningSuccessOfNowPayForReturn&&isChangeDeployRequestStatusCodeSuccess;
+	      isDoReturningSuccess=isDoReturningSuccess&&isDoReturningSuccessOfNextApprovalForReturn&&isDoReturningSuccessOfNowApprovalForReturn&&isChangeDeployRequestStatusCodeSuccess;
 	      return isDoReturningSuccess;
 	}
 
 	@Override
-	public DeployPayDto selectMyDeployPayOfdeployNoService(Long deployNo) {
-		return this.employeeDao.selectMyDeployPayOfdeployNoDao(deployNo);
+	public DeployApprovalDto selectMyDeployApprovalOfdeployNoService(Long deployNo) {
+		return this.employeeDao.selectMyDeployApprovalOfdeployNoDao(deployNo);
 	}
 
 	@Override
@@ -150,18 +150,18 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public List<DeployPayDto> selectMyDeployPaidService(EmployeeDto employeeDto) {
-		return this.employeeDao.selectMyDeployPaidDao(employeeDto);
+	public List<DeployApprovalDto> selectMyDeployApprovedService(EmployeeDto employeeDto) {
+		return this.employeeDao.selectMyDeployApprovedDao(employeeDto);
 	}
 
 	@Override
-	public List<DeployPayDto> selectMyDeployWillDeployService(EmployeeDto employeeDto) {
+	public List<DeployApprovalDto> selectMyDeployWillDeployService(EmployeeDto employeeDto) {
 		return this.employeeDao.selectMyDeployWillDeployDao(employeeDto);
 	}
 
 	@Override
-	public DeployPayDto selectMyDeployDoingDeployOfdeployNoService(DeployPayDto deployPayDtoForSearch) {
-		return this.employeeDao.selectMyDeployDoingDeployOfdeployNoDao(deployPayDtoForSearch);
+	public DeployApprovalDto selectMyDeployDoingDeployOfdeployNoService(DeployApprovalDto deployApprovalDtoForSearch) {
+		return this.employeeDao.selectMyDeployDoingDeployOfdeployNoDao(deployApprovalDtoForSearch);
 	}
 
 	@Override
@@ -178,17 +178,17 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public List<DeployPayDto> selectMyDeployDeployedService(EmployeeDto employeeDto) {
+	public List<DeployApprovalDto> selectMyDeployDeployedService(EmployeeDto employeeDto) {
 		return this.employeeDao.selectMyDeployDeployedDao(employeeDto);
 	}
 
 	@Override
-	public List<DeployPayDto> selectMyDeployReturnedService(EmployeeDto employeeDto) {
+	public List<DeployApprovalDto> selectMyDeployReturnedService(EmployeeDto employeeDto) {
 		return this.employeeDao.selectMyDeployReturnedDao(employeeDto);
 	}
 
 	@Override
-	public List<DeployPayDto> selectMyDeployCompletedService(EmployeeDto employeeDto) {
+	public List<DeployApprovalDto> selectMyDeployCompletedService(EmployeeDto employeeDto) {
 		return this.employeeDao.selectMyDeployCompletedDao(employeeDto);
 	}
 }

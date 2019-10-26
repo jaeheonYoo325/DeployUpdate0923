@@ -23,7 +23,7 @@ import com.springproject.common.utils.HttpRequestHelper;
 import com.springproject.department.dto.DepartmentDto;
 import com.springproject.department.service.DepartmentService;
 import com.springproject.deploy.dto.CategoryTypeDto;
-import com.springproject.deploy.dto.DeployPayDto;
+import com.springproject.deploy.dto.DeployApprovalDto;
 import com.springproject.deploy.dto.DeployRequestDto;
 import com.springproject.deploy.service.DeployService;
 import com.springproject.employee.dto.EmployeeDto;
@@ -96,16 +96,16 @@ public class EmployeeController {
 		return mv;
 	}
 	
-   @GetMapping("/employee/myDeployWillPay.do")
-   public ModelAndView viewMyDeployPayPage(HttpSession session) {
-      List<DeployPayDto> deployPay = this.employeeService.selectMyDeployPayService((EmployeeDto)session.getAttribute(Session.USER));
+   @GetMapping("/employee/myDeployWillApproval.do")
+   public ModelAndView viewMyDeployApprovalPage(HttpSession session) {
+      List<DeployApprovalDto> deployApproval = this.employeeService.selectMyDeployApprovalService((EmployeeDto)session.getAttribute(Session.USER));
       ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
-      mv.addObject("deployPay",deployPay);
+      mv.addObject("deployApproval",deployApproval);
       return mv;
    }
    
-   @GetMapping("/employee/showDeployPayDetail.do/{deployNo}/{deployPayDetailCode}")
-   public ModelAndView viewMyDeployPayDetail(@PathVariable Long deployNo,@PathVariable String deployPayDetailCode,HttpServletRequest request) {
+   @GetMapping("/employee/showDeployApprovalDetail.do/{deployNo}/{deployApprovalDetailCode}")
+   public ModelAndView viewMyDeployApprovalDetail(@PathVariable Long deployNo,@PathVariable String deployApprovalDetailCode,HttpServletRequest request) {
       ModelAndView mv=new ModelAndView(HttpRequestHelper.getJspPath());
       DeployRequestDto deployRequestOfDeployNo = this.deployService.selectDeployRequestOfDeployNoService(deployNo);
       List<ModifiedProgramsDto> modifiedProgramOfDeployNo = this.deployService.selectModifiedProgramOfDeploNoService(deployNo);
@@ -115,20 +115,20 @@ public class EmployeeController {
       mv.addObject("modifiedResourceOfDeployNo", modifiedResourceOfDeployNo);
       mv.addObject("deployRequestOfDeployNo", deployRequestOfDeployNo);
       mv.addObject("statusCodeList", statusCodeList);
-      mv.addObject("deployPayDetailCode",deployPayDetailCode);
+      mv.addObject("deployApprovalDetailCode",deployApprovalDetailCode);
       return mv;
    }
    
-   @GetMapping("/employee/MyDeployDoingPay.do/{deployNo}")
-   public void doMyDeployPayAction(@PathVariable Long deployNo,HttpSession session,HttpServletResponse response) {
+   @GetMapping("/employee/MyDeployDoingApproval.do/{deployNo}")
+   public void doMyDeployApprovalAction(@PathVariable Long deployNo,HttpSession session,HttpServletResponse response) {
 	  response.setCharacterEncoding("UTF-8"); 
 	  response.setContentType("text/html; charset=UTF-8");
 	  
-      DeployPayDto deployPayDto=this.employeeService.selectMyDeployPayOfdeployNoService(deployNo);
-      deployPayDto.setDeployPayLineConfirm(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
-      boolean isDoingPaySuccess =this.employeeService.myDeployDoPayingService(deployPayDto);
+      DeployApprovalDto deployApprovalDto=this.employeeService.selectMyDeployApprovalOfdeployNoService(deployNo);
+      deployApprovalDto.setDeployApprovalLineConfirm(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
+      boolean isDoingApprovalSuccess =this.employeeService.myDeployDoApprovalingService(deployApprovalDto);
       PrintWriter out;
-		if (isDoingPaySuccess) {
+		if (isDoingApprovalSuccess) {
 			try {
 				out = response.getWriter();
 				out.println("<script>");
@@ -157,9 +157,9 @@ public class EmployeeController {
 	  response.setCharacterEncoding("UTF-8"); 
 	  response.setContentType("text/html; charset=UTF-8");
 	  
-      DeployPayDto deployPayDto=this.employeeService.selectMyDeployPayOfdeployNoService(deployNo);
-      deployPayDto.setDeployPayLineConfirm(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
-      boolean isDoingReturnSuccess=this.employeeService.myDeployDoReturningService(deployPayDto);
+      DeployApprovalDto deployApprovalDto=this.employeeService.selectMyDeployApprovalOfdeployNoService(deployNo);
+      deployApprovalDto.setDeployApprovalLineConfirm(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
+      boolean isDoingReturnSuccess=this.employeeService.myDeployDoReturningService(deployApprovalDto);
       PrintWriter out;
 		if (isDoingReturnSuccess) {
 			try {
@@ -185,11 +185,11 @@ public class EmployeeController {
 		}
    }
    
-   @GetMapping("/employee/myDeployPaid.do")
-   public ModelAndView viewMyDeployPaidPage(HttpSession session) {
-      List<DeployPayDto> deployPaid = this.employeeService.selectMyDeployPaidService((EmployeeDto)session.getAttribute(Session.USER));
+   @GetMapping("/employee/myDeployApproved.do")
+   public ModelAndView viewMyDeployApprovedPage(HttpSession session) {
+      List<DeployApprovalDto> deployApproved = this.employeeService.selectMyDeployApprovedService((EmployeeDto)session.getAttribute(Session.USER));
       ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
-      mv.addObject("deployPaid",deployPaid);
+      mv.addObject("deployApproved",deployApproved);
       return mv;
    }
    
@@ -203,7 +203,7 @@ public class EmployeeController {
 
  		if(isThisUserHaveAuthorityOfDeploy) {
  			mv = new ModelAndView(HttpRequestHelper.getJspPath());
- 		      List<DeployPayDto> deployWillDeploy = this.employeeService.selectMyDeployWillDeployService((EmployeeDto)session.getAttribute(Session.USER));
+ 		      List<DeployApprovalDto> deployWillDeploy = this.employeeService.selectMyDeployWillDeployService((EmployeeDto)session.getAttribute(Session.USER));
  		      mv.addObject("deployWillDeploy",deployWillDeploy);
  			return mv;
  		}
@@ -227,14 +227,14 @@ public class EmployeeController {
 	  response.setCharacterEncoding("UTF-8"); 
 	  response.setContentType("text/html; charset=UTF-8");
 	  
-	  DeployPayDto deploypayDtoForSearch=new DeployPayDto();
-	  deploypayDtoForSearch.setDeployNo(deployNo);
-	  deploypayDtoForSearch.setDeployPayLine(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
+	  DeployApprovalDto deployApprovalDtoForSearch=new DeployApprovalDto();
+	  deployApprovalDtoForSearch.setDeployNo(deployNo);
+	  deployApprovalDtoForSearch.setDeployApprovalLine(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
 	  
-      DeployPayDto deployPayDto=this.employeeService.selectMyDeployDoingDeployOfdeployNoService(deploypayDtoForSearch);
-      deployPayDto.setDeployPayLineConfirm(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
-      System.out.println("deployDtoset후"+deployPayDto.getDeployPayLineConfirm());
-      boolean isDoDeployingSuccess =this.employeeService.myDeployDoDeployingService(deployPayDto);
+      DeployApprovalDto deployApprovalDto=this.employeeService.selectMyDeployDoingDeployOfdeployNoService(deployApprovalDtoForSearch);
+      deployApprovalDto.setDeployApprovalLineConfirm(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
+      System.out.println("deployDtoset후"+deployApprovalDto.getDeployApprovalLineConfirm());
+      boolean isDoDeployingSuccess =this.employeeService.myDeployDoDeployingService(deployApprovalDto);
       PrintWriter out;
 		if (isDoDeployingSuccess) {
 			try {
@@ -270,7 +270,7 @@ public class EmployeeController {
 		
 		if(isThisUserHaveAuthorityOfDeploy) {
 			mv = new ModelAndView(HttpRequestHelper.getJspPath());
-		      List<DeployPayDto> deployDeployed = this.employeeService.selectMyDeployDeployedService((EmployeeDto)session.getAttribute(Session.USER));
+		      List<DeployApprovalDto> deployDeployed = this.employeeService.selectMyDeployDeployedService((EmployeeDto)session.getAttribute(Session.USER));
 		      mv.addObject("deployDeployed",deployDeployed);
 			return mv;
 		}
@@ -291,13 +291,13 @@ public class EmployeeController {
    
    @GetMapping("/employee/myDeployReturned.do")
    public ModelAndView viewMyDeployReturnedPage(HttpSession session) {
-      List<DeployPayDto> deployReturned = this.employeeService.selectMyDeployReturnedService((EmployeeDto)session.getAttribute(Session.USER));
+      List<DeployApprovalDto> deployReturned = this.employeeService.selectMyDeployReturnedService((EmployeeDto)session.getAttribute(Session.USER));
       ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
       mv.addObject("deployReturned",deployReturned);
       return mv;
    }
    
-	@GetMapping("/employee/showMyPayReturnedDetail.do/{deployNo}")
+	@GetMapping("/employee/showMyApprovalReturnedDetail.do/{deployNo}")
 	public ModelAndView viewDeployUpdatePage(@PathVariable Long deployNo) {
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
 		DeployRequestDto deployRequestOfDeployNo = this.deployService.selectDeployRequestOfDeployNoService(deployNo);
@@ -318,7 +318,7 @@ public class EmployeeController {
 	
 	@GetMapping("/employee/myDeployCompleted.do")
 	   public ModelAndView viewMyDeployCompletedPage(HttpSession session) {
-	      List<DeployPayDto> deployCompleted = this.employeeService.selectMyDeployCompletedService((EmployeeDto)session.getAttribute(Session.USER));
+	      List<DeployApprovalDto> deployCompleted = this.employeeService.selectMyDeployCompletedService((EmployeeDto)session.getAttribute(Session.USER));
 	      ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
 	      mv.addObject("deployCompleted",deployCompleted);
 	      return mv;

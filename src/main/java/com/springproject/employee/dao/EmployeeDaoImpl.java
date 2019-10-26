@@ -7,7 +7,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.springproject.deploy.dto.DeployPayDto;
+import com.springproject.deploy.dto.DeployApprovalDto;
 import com.springproject.deploy.dto.DeployRequestDto;
 import com.springproject.employee.dto.AuthorityDto;
 import com.springproject.employee.dto.EmployeeDto;
@@ -37,28 +37,28 @@ public class EmployeeDaoImpl extends SqlSessionDaoSupport implements EmployeeDao
 	}
 
 	@Override
-	public List<DeployPayDto> selectMyDeployPayDao(EmployeeDto employeeDto) {
-		return this.getSqlSession().selectList("EmployeeDao.selectMyDeployPayDao",employeeDto);
+	public List<DeployApprovalDto> selectMyDeployApprovalDao(EmployeeDto employeeDto) {
+		return this.getSqlSession().selectList("EmployeeDao.selectMyDeployApprovalDao",employeeDto);
 	}
 
 	@Override
-	public int myDeployDoPayingOfCompleteNowPayDao(DeployPayDto deployPayDto) {
-		return this.getSqlSession().update("EmployeeDao.myDeployDoPayingOfCompleteNowPayDao",deployPayDto);
+	public int myDeployDoApprovalingOfCompleteNowApprovalDao(DeployApprovalDto deployApprovalDto) {
+		return this.getSqlSession().update("EmployeeDao.myDeployDoApprovalingOfCompleteNowApprovalDao",deployApprovalDto);
 	}
 
 	@Override
-	public int myDeployDoPayingOfAddNextPayDao(DeployPayDto deployPayDto) {
-		return this.getSqlSession().insert("EmployeeDao.myDeployDoPayingOfAddNextPayDao",deployPayDto);
+	public int myDeployDoApprovalingOfAddNextApprovalDao(DeployApprovalDto deployApprovalDto) {
+		return this.getSqlSession().insert("EmployeeDao.myDeployDoApprovalingOfAddNextApprovalDao",deployApprovalDto);
 	}
 
 	@Override
-	public int changeStatusCodeForDeloyDoPayingDao(DeployRequestDto deployRequestDto) {
-		return this.getSqlSession().update("EmployeeDao.changeStatusCodeForDeloyDoPayingDao",deployRequestDto);
+	public int changeStatusCodeForDeloyDoApprovalingDao(DeployRequestDto deployRequestDto) {
+		return this.getSqlSession().update("EmployeeDao.changeStatusCodeForDeloyDoApprovalingDao",deployRequestDto);
 	}
 
 	@Override
-	public DeployPayDto selectMyDeployPayOfdeployNoDao(Long deployNo) {
-		return this.getSqlSession().selectOne("EmployeeDao.selectMyDeployPayOfdeployNoDao",deployNo);
+	public DeployApprovalDto selectMyDeployApprovalOfdeployNoDao(Long deployNo) {
+		return this.getSqlSession().selectOne("EmployeeDao.selectMyDeployApprovalOfdeployNoDao",deployNo);
 	}
 
 	@Override
@@ -67,23 +67,23 @@ public class EmployeeDaoImpl extends SqlSessionDaoSupport implements EmployeeDao
 	}
 
 	@Override
-	public int myDeployDoReturningOfNextPayDao(DeployPayDto deployPayDto) {
-		return this.getSqlSession().insert("EmployeeDao.myDeployDoReturningOfNextPayDao",deployPayDto);
+	public int myDeployDoReturningOfNextApprovalDao(DeployApprovalDto deployApprovalDto) {
+		return this.getSqlSession().insert("EmployeeDao.myDeployDoReturningOfNextApprovalDao",deployApprovalDto);
 	}
 
 	@Override
-	public List<DeployPayDto> selectMyDeployPaidDao(EmployeeDto employeeDto) {
-		return this.getSqlSession().selectList("EmployeeDao.selectMyDeployPaidDao",employeeDto);
+	public List<DeployApprovalDto> selectMyDeployApprovedDao(EmployeeDto employeeDto) {
+		return this.getSqlSession().selectList("EmployeeDao.selectMyDeployApprovedDao",employeeDto);
 	}
 
 	@Override
-	public List<DeployPayDto> selectMyDeployWillDeployDao(EmployeeDto employeeDto) {
+	public List<DeployApprovalDto> selectMyDeployWillDeployDao(EmployeeDto employeeDto) {
 		return this.getSqlSession().selectList("EmployeeDao.selectMyDeployWillDeployDao",employeeDto);
 	}
 
 	@Override
-	public DeployPayDto selectMyDeployDoingDeployOfdeployNoDao(DeployPayDto deployPayDtoForSearch) {
-		return this.getSqlSession().selectOne("EmployeeDao.selectMyDeployDoingDeployOfdeployNoDao",deployPayDtoForSearch);
+	public DeployApprovalDto selectMyDeployDoingDeployOfdeployNoDao(DeployApprovalDto deployApprovalDtoForSearch) {
+		return this.getSqlSession().selectOne("EmployeeDao.selectMyDeployDoingDeployOfdeployNoDao",deployApprovalDtoForSearch);
 	}
 
 	@Override
@@ -92,17 +92,17 @@ public class EmployeeDaoImpl extends SqlSessionDaoSupport implements EmployeeDao
 	}
 
 	@Override
-	public List<DeployPayDto> selectMyDeployDeployedDao(EmployeeDto employeeDto) {
+	public List<DeployApprovalDto> selectMyDeployDeployedDao(EmployeeDto employeeDto) {
 		return this.getSqlSession().selectList("EmployeeDao.selectMyDeployDeployedDao",employeeDto);
 	}
 
 	@Override
-	public List<DeployPayDto> selectMyDeployReturnedDao(EmployeeDto employeeDto) {
+	public List<DeployApprovalDto> selectMyDeployReturnedDao(EmployeeDto employeeDto) {
 		return this.getSqlSession().selectList("EmployeeDao.selectMyDeployReturnedDao",employeeDto);
 	}
 
 	@Override
-	public List<DeployPayDto> selectMyDeployCompletedDao(EmployeeDto employeeDto) {
+	public List<DeployApprovalDto> selectMyDeployCompletedDao(EmployeeDto employeeDto) {
 		return this.getSqlSession().selectList("EmployeeDao.selectMyDeployCompletedDao",employeeDto);
 	}
 }

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.springproject.chain.dto.ChainDto;
 import com.springproject.deploy.dto.CategoryTypeDto;
-import com.springproject.deploy.dto.DeployPayDto;
+import com.springproject.deploy.dto.DeployApprovalDto;
 import com.springproject.deploy.dto.DeployRequestDto;
 import com.springproject.employee.dto.EmployeeDto;
 import com.springproject.mastercode.dto.MasterCodeDto;
@@ -56,7 +56,7 @@ public interface DeployDao {
 
 	public List<MasterCodeDto> selectCategoryMasterCodesDao(String codeType);
 
-	public int insertDeployPayForDeployRequestDao(DeployPayDto deployPayDto);
+	public int insertDeployApprovalForDeployRequestDao(DeployApprovalDto deployApprovalDto);
 	
 	public List<EmployeeDto> selectSearchAllEmployeesDao();
 	

@@ -13,9 +13,9 @@
 <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
 <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
 <script> 
-function showMyPayReturnedDetail(thisDeployNo){
+function showMyApprovalReturnedDetail(thisDeployNo){
    var deployNo=thisDeployNo;
-   window.open("/employee/showMyPayReturnedDetail.do/"+deployNo,"상세보기", "width=1000, height=800");
+   window.open("/employee/showMyApprovalReturnedDetail.do/"+deployNo,"상세보기", "width=1000, height=800");
 }
 </script>
 <body>
@@ -42,10 +42,10 @@ function showMyPayReturnedDetail(thisDeployNo){
       <td><input type="text" name="deployNo" value="${deployReturned.deployNo}" readonly="readonly"></td>
       <td><input type="text" name="deployDrafterName" value="${deployReturned.deployDrafterName}" readonly="readonly"><input type="hidden" name="deployDrafter" value="${deployReturned.deployDrafter}"></td>
       <td><input type="text" name="deployDraftDate" value="${deployReturned.deployDraftDate}" readonly="readonly"></td>
-      <td><input type="text" name="codeName" value="${deployReturned.codeName}" readonly="readonly"><input type="hidden" name="deployPayDescription" value="${deployReturned.deployPayDescription}"></td>
-      <td><input type="text" name="deployPayRequestDate" value="${deployReturned.deployPayRequestDate}" readonly="readonly"></td>
-      <td><input type="text" name="deployPayLineName" value="${deployReturned.deployPayLineName}" readonly="readonly"><input type="hidden" name="deployPayLine" value="${deployReturned.deployPayLine}"></td>
-      <td><input type="button" value="상세내역" onclick="showMyPayReturnedDetail(${deployReturned.deployNo})"></td>
+      <td><input type="text" name="codeName" value="${deployReturned.codeName}" readonly="readonly"><input type="hidden" name="deployApprovalDescription" value="${deployReturned.deployApprovalDescription}"></td>
+      <td><input type="text" name="deployApprovalRequestDate" value="${deployReturned.deployApprovalRequestDate}" readonly="readonly"></td>
+      <td><input type="text" name="deployApprovalLineName" value="${deployReturned.deployApprovalLineName}" readonly="readonly"><input type="hidden" name="deployApprovalLine" value="${deployReturned.deployApprovalLine}"></td>
+      <td><input type="button" value="상세내역" onclick="showMyApprovalReturnedDetail(${deployReturned.deployNo})"></td>
    </tr>
 </c:forEach>
 
