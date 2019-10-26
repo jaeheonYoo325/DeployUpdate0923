@@ -1,9 +1,15 @@
 package com.springproject.employee.dto;
 
+import javax.validation.constraints.NotEmpty;
+
+import com.springproject.common.validator.employee.EmployeeValidator;
+
 public class EmployeeDto {
 
+	@NotEmpty(message = "사원번호는 필수 입력 값입니다.", groups = { EmployeeValidator.Login.class })
 	private String employeeNo;
 	private String employeeName;
+	@NotEmpty(message = "비밀번호는 필수 입력 값입니다.", groups = { EmployeeValidator.Login.class })
 	private String employeePassWord;
 	private String employeePhoneNumber;
 	private String employeePostcode;

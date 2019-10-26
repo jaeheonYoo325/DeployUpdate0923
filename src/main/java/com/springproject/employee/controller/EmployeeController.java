@@ -2,24 +2,32 @@ package com.springproject.employee.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springproject.common.session.Session;
 import com.springproject.common.utils.HttpRequestHelper;
+import com.springproject.common.validator.employee.EmployeeValidator;
 import com.springproject.department.dto.DepartmentDto;
 import com.springproject.department.service.DepartmentService;
 import com.springproject.deploy.dto.CategoryTypeDto;
@@ -48,14 +56,61 @@ public class EmployeeController {
 	public String viewEmployeeLoginPage() {
 		return HttpRequestHelper.getJspPath();
 	}
-	
+		
+//	@PostMapping("/employee/employeeLogin.do")
+//	public ModelAndView doEmployeeLoginAction(@ModelAttribute EmployeeDto employeeDto, HttpSession session) {
+//		ModelAndView mv = new ModelAndView("redirect:/main/main.do");
+//		EmployeeDto loginEmployeeDto = this.employeeService.selectOneEmployeeService(employeeDto);
+//		loginEmployeeDto.setEmployeeNo(employeeDto.getEmployeeNo());
+//		loginEmployeeDto.setEmployeePassWord(employeeDto.getEmployeePassWord());
+//		session.setAttribute(Session.USER, loginEmployeeDto);
+//		return mv;
+//	}
 	@PostMapping("/employee/employeeLogin.do")
-	public ModelAndView doEmployeeLoginAction(@ModelAttribute EmployeeDto employeeDto, HttpSession session) {
-		ModelAndView mv = new ModelAndView("redirect:/main/main.do");
+	public ModelAndView doEmployeeLoginAction(@Validated(value= {EmployeeValidator.Login.class}) @ModelAttribute EmployeeDto employeeDto, Errors errors, HttpSession session, HttpServletResponse response) {
+		
+		response.setCharacterEncoding("UTF-8"); 
+		response.setContentType("text/html; charset=UTF-8");
+		
+		ModelAndView mv = new ModelAndView();
+		//		ModelAndView mv = new ModelAndView("redirect:/main/main.do");
+		if ( errors.hasErrors()) {
+			System.out.println("Errors!!!!!!!!!!!!!!!!!!!");
+			mv.setViewName(HttpRequestHelper.getJspPath());
+			mv.addObject("employeeDto", employeeDto);
+			return mv;
+		}
+		
 		EmployeeDto loginEmployeeDto = this.employeeService.selectOneEmployeeService(employeeDto);
-		loginEmployeeDto.setEmployeeNo(employeeDto.getEmployeeNo());
-		loginEmployeeDto.setEmployeePassWord(employeeDto.getEmployeePassWord());
-		session.setAttribute(Session.USER, loginEmployeeDto);
+		PrintWriter out;
+		if ( loginEmployeeDto != null ) {
+			loginEmployeeDto.setEmployeeNo(employeeDto.getEmployeeNo());
+			loginEmployeeDto.setEmployeePassWord(employeeDto.getEmployeePassWord());
+			session.setAttribute(Session.USER, loginEmployeeDto);
+			
+			try {
+				System.out.println("Controller - 로그인 성공");
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('로그인 성공하였습니다.')");				
+				out.println("</script>");
+				mv.setViewName("redirect:/main/main.do");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('실패하였습니다.')");
+				out.println("history.back()");
+				out.println("</script>");
+				mv.setViewName("redirect:/employee/employeeLogin.do");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		return mv;
 	}
 	
@@ -303,16 +358,89 @@ public class EmployeeController {
 		DeployRequestDto deployRequestOfDeployNo = this.deployService.selectDeployRequestOfDeployNoService(deployNo);
 		List<ModifiedProgramsDto> modifiedProgramOfDeployNo = this.deployService.selectModifiedProgramOfDeploNoService(deployNo);
 		List<ModifiedResourcesDto> modifiedResourceOfDeployNo = this.deployService.selectModifiedResourceOfDeploNoService(deployNo);
+		
 		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeOfCategoryService();
 		Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
-		
 		CategoryTypeDto categoryType = new CategoryTypeDto();
 		
 		mv.addObject("modifiedProgramOfDeployNo",modifiedProgramOfDeployNo);
 		mv.addObject("modifiedResourceOfDeployNo", modifiedResourceOfDeployNo);
-		mv.addObject("deployRequestOfDeployNo", deployRequestOfDeployNo);
+		mv.addObject("deployRequestDto", deployRequestOfDeployNo);
 		mv.addObject("categoryMasterCodes", categoryMasterCodes);
 		mv.addObject("categoryType", categoryType);
+		return mv;
+	}
+	
+	@PostMapping("/employee/showMyApprovalReturnedDetail.do")
+	public ModelAndView doDeployUpdateAction(@Valid @ModelAttribute DeployRequestDto deployRequestDto, Errors errors, HttpServletResponse response, HttpServletRequest request) {
+		
+		response.setCharacterEncoding("UTF-8"); 
+		response.setContentType("text/html; charset=UTF-8"); 
+		
+		ModelAndView mv = new ModelAndView();
+		ArrayList<String> modifiedPrograms = new ArrayList<String>();
+		ArrayList<String> modifiedProgramName = new ArrayList<String>();
+		ArrayList<String> modifiedResources = new ArrayList<String>();
+		
+		
+		List<ModifiedProgramsDto> modifiedProgramOfDeployNo = this.deployService.selectModifiedProgramOfDeploNoService(deployRequestDto.getDeployNo());
+		List<ModifiedResourcesDto> modifiedResourceOfDeployNo = this.deployService.selectModifiedResourceOfDeploNoService(deployRequestDto.getDeployNo());
+		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeOfCategoryService();
+		Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
+		CategoryTypeDto categoryType = new CategoryTypeDto();
+		
+		if ( errors.hasErrors() ) {
+			mv.setViewName(HttpRequestHelper.getJspPath());
+			mv.addObject("modifiedProgramOfDeployNo",modifiedProgramOfDeployNo);
+			mv.addObject("modifiedResourceOfDeployNo", modifiedResourceOfDeployNo);
+			mv.addObject("categoryType", categoryType);
+			mv.addObject("categoryMasterCodes", categoryMasterCodes);
+			mv.addObject("deployRequestDto", deployRequestDto);
+			return mv;
+		}
+		
+		
+		for(int i=0;;i++) {
+			if(request.getParameter("modifiedPrograms_pageId"+i)==null) {
+				break;
+			}
+			modifiedPrograms.add(request.getParameter("modifiedPrograms_pageId"+i));
+			modifiedProgramName.add(request.getParameter("modifiedPrograms_pageName"+i));
+		}
+		
+		for(int i=0;;i++) {
+			if(request.getParameter("modifiedResources_wSourceName"+i)==null) {
+				break;
+			}
+			modifiedResources.add(request.getParameter("modifiedResources_wSourceName"+i));
+		}
+				
+		boolean updateOneDeployRequestSuccess = this.deployService.updateOneDeployRequestService(deployRequestDto, modifiedPrograms, modifiedProgramName, modifiedResources);
+		
+		PrintWriter out;
+		if (updateOneDeployRequestSuccess) {
+			try {
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('수정완료')");
+				out.println("window.opener.location.reload()");
+				out.println("window.close()");
+				out.println("</script>");
+				mv.setViewName("redirect:/employee/myDeployReturned.do");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('수정실패')");
+				out.println("history.back()");				
+				out.println("</script>");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		return mv;
 	}
 	

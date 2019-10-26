@@ -123,7 +123,7 @@ public class DeployController {
 	
 	@GetMapping("/deploy/deployRequest.do")
 	public ModelAndView viewDeployRequestPage(HttpSession session, HttpServletResponse response) {
-		ModelAndView mv=null;
+		ModelAndView mv = null;
 		boolean isThisUserHaveAuthorityOfRequest=this.employeeService.checkThisUserHaveAuthorityOfRequestService((EmployeeDto)session.getAttribute(Session.USER));
 		
 		response.setCharacterEncoding("UTF-8"); 
@@ -153,19 +153,19 @@ public class DeployController {
 		}
 	}
 		
-		
-	public ModelAndView viewDeployRequestPage() {
-		
-		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
-		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeOfCategoryService();
-		Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
-		CategoryTypeDto categoryType = new CategoryTypeDto();
-		
-		mv.addObject("categoryType", categoryType);
-		mv.addObject("categoryMasterCodes", categoryMasterCodes);
-		
-		return mv;
-	}
+	
+//	public ModelAndView viewDeployRequestPage() {
+//		
+//		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+//		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeOfCategoryService();
+//		Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
+//		CategoryTypeDto categoryType = new CategoryTypeDto();
+//		
+//		mv.addObject("categoryType", categoryType);
+//		mv.addObject("categoryMasterCodes", categoryMasterCodes);
+//		
+//		return mv;
+//	}
 	
 	@PostMapping("/deploy/deployRequest.do")
 	public ModelAndView doDeployAction(@Valid @ModelAttribute DeployRequestDto deployRequestDto, Errors errors, HttpServletRequest request, HttpServletResponse response) {
@@ -178,9 +178,16 @@ public class DeployController {
 		ArrayList<String> modifiedProgramName = new ArrayList<String>();
 		ArrayList<String> modifiedResources = new ArrayList<String>();
 		
+		List<MasterCodeDto> masterCodeType = this.deployService.selectMasterCodeOfCategoryService();
+		Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeType);
+		CategoryTypeDto categoryType = new CategoryTypeDto();
+		
+		
 		if ( errors.hasErrors() ) {
-			mv.setViewName("redirect:/deploy/deployRequest.do");
-//			mv.addObject("deployRequestDto", deployRequestDto);
+			mv.setViewName(HttpRequestHelper.getJspPath());
+			mv.addObject("categoryType", categoryType);
+			mv.addObject("categoryMasterCodes", categoryMasterCodes);
+			mv.addObject("deployRequestDto", deployRequestDto);
 			return mv;
 		}
 		
@@ -203,8 +210,6 @@ public class DeployController {
 		
 		PrintWriter out;
 		if (deployInsertSuccess) {
-			response.setContentType("text/html;charset=UTF-8");
-
 			try {
 				out = response.getWriter();
 				out.println("<script>");
@@ -227,6 +232,7 @@ public class DeployController {
 				e.printStackTrace();
 			}
 		}
+		
 		return mv;
 	}
 	
@@ -298,58 +304,68 @@ public class DeployController {
 	}
     
 
-	@PostMapping("/deploy/deployRequestModify.do")
-	public void doDeployUpdateAction(@ModelAttribute DeployRequestDto deployRequestDto, HttpServletResponse response, HttpServletRequest request) {
-		
-		response.setCharacterEncoding("UTF-8"); 
-		response.setContentType("text/html; charset=UTF-8"); 
-		
-		ArrayList<String> modifiedPrograms = new ArrayList<String>();
-		ArrayList<String> modifiedProgramName = new ArrayList<String>();
-		ArrayList<String> modifiedResources = new ArrayList<String>();
-		
-		for(int i=0;;i++) {
-			if(request.getParameter("modifiedPrograms_pageId"+i)==null) {
-				break;
-			}
-			modifiedPrograms.add(request.getParameter("modifiedPrograms_pageId"+i));
-			modifiedProgramName.add(request.getParameter("modifiedPrograms_pageName"+i));
-		}
-		
-		for(int i=0;;i++) {
-			if(request.getParameter("modifiedResources_wSourceName"+i)==null) {
-				break;
-			}
-			modifiedResources.add(request.getParameter("modifiedResources_wSourceName"+i));
-		}
-				
-		boolean updateOneDeployRequestSuccess = this.deployService.updateOneDeployRequestService(deployRequestDto, modifiedPrograms, modifiedProgramName, modifiedResources);
-		
-		PrintWriter out;
-		if (updateOneDeployRequestSuccess) {
-			response.setContentType("text/html;charset=UTF-8");
-			try {
-				out = response.getWriter();
-				out.println("<script>");
-				out.println("alert('수정완료')");
-				out.println("window.opener.location.reload()");
-				out.println("window.close()");
-				out.println("</script>");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else {
-			try {
-				out = response.getWriter();
-				out.println("<script>");
-				out.println("alert('수정실패')");
-				out.println("history.back()");				
-				out.println("</script>");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+//	@PostMapping("/deploy/deployRequestModify.do")
+//	public ModelAndView doDeployUpdateAction(@Valid @ModelAttribute DeployRequestDto deployRequestDto, Errors errors, HttpServletResponse response, HttpServletRequest request) {
+//		
+//		response.setCharacterEncoding("UTF-8"); 
+//		response.setContentType("text/html; charset=UTF-8"); 
+//		
+//		ModelAndView mv = new ModelAndView();
+//		
+//		if ( errors.hasErrors() ) {
+//			System.out.println("Error!!!!!!!!!!!!!!!!!!!!!!!!");
+//			mv.setViewName(HttpRequestHelper.getJspPath());			
+//			mv.addObject("deployRequestDto", deployRequestDto);
+//			return mv;
+//		}
+//		
+//		ArrayList<String> modifiedPrograms = new ArrayList<String>();
+//		ArrayList<String> modifiedProgramName = new ArrayList<String>();
+//		ArrayList<String> modifiedResources = new ArrayList<String>();
+//		
+//		for(int i=0;;i++) {
+//			if(request.getParameter("modifiedPrograms_pageId"+i)==null) {
+//				break;
+//			}
+//			modifiedPrograms.add(request.getParameter("modifiedPrograms_pageId"+i));
+//			modifiedProgramName.add(request.getParameter("modifiedPrograms_pageName"+i));
+//		}
+//		
+//		for(int i=0;;i++) {
+//			if(request.getParameter("modifiedResources_wSourceName"+i)==null) {
+//				break;
+//			}
+//			modifiedResources.add(request.getParameter("modifiedResources_wSourceName"+i));
+//		}
+//				
+//		boolean updateOneDeployRequestSuccess = this.deployService.updateOneDeployRequestService(deployRequestDto, modifiedPrograms, modifiedProgramName, modifiedResources);
+//		
+//		PrintWriter out;
+//		if (updateOneDeployRequestSuccess) {
+//			try {
+//				out = response.getWriter();
+//				out.println("<script>");
+//				out.println("alert('수정완료')");
+//				out.println("window.opener.location.reload()");
+//				out.println("window.close()");
+//				out.println("</script>");
+//				mv.setViewName("redirect:/employee/showMyApprovalReturnedDetail");
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		} else {
+//			try {
+//				out = response.getWriter();
+//				out.println("<script>");
+//				out.println("alert('수정실패')");
+//				out.println("history.back()");				
+//				out.println("</script>");
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return mv;
+//	}
 
 	@RequestMapping("/deploy/deployRequestDelete.do/{deployNo}")
 	public void doDeployDeleteAction(@PathVariable Long deployNo, HttpServletResponse response) {

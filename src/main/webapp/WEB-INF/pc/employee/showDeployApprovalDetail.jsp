@@ -36,14 +36,14 @@ No : <input type="text" name="deployNo" id="deployNo" value="${deployRequestOfDe
          <div class="divModifiedPrograms"> 
             <c:forEach items="${modifiedProgramOfDeployNo}" varStatus="status">
                <input type="text" name="modifiedPrograms_pageId${status.index}" id="modifiedPrograms_pageId${status.index}" value="<c:out value="${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageId}" />" readonly="readonly">               
-               <input type="text" name="modifiedPrograms_pageName${status.index}" id="modifiedPrograms_pageName${status.index}" value="<c:out value="${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageName}" />" readonly="readonly">
+               <input type="text" name="modifiedPrograms_pageName${status.index}" id="modifiedPrograms_pageName${status.index}" value="<c:out value="${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageName}" />" readonly="readonly"><br>
             </c:forEach> 
             <input type="hidden" name="lastModifiedProgram" id="lastModifiedProgram" value="${fn:length(modifiedProgramOfDeployNo)-1}">            
          </div>
 변경소스명 : <br>    
        <div class="divModifiedResources">  
           <c:forEach items="${modifiedResourceOfDeployNo}" varStatus="status">
-            <input type="text" name="modifiedResources_wSourceName${status.index}" id="modifiedResources_wSourceName${status.index}" value="<c:out value="${modifiedResourceOfDeployNo[status.index].modifiedResources_wSourceName}" />" readonly="readonly">                           
+            <input type="text" name="modifiedResources_wSourceName${status.index}" id="modifiedResources_wSourceName${status.index}" value="<c:out value="${modifiedResourceOfDeployNo[status.index].modifiedResources_wSourceName}" />" readonly="readonly"><br>                           
          </c:forEach> 
          <input type="hidden" name="lastModifiedResources" id="lastModifiedResources" value="${fn:length(modifiedResourceOfDeployNo)-1}">
       </div>
