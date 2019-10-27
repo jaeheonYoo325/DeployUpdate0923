@@ -6,60 +6,102 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">	
+	<title>반려함 페이지</title>
+	<!-- Custom fonts for this template-->
+	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/vendor/fontawesome-free/css/all.min.css' />">
+  	<!-- Custom styles for this template-->
+  	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/css/sb-admin.css' />">
+  	<!-- Page level plugin CSS-->
+  	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/vendor/datatables/dataTables.bootstrap4.css' />">
+	<script src="<c:url value='/bootstrapUiTemplate/vendor/jquery/jquery.min.js' />"></script>
+	<script src="<c:url value='/bootstrapUiTemplate/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
+	<script src="<c:url value='/bootstrapUiTemplate/vendor/jquery-easing/jquery.easing.min.js' />"></script>
+	<script src="<c:url value='/bootstrapUiTemplate/js/sb-admin.min.js' />"></script>
+	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/jquery.dataTables.js' />"></script>
+	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/dataTables.bootstrap4.js' />"></script>
 </head>
-<script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
-<script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
-<link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
-<script> 
-function showMyApprovalReturnedDetail(thisDeployNo){
-   var deployNo=thisDeployNo;
-   window.open("/employee/showMyApprovalReturnedDetail.do/"+deployNo,"상세보기", "width=1000, height=800");
-}
+<%-- <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script> --%>
+<%-- <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script> --%>
+<%-- <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />"> --%>
+<script>
+	$(document).ready(function() {
+		$("#sidebarToggle").on('click', function(e) {
+		    e.preventDefault();
+		    $("body").toggleClass("sidebar-toggled");
+		    $(".sidebar").toggleClass("toggled");
+		});	
+	});
+	function showMyApprovalReturnedDetail(thisDeployNo){
+	   var deployNo=thisDeployNo;
+	   window.open("/employee/showMyApprovalReturnedDetail.do/" + deployNo,"상세보기", "width=1000, height=800");
+	}
 </script>
-<body>
-<h1>MyDeployReturned</h1>
-
-
-<table border="1">
-<tr>
-<td>DeployNo</td>
-<td>기안자</td>
-<td>기안일</td>
-<td>결제내용</td>
-<td>결제요청일</td>
-<td>결제라인</td>
-<td>상세내역</td>
-</tr>
-
-
-<c:choose>
-<c:when test="${not empty deployReturned}">
-<c:forEach items="${deployReturned}" var="deployReturned">
-
-   <tr>
-      <td><input type="text" name="deployNo" value="${deployReturned.deployNo}" readonly="readonly"></td>
-      <td><input type="text" name="deployDrafterName" value="${deployReturned.deployDrafterName}" readonly="readonly"><input type="hidden" name="deployDrafter" value="${deployReturned.deployDrafter}"></td>
-      <td><input type="text" name="deployDraftDate" value="${deployReturned.deployDraftDate}" readonly="readonly"></td>
-      <td><input type="text" name="codeName" value="${deployReturned.codeName}" readonly="readonly"><input type="hidden" name="deployApprovalDescription" value="${deployReturned.deployApprovalDescription}"></td>
-      <td><input type="text" name="deployApprovalRequestDate" value="${deployReturned.deployApprovalRequestDate}" readonly="readonly"></td>
-      <td><input type="text" name="deployApprovalLineName" value="${deployReturned.deployApprovalLineName}" readonly="readonly"><input type="hidden" name="deployApprovalLine" value="${deployReturned.deployApprovalLine}"></td>
-      <td><input type="button" value="상세내역" onclick="showMyApprovalReturnedDetail(${deployReturned.deployNo})"></td>
-   </tr>
-</c:forEach>
-
-</c:when>
-<c:otherwise>
-<tr>
-<td>반려된 내역이 없습니다</td>
-</tr>
-</c:otherwise>
-</c:choose>
-
-
-</table>
-
-
+<body id="page-top">
+	<jsp:include page="/WEB-INF/pc/common/header.jsp" />
+	<div id="wrapper">
+		<jsp:include page="/WEB-INF/pc/common/sidebar.jsp" />
+		<div id="content-wrapper">
+			<div class="container-fluid">
+				<!-- Breadcrumbs-->
+		        <ol class="breadcrumb">
+		          <li class="breadcrumb-item">
+		            <a href="#">Dashboard</a>
+		          </li>
+		          <li class="breadcrumb-item active">Overview</li>
+		        </ol>
+				<div class="card mb-3">
+					<div class="card-header">
+			            <i class="fas fa-table"></i>
+			            	반려함
+			        </div>
+			        <div class="card-body">
+			        	<div class="table-responsive">
+			        		<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+			        			<thead>
+			        				<tr>
+										<td>DeployNo</td>
+										<td>기안자</td>
+										<td>기안일</td>
+										<td>결제내용</td>
+										<td>결제요청일</td>
+										<td>결제라인</td>
+										<td>상세내역</td>
+									</tr>
+			        			</thead>
+			        			<tbody>
+			        				<c:choose>
+										<c:when test="${not empty deployReturned}">
+											<c:forEach items="${deployReturned}" var="deployReturned">
+												<tr>													
+													<td>${deployReturned.deployNo}</td>
+													<td>${deployReturned.deployDrafterName}</td>
+													<td>${deployReturned.deployDraftDate}</td>
+													<td>${deployReturned.codeName}</td>
+													<td>${deployReturned.deployApprovalRequestDate}</td>
+													<td>${deployReturned.deployApprovalLineName}</td>
+													<td><input type="button" value="상세내역" class="btn btn-primary" onclick="showMyApprovalReturnedDetail(${deployReturned.deployNo})"></td>
+												</tr>
+											</c:forEach>
+										</c:when>
+										<c:otherwise>
+											<tr>
+												<td colspan="7">결제할 내역이 없습니다</td>
+											</tr>
+										</c:otherwise>
+									</c:choose>
+			        			</tbody>
+			        		</table>
+			        	</div>
+			        </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<jsp:include page="/WEB-INF/pc/common/footer.jsp" />
 </body>
 </html>

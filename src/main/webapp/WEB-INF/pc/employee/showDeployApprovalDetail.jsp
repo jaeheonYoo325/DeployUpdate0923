@@ -10,62 +10,109 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">	
+	<title>결재 상세 페이지</title>
+	<!-- Custom fonts for this template-->
+	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/vendor/fontawesome-free/css/all.min.css' />">
+  	<!-- Custom styles for this template-->
+  	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/css/sb-admin.css' />">
+  	<!-- Page level plugin CSS-->
+  	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/vendor/datatables/dataTables.bootstrap4.css' />">
+	<script src="<c:url value='/bootstrapUiTemplate/vendor/jquery/jquery.min.js' />"></script>
+	<script src="<c:url value='/bootstrapUiTemplate/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
+	<script src="<c:url value='/bootstrapUiTemplate/vendor/jquery-easing/jquery.easing.min.js' />"></script>
+	<script src="<c:url value='/bootstrapUiTemplate/js/sb-admin.min.js' />"></script>
+	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/jquery.dataTables.js' />"></script>
+	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/dataTables.bootstrap4.js' />"></script>
+	<script src="<c:url value='/js/deploy/deployUpdate.js' />"></script>
+	
 <%-- <jsp:include page="/WEB-INF/pc/CommonScript/commonScript.jsp"/> --%>
-<script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
-<script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
-<link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
-<script src="<c:url value='/js/deploy/deployUpdate.js' />"></script>
+<%-- <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script> --%>
+<%-- <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script> --%>
+<%-- <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />"> --%>
+
 </head>
-<h1>MyDeployDetail</h1>
-No : <input type="text" name="deployNo" id="deployNo" value="${deployRequestOfDeployNo.deployNo}" readonly="readonly"><br>
-부문 :  <input type="text" name="chainId" id="chainId" value="${deployRequestOfDeployNo.chainId}" readonly="readonly">
-     <input type="text" name="chainName" id="chainName" value="${deployRequestOfDeployNo.chainName}" readonly="readonly"><br>
-작업유형 : <select name="workType" id="workType">
-         <option value="작업유형" <c:if test="${deployRequestOfDeployNo.workType eq ''}" >selected="selected"</c:if>>작업유형</option> 
-         <option value="정기" <c:if test="${deployRequestOfDeployNo.workType eq '정기'}" >selected="selected"</c:if>>정기</option> 
-         <option value="수시" <c:if test="${deployRequestOfDeployNo.workType eq '수시'}" >selected="selected"</c:if>>수시</option>          
-       </select><br>
-요청날짜 : <input type="date" name="requestDate" value="${deployRequestOfDeployNo.requestDate}"><br>
-요청시간 : <input type="time" name="requestTime" value="${deployRequestOfDeployNo.requestTime}"><br>
-서비스요청_ID : <input type="text" name="serviceRequestId" id="serviceRequestId" value="${deployRequestOfDeployNo.serviceRequestId}" readonly="readonly"><br>
-작업자 : <input type="text" name="worker" id="worker" value="${deployRequestOfDeployNo.worker}" readonly="readonly"><br>
-변경내역 : <input type="text" name="modifiedContents" value="${deployRequestOfDeployNo.modifiedContents}"><br>
-변경프로그램목록 : <br>
-         <div class="divModifiedPrograms"> 
-            <c:forEach items="${modifiedProgramOfDeployNo}" varStatus="status">
-               <input type="text" name="modifiedPrograms_pageId${status.index}" id="modifiedPrograms_pageId${status.index}" value="<c:out value="${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageId}" />" readonly="readonly">               
-               <input type="text" name="modifiedPrograms_pageName${status.index}" id="modifiedPrograms_pageName${status.index}" value="<c:out value="${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageName}" />" readonly="readonly"><br>
-            </c:forEach> 
-            <input type="hidden" name="lastModifiedProgram" id="lastModifiedProgram" value="${fn:length(modifiedProgramOfDeployNo)-1}">            
-         </div>
-변경소스명 : <br>    
-       <div class="divModifiedResources">  
-          <c:forEach items="${modifiedResourceOfDeployNo}" varStatus="status">
-            <input type="text" name="modifiedResources_wSourceName${status.index}" id="modifiedResources_wSourceName${status.index}" value="<c:out value="${modifiedResourceOfDeployNo[status.index].modifiedResources_wSourceName}" />" readonly="readonly"><br>                           
-         </c:forEach> 
-         <input type="hidden" name="lastModifiedResources" id="lastModifiedResources" value="${fn:length(modifiedResourceOfDeployNo)-1}">
-      </div>
-요청자 : <input type="text" name="requester" id="requester" value="${deployRequestOfDeployNo.requester}" readonly="readonly"><br>
-Deploy담당자 : <input type="text" name="deployer" id="deployer" value="${deployRequestOfDeployNo.deployer}" readonly="readonly"><br>
-확인(개발계) : <input type="text" name="developConfirmer" id="developConfirmer" value="${deployRequestOfDeployNo.developConfirmer}" readonly="readonly"><br>
-확인(태스트계) : <input type="text" name="testConfirmer" id="testConfirmer" value="${deployRequestOfDeployNo.testConfirmer}" readonly="readonly"><br>
-확인(운영계) : <input type="text" name="productionConfirmer" id="productionConfirmer" value="${deployRequestOfDeployNo.productionConfirmer}" readonly="readonly"><br>
-구분 : <select name="division">
-      <option value="" <c:if test="${deployRequestOfDeployNo.division eq ''}" >selected="selected"</c:if>>구분</option>       
-      <option value="신규" <c:if test="${deployRequestOfDeployNo.division eq '신규'}" >selected="selected"</c:if>>신규</option>       
-      <option value="변경" <c:if test="${deployRequestOfDeployNo.division eq '변경'}" >selected="selected"</c:if>>변경</option>                         
-     </select><br>
-     
- <c:if test="${deployApprovalDetailCode eq 'myDeployApprovalDetail'}">
-<input type="button" value="결제하기" onclick="location.href='/employee/MyDeployDoingApproval.do/${deployRequestOfDeployNo.deployNo}'">
-<input type="button" value="반려하기" onclick="location.href='/employee/MyDeployDoingReturn.do/${deployRequestOfDeployNo.deployNo}'">   
- </c:if>    
- 
- <c:if test="${deployApprovalDetailCode eq 'myDeployWillDeploy'}">
- <input type="button" value="배포하기" onclick="location.href='/employee/myDeployDoingDeploy.do/${deployRequestOfDeployNo.deployNo}'">
-<input type="button" value="반려하기" onclick="location.href='/employee/MyDeployDoingReturn.do/${deployRequestOfDeployNo.deployNo}'">   
- </c:if>  
-</body>
+<body id="page-top">
+		<div id="wrapper">
+			<div id="content-wrapper">
+		        <ol class="breadcrumb">
+		          <li class="breadcrumb-item">
+		            <a href="#">Dashboard</a>
+		          </li>
+		          <li class="breadcrumb-item active">Overview</li>
+		        </ol>
+		        <div class="card mb-3">
+		        	<div class="card-header">
+			            <i class="fas fa-table"></i>
+			            	결재 상세
+			        </div>
+			        <div class="card-body">
+		        		<div class="table-responsive">
+		        			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+		        				<thead>
+		        					<tr>
+		        						<td>No</td>
+		        						<td>부문</td>
+		        						<td>작업유형</td>
+		        						<td>요청날짜</td>
+		        						<td>요청시간</td>
+		        						<td>서비스요청 ID</td>
+		        						<td>작업자</td>
+		        						<td>변경내역</td>
+		        						<td>변경프로그램목록</td>
+		        						<td>변경소스명</td>
+		        						<td>요청자</td>
+		        						<td>Deploy 담당자</td>
+		        						<td>개발계 담당자</td>
+		        						<td>테스트계 담당자</td>
+		        						<td>운영계 담당자</td>
+		        						<td>구분</td>
+		        					</tr>
+		        					<tr>
+		        						<td>${deployRequestOfDeployNo.deployNo}</td>
+		        						<td>${deployRequestOfDeployNo.chainName}</td>
+		        						<td>${deployRequestOfDeployNo.workType}</td>
+		        						<td>${deployRequestOfDeployNo.requestDate}</td>
+		        						<td>${deployRequestOfDeployNo.requestTime}</td>
+		        						<td>${deployRequestOfDeployNo.serviceRequestId}</td>
+		        						<td>${deployRequestOfDeployNo.worker}</td>
+		        						<td>${deployRequestOfDeployNo.modifiedContents}</td>
+		        						<td>
+											<c:forEach items="${modifiedProgramOfDeployNo}" varStatus="status">
+												${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageId}(${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageName})
+								            </c:forEach>  
+		        						</td>
+		        						<td>
+											<c:forEach items="${modifiedResourceOfDeployNo}" varStatus="status">
+												${modifiedResourceOfDeployNo[status.index].modifiedResources_wSourceName}												                          
+											</c:forEach> 
+		        						</td>
+		        						<td>${deployRequestOfDeployNo.requester}</td>
+		        						<td>${deployRequestOfDeployNo.deployer}</td>
+		        						<td>${deployRequestOfDeployNo.developConfirmer}</td>
+		        						<td>${deployRequestOfDeployNo.testConfirmer}</td>
+		        						<td>${deployRequestOfDeployNo.productionConfirmer}</td>
+		        						<td>${deployRequestOfDeployNo.division}</td>
+		        					</tr>
+		        				</thead>
+		        			</table>
+		        			<c:if test="${deployApprovalDetailCode eq 'myDeployApprovalDetail'}">
+								<input type="button" value="결제하기" class="btn btn-primary" onclick="location.href='/employee/MyDeployDoingApproval.do/${deployRequestOfDeployNo.deployNo}'">
+								<input type="button" value="반려하기" class="btn btn-danger" onclick="location.href='/employee/MyDeployDoingReturn.do/${deployRequestOfDeployNo.deployNo}'">   
+							</c:if>    
+							 
+							<c:if test="${deployApprovalDetailCode eq 'myDeployWillDeploy'}">
+								<input type="button" value="배포하기" class="btn btn-primary" onclick="location.href='/employee/myDeployDoingDeploy.do/${deployRequestOfDeployNo.deployNo}'">
+								<input type="button" value="반려하기" class="btn btn-danger" onclick="location.href='/employee/MyDeployDoingReturn.do/${deployRequestOfDeployNo.deployNo}'">   
+							</c:if>
+		        		</div>
+			        </div>
+		        </div>
+			</div>
+		</div>
+	</body>
 </html>
