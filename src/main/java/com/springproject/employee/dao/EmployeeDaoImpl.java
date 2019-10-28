@@ -105,4 +105,9 @@ public class EmployeeDaoImpl extends SqlSessionDaoSupport implements EmployeeDao
 	public List<DeployApprovalDto> selectMyDeployCompletedDao(EmployeeDto employeeDto) {
 		return this.getSqlSession().selectList("EmployeeDao.selectMyDeployCompletedDao",employeeDto);
 	}
+
+	@Override
+	public List<AuthorityDto> checkThisUserHaveAuthorityOfEmployeeRegist(EmployeeDto employeeDto) {
+		return this.getSqlSession().selectList("EmployeeDao.checkThisUserHaveAuthorityOfEmployeeRegistDao", employeeDto);
+	}
 }

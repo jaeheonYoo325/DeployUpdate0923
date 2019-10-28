@@ -63,23 +63,23 @@ public class EmployeeServiceImpl implements EmployeeService{
 	    boolean isDoApprovalingSuccessOfNextApproval=false;
 	    boolean isDoApprovalingSuccessOfCompleteNowApproval = false;
 
-//	    if(!deployApprovalDto.getDeployApprovalDescription().equals("deployApprovalE0")) {
-	    	  isDoApprovalingSuccessOfCompleteNowApproval=this.employeeDao.myDeployDoApprovalingOfCompleteNowApprovalDao(deployApprovalDto)>0;
-		      if(deployApprovalDto.getDeployApprovalDescription().equals("deployApprovalB0")) {
-			         deployApprovalDto.setDeployApprovalDescription("deployApprovalC0");
-			         deployApprovalDto.setDeployApprovalLine("15");
-			      }
-			      
-			      else if(deployApprovalDto.getDeployApprovalDescription().equals("deployApprovalC0")) {
-			         deployApprovalDto.setDeployApprovalDescription("deployApprovalD0");
-			         deployApprovalDto.setDeployApprovalLine("16");
-			      }
-			      
-			      else if(deployApprovalDto.getDeployApprovalDescription().equals("deployApprovalD0")) {
-			         deployApprovalDto.setDeployApprovalDescription("deployApprovalE0");
-			         deployApprovalDto.setDeployApprovalLine("17");
-			      }
-	         isDoApprovalingSuccessOfNextApproval = this.employeeDao.myDeployDoApprovalingOfAddNextApprovalDao(deployApprovalDto)>0;
+    	  isDoApprovalingSuccessOfCompleteNowApproval=this.employeeDao.myDeployDoApprovalingOfCompleteNowApprovalDao(deployApprovalDto)>0;
+	      if(deployApprovalDto.getDeployApprovalDescription().equals("deployApprovalB0")) {
+		         deployApprovalDto.setDeployApprovalDescription("deployApprovalC0");
+		         deployApprovalDto.setDeployApprovalLine("15");
+		      }
+		      
+		      else if(deployApprovalDto.getDeployApprovalDescription().equals("deployApprovalC0")) {
+		         deployApprovalDto.setDeployApprovalDescription("deployApprovalD0");
+		         deployApprovalDto.setDeployApprovalLine("16");
+		      }
+		      
+		      else if(deployApprovalDto.getDeployApprovalDescription().equals("deployApprovalD0")) {
+		         deployApprovalDto.setDeployApprovalDescription("deployApprovalE0");
+		         deployApprovalDto.setDeployApprovalLine("17");
+		      }
+	      
+	      isDoApprovalingSuccessOfNextApproval = this.employeeDao.myDeployDoApprovalingOfAddNextApprovalDao(deployApprovalDto)>0;
 	      
 	      DeployRequestDto deployRequestDto=this.deployDao.selectDeployRequestOfDeployNoDao(deployApprovalDto.getDeployNo());
 	      
@@ -190,5 +190,19 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public List<DeployApprovalDto> selectMyDeployCompletedService(EmployeeDto employeeDto) {
 		return this.employeeDao.selectMyDeployCompletedDao(employeeDto);
+	}
+
+	@Override
+	public boolean checkisThisUserHaveAuthorityOfEmployeeRegistService(EmployeeDto employeeDto) {
+		boolean isThisUserHaveAuthorityOfEmployeeRegist = false;
+	      List<AuthorityDto> authorityDto=this.employeeDao.checkThisUserHaveAuthorityOfEmployeeRegist(employeeDto);
+	      if(authorityDto.size()==1) {
+	         isThisUserHaveAuthorityOfEmployeeRegist=true;
+	      }
+	      else if(authorityDto.size()==0) {
+	         isThisUserHaveAuthorityOfEmployeeRegist=false;
+	      }
+	      return isThisUserHaveAuthorityOfEmployeeRegist;
+
 	}
 }

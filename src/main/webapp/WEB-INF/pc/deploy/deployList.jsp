@@ -38,12 +38,6 @@
 	<script src="<c:url value='/bootstrapUiTemplate/js/sb-admin.min.js' />"></script>
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/jquery.dataTables.js' />"></script>
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/dataTables.bootstrap4.js' />"></script>
-		
-<%-- <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script> --%>
-<%-- <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script> --%>
-<%-- <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />"> --%>
-<%-- <link rel="stylesheet" href="<c:url value='/css/common/footer.css' />"> --%>
-<%-- <link rel="stylesheet" href="<c:url value='/css/common/header.css' />"> --%>
 <script type="text/javascript">
    $(document).ready(function() {
      
@@ -109,7 +103,7 @@
 <script>
 function showPayDetail(thisDeployNo,deployPayDetailCode){
 	   var deployNo=thisDeployNo;
-	   window.open("/employee/showDeployPayDetail.do/"+deployNo+"/"+deployPayDetailCode,"상세보기", "width=1000, height=800");
+	   window.open("/employee/showDeployApprovalDetail.do/"+deployNo+"/"+deployPayDetailCode,"상세보기", "width=1000, height=800");
 	}
 </script>
 
@@ -119,14 +113,7 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 	<div id="wrapper">
 		<jsp:include page="/WEB-INF/pc/common/sidebar.jsp" />
 		<div id="content-wrapper">
-			<div class="container-fluid">
-				 <!-- Breadcrumbs-->
-		         <ol class="breadcrumb">
-		           <li class="breadcrumb-item">
-		             <a href="#">Dashboard</a>
-		           </li>
-		           <li class="breadcrumb-item active">Overview</li>
-		         </ol>
+			<div class="container-fluid">				 
 				 <div class="card mb-3">
 					<div class="card-header">
 			            <i class="fas fa-table"></i>
@@ -179,7 +166,6 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 													<option value="<c:out value='${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}'></c:out>" <c:if test="${categoryType.categoryDivision eq categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}</option>
 												</c:forEach>	
 											</select></td>
-											<td>상세보기</td>
 											<td><select name="categoryStatus" id="categoryStatus">
 												<c:forEach items="${categoryMasterCodes[categoryType.cateStatusString]}" varStatus="status">
 													<option value="<c:out value='${categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}'></c:out>" <c:if test="${categoryType.categoryStatus eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName}</option>
@@ -214,10 +200,11 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 												<td>${deploy.testConfirmer}</td>
 												<td>${deploy.productionConfirmer}</td>
 												<td>${deploy.division}</td>
-												<td><input type="button" class="btn btn-info" value="상세내역" onclick="showPayDetail(${deploy.deployNo},'myDeploy')"></td>
 												<td>	
 													<c:forEach items="${categoryMasterCodes[categoryType.cateStatusString]}" begin="1" varStatus="status">
-														<input type="radio" name="statusCode${deploy.deployNo}"  <c:if test="${deploy.statusCode eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">checked="checked"</c:if>disabled="disabled">${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName}
+														<input type="radio" name="statusCode${deploy.deployNo}"  <c:if test="${deploy.statusCode eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">checked="checked"</c:if>disabled="disabled">
+                                          				<c:if test="${deploy.statusCode eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}"><font color="red">${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName}</font></c:if>
+                                          				<c:if test="${deploy.statusCode ne categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName}</c:if>
 													</c:forEach>		
 												</td>
 											</tr>

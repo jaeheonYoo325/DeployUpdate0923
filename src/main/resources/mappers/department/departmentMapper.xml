@@ -4,11 +4,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="DepartmentDao">
-	<select id="selectSomeDepartment" parameterType="DepartmentDto" resultType="DepartmentDto">
-		SELECT	depNo
-				, depName
-		FROM	DEPARTMENT
-		WHERE	depName = #{depName}
-	</select>
+   <select id="selectSomeDepartment" parameterType="DepartmentDto" resultType="DepartmentDto">
+      SELECT   depNo
+            , depName
+      FROM   DEPARTMENT
+      WHERE   depName LIKE CONCAT('%',#{depName},'%')
+   </select>
 </mapper>
   

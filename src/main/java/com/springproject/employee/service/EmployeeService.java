@@ -36,4 +36,6 @@ public interface EmployeeService {
 	public List<DeployApprovalDto> selectMyDeployReturnedService(EmployeeDto employeeDto);
 
 	public List<DeployApprovalDto> selectMyDeployCompletedService(EmployeeDto employeeDto);
+
+	public boolean checkisThisUserHaveAuthorityOfEmployeeRegistService(EmployeeDto employeeDto);
 }

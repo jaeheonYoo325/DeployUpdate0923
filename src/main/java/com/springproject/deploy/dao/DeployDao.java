@@ -18,9 +18,9 @@ public interface DeployDao {
 
 	public int InsertDeployRequestDao(DeployRequestDto deployDto);
 
-	public int insertModifiedProgramDao(ModifiedProgramsDto wProgramTableDto);
+	public int insertModifiedProgramDao(ModifiedProgramsDto modifiedProgramsDto);
 
-	public int insertModifiedResourceDao(ModifiedResourcesDto wSourceTableDto);
+	public int insertModifiedResourceDao(ModifiedResourcesDto modifiedResourcesDto);
 
 	public List<DeployRequestDto> selectAllDeployRequestDao();
 

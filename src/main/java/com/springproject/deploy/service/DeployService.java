@@ -15,6 +15,7 @@ import com.springproject.modifiedresources.dto.ModifiedResourcesDto;
 import com.springproject.program.dto.ProgramDto;
 
 public interface DeployService {
+	
 	public boolean InsertDeployRequestService(DeployRequestDto deployDto, ArrayList<String> wProgramArray, ArrayList<String> pageNameArray, ArrayList<String> wSourceArray);
 	
 	public List<DeployRequestDto> selectAllDeployRequestService();

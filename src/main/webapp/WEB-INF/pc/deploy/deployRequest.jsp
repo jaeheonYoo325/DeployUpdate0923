@@ -185,14 +185,7 @@ $(document).ready(function() {
 	<div id="wrapper">
 		<jsp:include page="/WEB-INF/pc/common/sidebar.jsp" />
 		<div id="content-wrapper">
-			<div class="container-fluid">
-				<!-- Breadcrumbs-->
-		        <ol class="breadcrumb">
-		          <li class="breadcrumb-item">
-		            <a href="#">Dashboard</a>
-		          </li>
-		          <li class="breadcrumb-item active">Overview</li>
-		        </ol>
+			<div class="container-fluid">				
 				<div class="card mb-3">
 					<div class="card-header">
 			            <i class="fas fa-table"></i>
@@ -281,7 +274,7 @@ $(document).ready(function() {
 							</div>
 							<hr>
 							<div id="testConfirmerDiv">
-								<h5>태스트계 담당자 </h5>
+								<h5>테스트계 담당자 </h5>
 								<input type="text" name="testConfirmer" id="testConfirmer" readonly="readonly">
 							    <input type="button" class="btn btn-primary" value="검색" onclick="searchEmployee('testConfirmer')"><br>
 							</div>
@@ -293,7 +286,7 @@ $(document).ready(function() {
 							</div>
 							<hr>
 							<div id="divisionDiv">
-								<h5>구분 담당자 </h5>
+								<h5>구분</h5>
 								<select name="division" id="division">
 									<c:forEach items="${categoryMasterCodes[categoryType.cateDivisionString]}" varStatus="status">
 										<option value="<c:out value='${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}'></c:out>" <c:if test="${deployRequestDto.division eq categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}</option>

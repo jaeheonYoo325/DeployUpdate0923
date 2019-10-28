@@ -12,6 +12,7 @@ public interface EmployeeDao {
 	public int insertOneEmployeeDao(EmployeeDto employeeDto);
 	
 	public EmployeeDto selectOneEmployeeDao(EmployeeDto employeeDto);
+	
 	public String getSaltByEmployeeNumber(String empNo);
 
 	public List<DeployApprovalDto> selectMyDeployApprovalDao(EmployeeDto employeeDto);
@@ -41,4 +42,6 @@ public interface EmployeeDao {
 	public List<DeployApprovalDto> selectMyDeployReturnedDao(EmployeeDto employeeDto);
 
 	public List<DeployApprovalDto> selectMyDeployCompletedDao(EmployeeDto employeeDto);
+
+	public List<AuthorityDto> checkThisUserHaveAuthorityOfEmployeeRegist(EmployeeDto employeeDto);
 }

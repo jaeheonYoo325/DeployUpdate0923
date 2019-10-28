@@ -70,7 +70,7 @@
 	       modifiedPrograms_pageId
 	      ,modifiedPrograms_pageName
 	      ,modifiedPrograms_deployNo
-	FROM WPROGRAMTABLE
+	FROM ModifiedPrograms
 	WHERE modifiedPrograms_deployNo=#{deployNo}
 	</select>
 	
@@ -78,7 +78,7 @@
 	SELECT
 	      modifiedResources_deployNo
 	     ,modifiedResources_wSourceName
-	FROM WSOURCETABLE
+	FROM ModifiedResources
 	WHERE modifiedResources_deployNo=#{deployNo}
 	</select>
 		
@@ -100,9 +100,12 @@
 	         , d.division
 	         , d.statusCode
 	         , c.chainName
-		 FROM deploy d 
+	         , e.employeeName
+		 FROM DEPLOY d 
 		 JOIN CHAINTABLE c
+		 JOIN EMPLOYEE e
 		 ON (d.chainId=c.chainID)
+		 AND d.requester = e.employeeNo
 		 WHERE d.deployNo=#{deployNo}
 	</select>
 	
@@ -180,7 +183,7 @@
    </select>
    
    <insert id="insertModifiedProgramDao" parameterType="ModifiedProgramsDto">
-  	 INSERT INTO WPROGRAMTABLE      (
+  	 INSERT INTO ModifiedPrograms      (
                                  modifiedPrograms_pageId
                                  , modifiedPrograms_deployNo
                                  , modifiedPrograms_pageName
@@ -194,7 +197,7 @@
    </insert>
    
    <insert id="insertModifiedResourceDao" parameterType="ModifiedResourcesDto">
-   	INSERT INTO WSOURCETABLE         (
+   	INSERT INTO ModifiedResources         (
                                  modifiedResources_deployNo
                                  , modifiedResources_wSourceName
                               ) 
@@ -207,12 +210,12 @@
    
    
    <delete id="deleteModifiedProgramOfDeployNoDao" parameterType="Long">
-   DELETE FROM WPROGRAMTABLE
+   DELETE FROM ModifiedPrograms
    WHERE modifiedPrograms_deployNo=#{deployNo}
    </delete>
    
    <delete id="deleteModifiedResourceOfDeployNoDao" parameterType="Long">
-   DELETE FROM WSOURCETABLE
+   DELETE FROM ModifiedResources
    WHERE modifiedResources_deployNo=#{deployNo}
    </delete>
    
@@ -241,8 +244,8 @@
     	JOIN CHAINTABLE c
 		JOIN MASTERTABLE m
 		JOIN EMPLOYEE e
-		JOIN WPROGRAMTABLE p
-		JOIN WSOURCETABLE s
+		JOIN ModifiedPrograms p
+		JOIN ModifiedResources s
     	ON(d.chainId=c.chainId)
     	AND (d.statusCode=m.codeValue)
     	AND (d.requester=e.employeeNo)

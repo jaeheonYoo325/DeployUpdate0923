@@ -283,4 +283,11 @@
     WHERE d.deployApprovalDescription="deployApprovalE0" AND d.deployApprovalDate is not null AND d.deployDrafter=#{employeeNo}
     </select>
     
+    <select id="checkThisUserHaveAuthorityOfEmployeeRegistDao" parameterType="EmployeeDto" resultType="AuthorityDto">
+	    SELECT
+	       employeeNo,
+	       roleCode
+	    FROM authority
+	    WHERE employeeNo=#{employeeNo} AND roleCode="EmployeeRegist"
+    </select>
   </mapper>

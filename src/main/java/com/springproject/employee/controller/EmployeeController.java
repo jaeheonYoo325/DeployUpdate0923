@@ -57,26 +57,16 @@ public class EmployeeController {
 		return HttpRequestHelper.getJspPath();
 	}
 		
-//	@PostMapping("/employee/employeeLogin.do")
-//	public ModelAndView doEmployeeLoginAction(@ModelAttribute EmployeeDto employeeDto, HttpSession session) {
-//		ModelAndView mv = new ModelAndView("redirect:/main/main.do");
-//		EmployeeDto loginEmployeeDto = this.employeeService.selectOneEmployeeService(employeeDto);
-//		loginEmployeeDto.setEmployeeNo(employeeDto.getEmployeeNo());
-//		loginEmployeeDto.setEmployeePassWord(employeeDto.getEmployeePassWord());
-//		session.setAttribute(Session.USER, loginEmployeeDto);
-//		return mv;
-//	}
 	@PostMapping("/employee/employeeLogin.do")
 	public ModelAndView doEmployeeLoginAction(@Validated(value= {EmployeeValidator.Login.class}) @ModelAttribute EmployeeDto employeeDto, Errors errors, HttpSession session, HttpServletResponse response) {
 		
 		response.setCharacterEncoding("UTF-8"); 
 		response.setContentType("text/html; charset=UTF-8");
 		
-		ModelAndView mv = new ModelAndView();
-		//		ModelAndView mv = new ModelAndView("redirect:/main/main.do");
+		ModelAndView mv = null;
+		
 		if ( errors.hasErrors()) {
-			System.out.println("Errors!!!!!!!!!!!!!!!!!!!");
-			mv.setViewName(HttpRequestHelper.getJspPath());
+			mv = new ModelAndView(HttpRequestHelper.getJspPath());
 			mv.addObject("employeeDto", employeeDto);
 			return mv;
 		}
@@ -89,35 +79,51 @@ public class EmployeeController {
 			session.setAttribute(Session.USER, loginEmployeeDto);
 			
 			try {
-				System.out.println("Controller - 로그인 성공");
 				out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('로그인 성공하였습니다.')");				
+				out.println("alert('로그인 성공하였습니다.')");	
+				out.println("window.location.href = 'http://localhost:8080/main/main.do';");
 				out.println("</script>");
-				mv.setViewName("redirect:/main/main.do");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			return mv;
 		} else {
 			try {
 				out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('실패하였습니다.')");
+				out.println("alert('사원번호와 비밀번호가 일치하지 않습니다.')");
 				out.println("history.back()");
 				out.println("</script>");
-				mv.setViewName("redirect:/employee/employeeLogin.do");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			return mv;
 		}
-		
-		return mv;
 	}
 	
-	@GetMapping("/employee/employeeRegist.do")
-	public String viewEmployeeRegistPage() {
-		return HttpRequestHelper.getJspPath();
-	}
+   @GetMapping("/employee/employeeRegist.do")
+   public String viewEmployeeRegistPage(HttpServletResponse response, HttpSession session) {
+         response.setCharacterEncoding("UTF-8"); 
+       response.setContentType("text/html; charset=UTF-8");          
+       boolean isThisUserHaveAuthorityOfEmployeeRegist=this.employeeService.checkisThisUserHaveAuthorityOfEmployeeRegistService((EmployeeDto)session.getAttribute(Session.USER));
+       if(isThisUserHaveAuthorityOfEmployeeRegist) {
+          return HttpRequestHelper.getJspPath();
+       }
+       else {
+          try {
+            PrintWriter out;
+            out = response.getWriter();
+            out.println("<script>");
+            out.println("alert('사원등록권한이 없습니다')");
+            out.println("history.back()");
+            out.println("</script>");
+         } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+       }
+   }
 	
 	@PostMapping("/employee/employeeRegist.do")
 	public ModelAndView doEmployeeRegistAction(@ModelAttribute EmployeeDto employeeDto) {
@@ -144,7 +150,6 @@ public class EmployeeController {
 	
 	@PostMapping("/search/searchDepartment.do")
 	public ModelAndView doSearchDepartmentPopupAction(@ModelAttribute DepartmentDto departmentDto) {
-		System.out.println("진입!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
 		List<DepartmentDto> departmentDtoList = this.departmentService.selectSomeDepartmentService(departmentDto);
 		mv.addObject("departmentDtoList", departmentDtoList);
@@ -282,13 +287,12 @@ public class EmployeeController {
 	  response.setCharacterEncoding("UTF-8"); 
 	  response.setContentType("text/html; charset=UTF-8");
 	  
-	  DeployApprovalDto deployApprovalDtoForSearch=new DeployApprovalDto();
+	  DeployApprovalDto deployApprovalDtoForSearch = new DeployApprovalDto();
 	  deployApprovalDtoForSearch.setDeployNo(deployNo);
 	  deployApprovalDtoForSearch.setDeployApprovalLine(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
 	  
-      DeployApprovalDto deployApprovalDto=this.employeeService.selectMyDeployDoingDeployOfdeployNoService(deployApprovalDtoForSearch);
+      DeployApprovalDto deployApprovalDto = this.employeeService.selectMyDeployDoingDeployOfdeployNoService(deployApprovalDtoForSearch);
       deployApprovalDto.setDeployApprovalLineConfirm(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
-      System.out.println("deployDtoset후"+deployApprovalDto.getDeployApprovalLineConfirm());
       boolean isDoDeployingSuccess =this.employeeService.myDeployDoDeployingService(deployApprovalDto);
       PrintWriter out;
 		if (isDoDeployingSuccess) {
@@ -377,7 +381,7 @@ public class EmployeeController {
 		response.setCharacterEncoding("UTF-8"); 
 		response.setContentType("text/html; charset=UTF-8"); 
 		
-		ModelAndView mv = new ModelAndView();
+		ModelAndView mv = null;
 		ArrayList<String> modifiedPrograms = new ArrayList<String>();
 		ArrayList<String> modifiedProgramName = new ArrayList<String>();
 		ArrayList<String> modifiedResources = new ArrayList<String>();
@@ -390,7 +394,7 @@ public class EmployeeController {
 		CategoryTypeDto categoryType = new CategoryTypeDto();
 		
 		if ( errors.hasErrors() ) {
-			mv.setViewName(HttpRequestHelper.getJspPath());
+			mv = new ModelAndView(HttpRequestHelper.getJspPath());
 			mv.addObject("modifiedProgramOfDeployNo",modifiedProgramOfDeployNo);
 			mv.addObject("modifiedResourceOfDeployNo", modifiedResourceOfDeployNo);
 			mv.addObject("categoryType", categoryType);
@@ -426,10 +430,10 @@ public class EmployeeController {
 				out.println("window.opener.location.reload()");
 				out.println("window.close()");
 				out.println("</script>");
-				mv.setViewName("redirect:/employee/myDeployReturned.do");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			return mv;
 		} else {
 			try {
 				out = response.getWriter();
@@ -440,8 +444,8 @@ public class EmployeeController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			return mv;
 		}
-		return mv;
 	}
 	
 	@GetMapping("/employee/myDeployCompleted.do")

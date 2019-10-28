@@ -25,9 +25,6 @@
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/jquery.dataTables.js' />"></script>
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/dataTables.bootstrap4.js' />"></script>
 </head>
-<%-- <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script> --%>
-<%-- <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script> --%>
-<%-- <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />"> --%>
 <script>
 	$(document).ready(function() {
 		$("#sidebarToggle").on('click', function(e) {
@@ -48,13 +45,6 @@
 		<jsp:include page="/WEB-INF/pc/common/sidebar.jsp" />
 		<div id="content-wrapper">
 			<div class="container-fluid">
-				<!-- Breadcrumbs-->
-		        <ol class="breadcrumb">
-		          <li class="breadcrumb-item">
-		            <a href="#">Dashboard</a>
-		          </li>
-		          <li class="breadcrumb-item active">Overview</li>
-		        </ol>
 				<div class="card mb-3">
 					<div class="card-header">
 			            <i class="fas fa-table"></i>
@@ -95,7 +85,7 @@
 										</c:when>
 										<c:otherwise>
 											<tr>
-												<td colspan="9">결제할 내역이 없습니다</td>
+												<td colspan="9">내역이 없습니다</td>
 											</tr>
 										</c:otherwise>
 									</c:choose>

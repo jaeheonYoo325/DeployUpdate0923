@@ -10,21 +10,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">	
+	<title>상세내역 & 재요청</title>
+	<!-- Custom fonts for this template-->
+	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/vendor/fontawesome-free/css/all.min.css' />">
+  	<!-- Custom styles for this template-->
+  	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/css/sb-admin.css' />">
+  	<!-- Page level plugin CSS-->
+  	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/vendor/datatables/dataTables.bootstrap4.css' />">
+	<script src="<c:url value='/bootstrapUiTemplate/vendor/jquery/jquery.min.js' />"></script>
+	<script src="<c:url value='/bootstrapUiTemplate/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
+	<script src="<c:url value='/bootstrapUiTemplate/vendor/jquery-easing/jquery.easing.min.js' />"></script>
+	<script src="<c:url value='/bootstrapUiTemplate/js/sb-admin.min.js' />"></script>
+	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/jquery.dataTables.js' />"></script>
+	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/dataTables.bootstrap4.js' />"></script>
+	<script src="<c:url value='/js/deploy/deployUpdate.js' />"></script>
 <%-- <jsp:include page="/WEB-INF/pc/CommonScript/commonScript.jsp"/> --%>
-<script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script>
-<script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script>
-<link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />">
-<script src="<c:url value='/js/deploy/deployUpdate.js' />"></script>
+
 </head>
 <script>
 $(document).ready(function() {
 	
 	var modifiedProgramSize = $("#moodifiedProgramSize").val();
-// 	var modifiedProgramSize = 0;
 	var modifiedResourceSize = $("#modifiedResourceSize").val();
-// 	var modifiedResourceSize = 0;
 	var isModifiedPrograms = false;
 	var isModifiedResources = false;
 	
@@ -84,7 +96,6 @@ $(document).ready(function() {
     		}    		
     	}
     	
-    	
    		if ( isModifiedPrograms == true ) {
    			alert("변경된 프로그램 목록은 필수 입력 값입니다.");
    			return;
@@ -140,9 +151,10 @@ $(document).ready(function() {
 	 	}
 	 	i=i+1;
 	 	modifiedProgramSize = i;
+	 	console.log("modifiedProgramSize : " + i);
         isModifiedPrograms = false;
 		$('.divModifiedPrograms').append (           
-			$("<input type='text' name='modifiedPrograms_pageId"+i+"'id='modifiedPrograms_pageId"+i+"' readonly='readonly'><input type='text' name='modifiedPrograms_pageName"+i+"'id='modifiedPrograms_pageName"+i+"' readonly='readonly'><input type='button' value='검색' onclick='searchModifiedPrograms("+i+")'><br>")
+			$("<input type='text' name='modifiedPrograms_pageId"+i+"'id='modifiedPrograms_pageId"+i+"' readonly='readonly'><input type='text' name='modifiedPrograms_pageName"+i+"'id='modifiedPrograms_pageName"+i+"' readonly='readonly'><input type='button' class='btn btn-primary' value='검색' onclick='searchModifiedPrograms("+i+")'><br>")
 		);
 	});
 
@@ -168,9 +180,10 @@ $(document).ready(function() {
 	 	}
 	 	j=j+1;
 	 	modifiedResourceSize = j;
+	 	console.log("modifiedResourceSize : " + j);
         isModifiedResources = false;
 		 $('.divModifiedResources').append (           
-			$("<input type='text' name='modifiedResources_wSourceName"+j+"'id='modifiedResources_wSourceName"+j+"' readonly='readonly'><input type='button' value='검색' onclick='searchModifiedResources("+j+")' readonly='readonly'><br>")
+			$("<input type='text' name='modifiedResources_wSourceName"+j+"'id='modifiedResources_wSourceName"+j+"' readonly='readonly'><input type='button' class='btn btn-primary' value='검색' onclick='searchModifiedResources("+j+")' readonly='readonly'><br>")
 		 );      
 	});
 });
@@ -189,74 +202,217 @@ function searchEmployee(employeeSearchWhere){
 		window.open("/search/searchModifiedResource.do?modifiedResourceTextNo="+modifiedResourceTextNo,"변경소스검색", "width=1000, height=800");
 	}
 </script>
-<h1>수정페이지</h1>
-<form:form id="deployRequestDetailFrm" modelAttribute="deployRequestDto" name="deployRequestDetailFrm">
-No : <input type="text" name="deployNo" id="deployNo" value="${deployRequestDto.deployNo}" readonly="readonly"><br>
-부문 :  <input type="text" name="chainId" id="chainId" value="${deployRequestDto.chainId}" readonly="readonly">
-	  <input type="text" name="chainName" id="chainName" value="${deployRequestDto.chainName}" readonly="readonly">
-	  <input type="button" value="검색" onclick="searchChain()"><br>
-	  <form:errors id="errorsChainId" cssStyle="color: red;" path="chainId" /><br>
-작업유형 : <select name="workType" id="workType">
-			<c:forEach items="${categoryMasterCodes[categoryType.cateWtypeString]}" varStatus="status">
-				<option value="<c:out value='${categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}'></c:out>" <c:if test="${deployRequestDto.workType eq categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}</option>
-			</c:forEach>			
-       </select><br>
-요청날짜 : <input type="date" name="requestDate" id="requestDate" value="${deployRequestDto.requestDate}"><br>
-<form:errors id="errorsRequestDate" cssStyle="color: red;" path="requestDate" /><br>
-
-요청시간 : <input type="time" name="requestTime" id="requestTime" value="${deployRequestDto.requestTime}"><br>
-<form:errors id="errorsRequestTime" cssStyle="color: red;" path="requestTime" /><br>
-
-서비스요청_ID : <input type="text" name="serviceRequestId" id="serviceRequestId" value="${deployRequestDto.serviceRequestId}" readonly="readonly">
-             <input type="button" value="검색" onclick="searchEmployee('serviceRequestId')"><br>
-작업자 : <input type="text" name="worker" id="worker" value="${deployRequestDto.worker}" readonly="readonly">
-       <input type="button" value="검색" onclick="searchEmployee('worker')"><br>
-변경내역 : <input type="text" name="modifiedContents" id="modifiedContents" value="${deployRequestDto.modifiedContents}"><br>
-<form:errors id="errorsModifiedContents" cssStyle="color: red;" path="modifiedContents" /><br>
-
-변경프로그램목록 : <input type="button" class="addModifiedPrograms" value="추가"><input type='button' class='removeModifiedPrograms'id='removeModifiedPrograms' value='전체삭제'><br>
-			<div class="divModifiedPrograms"> 
-				<c:forEach items="${modifiedProgramOfDeployNo}" varStatus="status">
-					<input type="text" name="modifiedPrograms_pageId${status.index}" id="modifiedPrograms_pageId${status.index}" value="<c:out value="${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageId}" />" readonly="readonly">					
-					<input type="text" name="modifiedPrograms_pageName${status.index}" id="modifiedPrograms_pageName${status.index}" value="<c:out value="${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageName}" />" readonly="readonly">
-					<input type="button" value="검색" onclick="searchModifiedPrograms(${status.index})"><br>								
-				</c:forEach> 
-				<input type="hidden" name="lastModifiedProgram" id="lastModifiedProgram" value="${fn:length(modifiedProgramOfDeployNo)-1}">            
-				<input type="hidden" name="moodifiedProgramSize" id="moodifiedProgramSize" value="${fn:length(modifiedProgramOfDeployNo)}">            
+<body id="page-top">
+		<div id="wrapper">
+			<div id="content-wrapper">
+		        <ol class="breadcrumb">
+		          <li class="breadcrumb-item">
+		            <a href="#">Dashboard</a>
+		          </li>
+		          <li class="breadcrumb-item active">Overview</li>
+		        </ol>
+		        <div class="card mb-3">
+		        	<div class="card-header">
+			            <i class="fas fa-table"></i>
+			            	상세 내역 & 재요청
+			        </div>
+			        <div class="card-body">
+		        		<div class="table-responsive">
+		        			<form:form id="deployRequestDetailFrm" modelAttribute="deployRequestDto" name="deployRequestDetailFrm">
+		        				<div>
+		        					<form:errors id="errorsChainId" cssStyle="color: red;" path="chainId" />
+		        					<form:errors id="errorsRequestDate" cssStyle="color: red;" path="requestDate" />
+		        					<form:errors id="errorsRequestTime" cssStyle="color: red;" path="requestTime" />
+		        					<form:errors id="errorsModifiedContents" cssStyle="color: red;" path="modifiedContents" />
+		        				</div>
+			        			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+			        				<thead>
+			        					<tr>
+			        						<td>No</td>
+			        						<td colspan="6">${deployRequestDto.deployNo}<input type="hidden" name="deployNo" id="deployNo" value="${deployRequestDto.deployNo}"></td>		        						
+			        					</tr>
+			        					<tr>
+											<td>부문</td>
+			        						<td colspan="6">
+			        							<input type="text" name="chainId" id="chainId" value="${deployRequestDto.chainId}" readonly="readonly">
+		  										<input type="text" name="chainName" id="chainName" value="${deployRequestDto.chainName}" readonly="readonly">
+		  										<input type="button" class="btn btn-primary" value="검색" onclick="searchChain()">
+			        						</td>		        						
+			        					</tr>
+			        					<tr>
+											<td>작업유형</td>
+											<td colspan="6">
+												<select name="workType" id="workType">
+													<c:forEach items="${categoryMasterCodes[categoryType.cateWtypeString]}" varStatus="status">
+														<option value="<c:out value='${categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}'></c:out>" <c:if test="${deployRequestDto.workType eq categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}</option>
+													</c:forEach>			
+										       </select>
+											</td>
+			        					</tr>
+			        					<tr>
+			        						<td>요청날짜</td>
+			        						<td>
+			        							<input type="date" name="requestDate" id="requestDate" value="${deployRequestDto.requestDate}"><br>
+												
+			        						</td>
+			        						<td>요청시간</td>
+			        						<td>
+			        							요청시간 : <input type="time" name="requestTime" id="requestTime" value="${deployRequestDto.requestTime}">
+			        						</td>
+			        					</tr>
+			        					<tr>
+			        						<td>변경내역</td>
+			        						<td colspan="6">
+			        							<input type="text" name="modifiedContents" id="modifiedContents" value="${deployRequestDto.modifiedContents}"><br>
+			        						</td>
+			        					</tr>
+			        					<tr>
+			        						<td>변경프로그램 목록</td>
+			        						<td colspan="6">
+			        							<input type="button" class="addModifiedPrograms btn btn-info" value="추가"><input type="button" class="removeModifiedPrograms btn btn-danger" id='removeModifiedPrograms' value="전체삭제"><br>
+												<div class="divModifiedPrograms"> 
+													<c:forEach items="${modifiedProgramOfDeployNo}" varStatus="status">
+														<input type="text" name="modifiedPrograms_pageId${status.index}" id="modifiedPrograms_pageId${status.index}" value="<c:out value="${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageId}" />" readonly="readonly">					
+														<input type="text" name="modifiedPrograms_pageName${status.index}" id="modifiedPrograms_pageName${status.index}" value="<c:out value="${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageName}" />" readonly="readonly">
+														<input type="button" class="btn btn-primary" value="검색" onclick="searchModifiedPrograms(${status.index})"><br>								
+													</c:forEach> 
+													<input type="hidden" name="lastModifiedProgram" id="lastModifiedProgram" value="${fn:length(modifiedProgramOfDeployNo)-1}">            
+													<input type="hidden" name="moodifiedProgramSize" id="moodifiedProgramSize" value="${fn:length(modifiedProgramOfDeployNo)}">            
+												</div>
+			        						</td>
+			        					</tr>
+			        					<tr>
+			        						<td>변경 소스명</td>
+			        						<td colspan="6">
+			        							<input type="button" class="addModifiedResources btn btn-info" value="추가"><input type="button" class="removeModifiedResources btn btn-danger" id="removeModifiedResources" value="전체삭제"><br> 	
+												<div class="divModifiedResources">  
+												 	<c:forEach items="${modifiedResourceOfDeployNo}" varStatus="status">
+														<input type="text" name="modifiedResources_wSourceName${status.index}" id="modifiedResources_wSourceName${status.index}" value="<c:out value="${modifiedResourceOfDeployNo[status.index].modifiedResources_wSourceName}" />" readonly="readonly">									
+														<input type="button" class="btn btn-primary" value="검색" onclick="searchModifiedResources(${status.index})"><br>								
+													</c:forEach> 
+													<input type="hidden" name="lastModifiedResources" id="lastModifiedResources" value="${fn:length(modifiedResourceOfDeployNo)-1}">
+													<input type="hidden" name="modifiedResourceSize" id="modifiedResourceSize" value="${fn:length(modifiedResourceOfDeployNo)}">
+												</div>
+			        						</td>
+			        					</tr>
+			        					<tr>
+			        						<td>요청자</td>
+			        						<td colspan="6">
+			        							<input type="text" name="requesterName" id="requesterName" value="${deployRequestDto.employeeName}" readonly="readonly"><input type="hidden" id="requester" name="requester" value="${deployRequestDto.requester}">
+	      										<input type="button" class="btn btn-primary" value="검색" onclick="searchEmployee('requester')">
+			        						</td>
+			        					</tr>
+			        					<tr>
+			        						<td>Deploy 담당자</td>
+			        						<td colspan="6">
+			        							<input type="text" name="deployer" id="deployer" value="${deployRequestDto.deployer}" readonly="readonly">
+	             								<input type="button" class="btn btn-primary" value="검색" onclick="searchEmployee('deployer')">
+			        						</td>
+			        					</tr>
+			        					<tr>
+			        						<td>개발계 담당자</td>		        						
+			        						<td colspan="6">
+			        							<input type="text" name="developConfirmer" id="developConfirmer" value="${deployRequestDto.developConfirmer}" readonly="readonly">
+	             								<input type="button" class="btn btn-primary" value="검색" onclick="searchEmployee('developConfirmer')">
+	             							</td>
+			        					</tr>
+			        					<tr>
+			        						<td>테스트계 담당자</td>
+			        						<td colspan="6">
+			        							<input type="text" name="testConfirmer" id="testConfirmer" value="${deployRequestDto.testConfirmer}" readonly="readonly">
+	           									<input type="button" class="btn btn-primary" value="검색" onclick="searchEmployee('testConfirmer')">
+			        						</td>
+			        					</tr>
+			        					<tr>
+			        						<td>운영계 담당자</td>
+			        						<td colspan="6">
+			        							<input type="text" name="productionConfirmer" id="productionConfirmer" value="${deployRequestDto.productionConfirmer}" readonly="readonly">
+	            								<input type="button" class="btn btn-primary" value="검색" onclick="searchEmployee('productionConfirmer')">
+			        						</td>
+			        					</tr>
+			        					<tr>
+			        						<td>구분</td>
+			        						<td colspan="6">
+			        							<select name="division" id="division">
+													<c:forEach items="${categoryMasterCodes[categoryType.cateDivisionString]}" varStatus="status">
+														<option value="<c:out value='${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}'></c:out>" <c:if test="${deployRequestDto.division eq categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}</option>
+													</c:forEach>
+											    </select>
+			        						</td>
+			        					</tr>
+			        				</thead>
+			        			</table>
+			        			<input type="button" id="deployRequestUpdateBtn" value="재요청하기">
+		        			</form:form>
+		        		</div>
+			        </div>
+		        </div>
 			</div>
-변경소스명 : <input type="button" class="addModifiedResources" value="추가"><input type='button' class='removeModifiedResources'id='removeModifiedResources' value='전체삭제'><br> 	
-		 <div class="divModifiedResources">  
-		 	<c:forEach items="${modifiedResourceOfDeployNo}" varStatus="status">
-				<input type="text" name="modifiedResources_wSourceName${status.index}" id="modifiedResources_wSourceName${status.index}" value="<c:out value="${modifiedResourceOfDeployNo[status.index].modifiedResources_wSourceName}" />" readonly="readonly">									
-				<input type="button" value="검색" onclick="searchModifiedResources(${status.index})"><br>								
-			</c:forEach> 
-			<input type="hidden" name="lastModifiedResources" id="lastModifiedResources" value="${fn:length(modifiedResourceOfDeployNo)-1}">
-			<input type="hidden" name="modifiedResourceSize" id="modifiedResourceSize" value="${fn:length(modifiedResourceOfDeployNo)}">
 		</div>
-요청자 : <input type="text" name="requester" id="requester" value="${deployRequestDto.requester}" readonly="readonly">
-      <input type="button" value="검색" onclick="searchEmployee('requester')"><br>
+	</body>
+<!-- <body> -->
+<!-- <h1>상세내역&재요청</h1> -->
+<%-- <form:form id="deployRequestDetailFrm" modelAttribute="deployRequestDto" name="deployRequestDetailFrm"> --%>
+<%-- No : <input type="text" name="deployNo" id="deployNo" value="${deployRequestDto.deployNo}" readonly="readonly"><br> --%>
+<%-- 부문 :  <input type="text" name="chainId" id="chainId" value="${deployRequestDto.chainId}" readonly="readonly"> --%>
+<%-- 	  <input type="text" name="chainName" id="chainName" value="${deployRequestDto.chainName}" readonly="readonly"> --%>
+<!-- 	  <input type="button" value="검색" onclick="searchChain()"><br> -->
+<%-- 	  <form:errors id="errorsChainId" cssStyle="color: red;" path="chainId" /><br> --%>
+<!-- 작업유형 : <select name="workType" id="workType"> -->
+<%-- 			<c:forEach items="${categoryMasterCodes[categoryType.cateWtypeString]}" varStatus="status"> --%>
+<%-- 				<option value="<c:out value='${categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}'></c:out>" <c:if test="${deployRequestDto.workType eq categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateWtypeString][status.index].codeName}</option> --%>
+<%-- 			</c:forEach>			 --%>
+<!--        </select><br> -->
+<%-- 요청날짜 : <input type="date" name="requestDate" id="requestDate" value="${deployRequestDto.requestDate}"><br> --%>
+<%-- <form:errors id="errorsRequestDate" cssStyle="color: red;" path="requestDate" /><br> --%>
+
+<%-- 요청시간 : <input type="time" name="requestTime" id="requestTime" value="${deployRequestDto.requestTime}"><br> --%>
+<%-- <form:errors id="errorsRequestTime" cssStyle="color: red;" path="requestTime" /><br> --%>
+
+<%-- 서비스요청_ID : <input type="text" name="serviceRequestId" id="serviceRequestId" value="${deployRequestDto.serviceRequestId}" readonly="readonly"> --%>
+<!--              <input type="button" value="검색" onclick="searchEmployee('serviceRequestId')"><br> -->
+<%-- 작업자 : <input type="text" name="worker" id="worker" value="${deployRequestDto.worker}" readonly="readonly"> --%>
+<!--        <input type="button" value="검색" onclick="searchEmployee('worker')"><br> -->
+<%-- 변경내역 : <input type="text" name="modifiedContents" id="modifiedContents" value="${deployRequestDto.modifiedContents}"><br> --%>
+<%-- <form:errors id="errorsModifiedContents" cssStyle="color: red;" path="modifiedContents" /><br> --%>
+
+<!-- 변경프로그램목록 : <input type="button" class="addModifiedPrograms" value="추가"><input type='button' class='removeModifiedPrograms'id='removeModifiedPrograms' value='전체삭제'><br> -->
+<!-- 			<div class="divModifiedPrograms">  -->
+<%-- 				<c:forEach items="${modifiedProgramOfDeployNo}" varStatus="status"> --%>
+<%-- 					<input type="text" name="modifiedPrograms_pageId${status.index}" id="modifiedPrograms_pageId${status.index}" value="<c:out value="${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageId}" />" readonly="readonly">					 --%>
+<%-- 					<input type="text" name="modifiedPrograms_pageName${status.index}" id="modifiedPrograms_pageName${status.index}" value="<c:out value="${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageName}" />" readonly="readonly"> --%>
+<%-- 					<input type="button" value="검색" onclick="searchModifiedPrograms(${status.index})"><br>								 --%>
+<%-- 				</c:forEach>  --%>
+<%-- 				<input type="hidden" name="lastModifiedProgram" id="lastModifiedProgram" value="${fn:length(modifiedProgramOfDeployNo)-1}">             --%>
+<%-- 				<input type="hidden" name="moodifiedProgramSize" id="moodifiedProgramSize" value="${fn:length(modifiedProgramOfDeployNo)}">             --%>
+<!-- 			</div> -->
+<!-- 변경소스명 : <input type="button" class="addModifiedResources" value="추가"><input type='button' class='removeModifiedResources'id='removeModifiedResources' value='전체삭제'><br> 	 -->
+<!-- 		 <div class="divModifiedResources">   -->
+<%-- 		 	<c:forEach items="${modifiedResourceOfDeployNo}" varStatus="status"> --%>
+<%-- 				<input type="text" name="modifiedResources_wSourceName${status.index}" id="modifiedResources_wSourceName${status.index}" value="<c:out value="${modifiedResourceOfDeployNo[status.index].modifiedResources_wSourceName}" />" readonly="readonly">									 --%>
+<%-- 				<input type="button" value="검색" onclick="searchModifiedResources(${status.index})"><br>								 --%>
+<%-- 			</c:forEach>  --%>
+<%-- 			<input type="hidden" name="lastModifiedResources" id="lastModifiedResources" value="${fn:length(modifiedResourceOfDeployNo)-1}"> --%>
+<%-- 			<input type="hidden" name="modifiedResourceSize" id="modifiedResourceSize" value="${fn:length(modifiedResourceOfDeployNo)}"> --%>
+<!-- 		</div> -->
+<%-- 요청자 : <input type="text" name="requester" id="requester" value="${deployRequestDto.requester}" readonly="readonly"> --%>
+<!--       <input type="button" value="검색" onclick="searchEmployee('requester')"><br> -->
       
       
-Deploy담당자 : <input type="text" name="deployer" id="deployer" value="${deployRequestDto.deployer}" readonly="readonly">
-             <input type="button" value="검색" onclick="searchEmployee('deployer')"><br>
-확인(개발계) : <input type="text" name="developConfirmer" id="developConfirmer" value="${deployRequestDto.developConfirmer}" readonly="readonly">
-             <input type="button" value="검색" onclick="searchEmployee('developConfirmer')"><br>
-확인(태스트계) : <input type="text" name="testConfirmer" id="testConfirmer" value="${deployRequestDto.testConfirmer}" readonly="readonly">
-           <input type="button" value="검색" onclick="searchEmployee('testConfirmer')"><br>
-확인(운영계) : <input type="text" name="productionConfirmer" id="productionConfirmer" value="${deployRequestDto.productionConfirmer}" readonly="readonly">
-            <input type="button" value="검색" onclick="searchEmployee('productionConfirmer')"><br>
-구분 : <select name="division" id="division">
-		<c:forEach items="${categoryMasterCodes[categoryType.cateDivisionString]}" varStatus="status">
-			<option value="<c:out value='${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}'></c:out>" <c:if test="${deployRequestDto.division eq categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}</option>
-		</c:forEach>
-     </select><br>
-<!-- 상태 코드 : -->
-<%-- 		<c:forEach items="${categoryMasterCodes[categoryType.cateStatusString]}" begin="1" varStatus="status"> --%>
-<%-- 			<input type="radio" name="statusCode" value="0${status.index}" <c:if test="${deployRequestOfDeployNo.statusCode eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">checked="checked"</c:if>>${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName} --%>
+<%-- Deploy담당자 : <input type="text" name="deployer" id="deployer" value="${deployRequestDto.deployer}" readonly="readonly"> --%>
+<!--              <input type="button" value="검색" onclick="searchEmployee('deployer')"><br> -->
+<%-- 확인(개발계) : <input type="text" name="developConfirmer" id="developConfirmer" value="${deployRequestDto.developConfirmer}" readonly="readonly"> --%>
+<!--              <input type="button" value="검색" onclick="searchEmployee('developConfirmer')"><br> -->
+<%-- 확인(태스트계) : <input type="text" name="testConfirmer" id="testConfirmer" value="${deployRequestDto.testConfirmer}" readonly="readonly"> --%>
+<!--            <input type="button" value="검색" onclick="searchEmployee('testConfirmer')"><br> -->
+<%-- 확인(운영계) : <input type="text" name="productionConfirmer" id="productionConfirmer" value="${deployRequestDto.productionConfirmer}" readonly="readonly"> --%>
+<!--             <input type="button" value="검색" onclick="searchEmployee('productionConfirmer')"><br> -->
+<!-- 구분 : <select name="division" id="division"> -->
+<%-- 		<c:forEach items="${categoryMasterCodes[categoryType.cateDivisionString]}" varStatus="status"> --%>
+<%-- 			<option value="<c:out value='${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}'></c:out>" <c:if test="${deployRequestDto.division eq categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}</option> --%>
 <%-- 		</c:forEach> --%>
-<!-- 		<br>		 -->
-<input type="button" id="deployRequestUpdateBtn" value="재요청하기">
-<%-- <input type="button" id="DeployRequestDeleteBtn" value="삭제" onclick="location.href='/deploy/deployRequestDelete.do/'+${deployRequestOfDeployNo.deployNo}"/> --%>
-</form:form>
-</body>
+<!--      </select><br> -->
+<!-- <input type="button" id="deployRequestUpdateBtn" value="재요청하기"> -->
+<%-- </form:form> --%>
+<!-- </body> -->
 </html>

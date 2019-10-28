@@ -24,11 +24,6 @@
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/jquery.dataTables.js' />"></script>
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/dataTables.bootstrap4.js' />"></script>
 	<%-- <script src="<c:url value='/js/search/searchEmployee.js' />"></script> --%>
-	
-<%-- <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script> --%>
-<%-- <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script> --%>
-<%-- <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />"> --%>
-
 </head>
 <script>
 $(document).ready(function() {
@@ -71,13 +66,6 @@ $(document).ready(function() {
 	<body id="page-top">
 		<div id="wrapper">
 			<div id="content-wrapper">
-				<!-- Breadcrumbs-->
-		        <ol class="breadcrumb">
-		          <li class="breadcrumb-item">
-		            <a href="#">Dashboard</a>
-		          </li>
-		          <li class="breadcrumb-item active">Overview</li>
-		        </ol>
 		        <div class="card mb-3">
 		        	<div class="card-header">
 			            <i class="fas fa-table"></i>
@@ -86,7 +74,7 @@ $(document).ready(function() {
 			        <div class="card-body">
 			        	<form:form id="searchEmpFrm" modelAttribute="employeeDto">
 			        		<div id="employeeSearchDiv">
-			        			직원 이름 조회 : <input type="text" name="employeeName" id="employeeName"><input type="button" id="searchEmployeeBtn" value="검색"><br><br>
+			        			직원 이름 조회 : <input type="text" name="employeeName" id="employeeName"><input type="button" class="btn btn-info" id="searchEmployeeBtn" value="검색"><br><br>
 			        		</div>
 			        		<div class="table-responsive">
 			        			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -110,7 +98,7 @@ $(document).ready(function() {
 											</c:when>
 											<c:otherwise>
 											   <tr>
-											      <td colspan="3">등록된 게시글이 없습니다.</td>
+											      <td colspan="3">해당 직원이 없습니다.</td>
 											   </tr>
 											</c:otherwise>
 										</c:choose>

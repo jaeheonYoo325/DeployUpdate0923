@@ -40,7 +40,7 @@ public class DeployServiceImpl implements DeployService {
 			ArrayList<String> modifiedProgramName, ArrayList<String> modifiedResources) {
 		
 		// XSS 방어로직
-		XssFilter xssFilter = XssFilter.getInstance("xssfilter/lucy-xss-superset.xml");
+		XssFilter xssFilter = XssFilter.getInstance("xssfilter/lucy-xss-superset.xml", true);
 		deployRequestDto.setModifiedContents(xssFilter.doFilter(deployRequestDto.getModifiedContents()));
 		
 		boolean insertDeployRequestSuccess = this.deployDao.InsertDeployRequestDao(deployRequestDto) > 0;
@@ -52,7 +52,6 @@ public class DeployServiceImpl implements DeployService {
 		for (int i = 0; i < modifiedResources.size(); i++) {
 			ModifiedResourcesDto modifiedResourcesDto = new ModifiedResourcesDto();
 			modifiedResourcesDto.setModifiedResources_deployNo(deployNo);
-//			modifiedResourcesDto.setModifiedResources_wSourceName(modifiedResources.get(i).toString());
 			modifiedResourcesDto.setModifiedResources_wSourceName(xssFilter.doFilter(modifiedResources.get(i).toString()));
 			insertModifiedResourceSuccess = insertModifiedResourceSuccess && (this.deployDao.insertModifiedResourceDao(modifiedResourcesDto) > 0);
 		}
@@ -103,7 +102,6 @@ public class DeployServiceImpl implements DeployService {
 			ModifiedProgramsDto modifiedProgramsDto = new ModifiedProgramsDto();
 			modifiedProgramsDto.setModifiedPrograms_deployNo(deployNo);
 			modifiedProgramsDto.setModifiedPrograms_pageId(modifiedPrograms.get(i).toString());
-//			modifiedProgramsDto.setModifiedPrograms_pageName(modifiedProgramName.get(i).toString());
 			modifiedProgramsDto.setModifiedPrograms_pageName(xssFilter.doFilter(modifiedProgramName.get(i).toString()));
 			insertModifiedProgramSuccess = insertModifiedProgramSuccess && (this.deployDao.insertModifiedProgramDao(modifiedProgramsDto) > 0);
 		}
@@ -111,12 +109,11 @@ public class DeployServiceImpl implements DeployService {
 		for (int i = 0; i < modifiedResources.size(); i++) {
 			ModifiedResourcesDto modifiedResourcesDto = new ModifiedResourcesDto();
 			modifiedResourcesDto.setModifiedResources_deployNo(deployNo);
-//			modifiedResourcesDto.setModifiedResources_wSourceName(modifiedResources.get(i).toString());
 			modifiedResourcesDto.setModifiedResources_wSourceName(xssFilter.doFilter(modifiedResources.get(i).toString()));
 			insertModifiedResourceSuccess = insertModifiedResourceSuccess && (this.deployDao.insertModifiedResourceDao(modifiedResourcesDto) > 0);
 		}
 		
-		DeployApprovalDto deployApprovalDto=this.employeeService.selectMyDeployApprovalOfdeployNoService(deployNo);
+		DeployApprovalDto deployApprovalDto = this.employeeService.selectMyDeployApprovalOfdeployNoService(deployNo);
 	    deployApprovalDto.setDeployApprovalLineConfirm(deployRequestDto.getRequester());
 	    boolean isDoApprovalingSuccessOfCompleteNowApproval = this.employeeDao.myDeployDoApprovalingOfCompleteNowApprovalDao(deployApprovalDto)>0;
 	    deployApprovalDto.setDeployApprovalLine("14");

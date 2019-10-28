@@ -15,7 +15,6 @@
   	<!-- Custom styles for this template-->
   	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/css/sb-admin.css' />">
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/jquery/jquery.min.js' />"></script>
-<%-- 	<script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script> --%>
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 	<script src="<c:url value='/js/common/common.js' />"></script>

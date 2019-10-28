@@ -15,7 +15,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
 	<meta name="author" content="">	
-	<title>결재 상세 페이지</title>
+	<title>상세 내역</title>
 	<!-- Custom fonts for this template-->
 	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/vendor/fontawesome-free/css/all.min.css' />">
   	<!-- Custom styles for this template-->
@@ -29,26 +29,16 @@
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/jquery.dataTables.js' />"></script>
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/dataTables.bootstrap4.js' />"></script>
 	<script src="<c:url value='/js/deploy/deployUpdate.js' />"></script>
-	
 <%-- <jsp:include page="/WEB-INF/pc/CommonScript/commonScript.jsp"/> --%>
-<%-- <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script> --%>
-<%-- <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script> --%>
-<%-- <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />"> --%>
-
+	
 </head>
 <body id="page-top">
 		<div id="wrapper">
 			<div id="content-wrapper">
-		        <ol class="breadcrumb">
-		          <li class="breadcrumb-item">
-		            <a href="#">Dashboard</a>
-		          </li>
-		          <li class="breadcrumb-item active">Overview</li>
-		        </ol>
 		        <div class="card mb-3">
 		        	<div class="card-header">
 			            <i class="fas fa-table"></i>
-			            	결재 상세
+			            	상세 내역
 			        </div>
 			        <div class="card-body">
 		        		<div class="table-responsive">

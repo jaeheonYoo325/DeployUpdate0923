@@ -11,12 +11,6 @@
 	<meta name="author" content="">
 <title>메인화면</title>
 <%-- <jsp:include page="/WEB-INF/pc/CommonScript/commonScript.jsp"/> --%>
-<%-- <script src="<c:url value='/js/common/jquery-3.1.1.min.js' />"></script> --%>
-<%-- <script src="<c:url value='/bootstrap/js/bootstrap.js' />"></script> --%>
-<%-- <link rel="stylesheet" href="<c:url value='/bootstrap/css/bootstrap.css' />"> --%>
-<%-- 	<link rel="stylesheet" href="<c:url value='/css/common/footer.css' />"> --%>
-<%-- 	<link rel="stylesheet" href="<c:url value='/css/common/header.css' />"> --%>
-
 	<!-- Custom fonts for this template-->
 	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/vendor/fontawesome-free/css/all.min.css' />">
   	<!-- Custom styles for this template-->
@@ -43,17 +37,8 @@
 		<jsp:include page="/WEB-INF/pc/common/sidebar.jsp" />
 		<div id="content-wrapper">
 			<div class="container-fluid">
-				<h2>내용</h2>
-				<h2>내용</h2>
-				<h2>내용</h2>
-				<h2>내용</h2>
-				<h2>내용</h2>
-				<h2>내용</h2>
-				<h2>내용</h2>
-				<h2>내용</h2>
-				<h2>내용</h2>
-				<h2>내용</h2>
-			</div>
+            	<img src="<c:url value='/images/main/main.png'/>" width="100%" height="1300">
+         	</div>
 		</div>
 	</div>
 <jsp:include page="/WEB-INF/pc/common/footer.jsp" />

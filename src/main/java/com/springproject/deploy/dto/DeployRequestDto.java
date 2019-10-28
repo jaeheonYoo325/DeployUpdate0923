@@ -8,8 +8,6 @@ public class DeployRequestDto {
 	
 	@NotEmpty(message = "부문은 필수 입력 값입니다.")
 	private String chainId;
-	
-	@NotEmpty(message = "작업유형은 필수 입력 값입니다.")
 	private String workType;
 	@NotEmpty(message = "요청날짜는 필수 입력 값입니다.")
 	private String requestDate;
@@ -25,7 +23,6 @@ public class DeployRequestDto {
 	private String developConfirmer;
 	private String testConfirmer;
 	private String productionConfirmer;
-	@NotEmpty(message = "구분은 필수 입력 값입니다.")
 	private String division;
 	private String chainName;
 	private String statusCode;
