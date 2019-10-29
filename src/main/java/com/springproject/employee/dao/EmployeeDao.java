@@ -44,4 +44,6 @@ public interface EmployeeDao {
 	public List<DeployApprovalDto> selectMyDeployCompletedDao(EmployeeDto employeeDto);
 
 	public List<AuthorityDto> checkThisUserHaveAuthorityOfEmployeeRegist(EmployeeDto employeeDto);
+	
+	public int duplicateCheckOfEmployeeNoDao(String employeeNo);
 }

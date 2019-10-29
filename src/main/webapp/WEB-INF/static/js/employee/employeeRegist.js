@@ -7,15 +7,37 @@ var controller = $.extend(new $.CommonObj(), {
 		
 	}, onCreate:function() {
 		
-		$("#employeeRegistBtn").click(function() {
+
+		
+		$("#employeeNoDuplicateBtn").click(function() {
 			
-			if ( controller.validationRegistCheck() == true ) {
+			var employeeNo = $("#employeeNo").val();
+			if ( employeeNo == "") {
+				alert("사원 번호를 입력해주세요.");
+				return;
+			}
+			
+			controller.employeeNoDuplicateCheck();
+			
+			if ( employeeNoCheckFlag == true ) {
+//				isEmployeeDuplicateBtn = true;		
+				return true;
+			} else {
+//				isEmployeeDuplicateBtn = false;
+				return false;
+			}
+			
+		});
+		
+		$("#employeeRegistBtn").click(function() {
+			if ( controller.validationCheck() == false ) {
 				return;
 			} else {
-				$("#employeeRegistFrm").attr({
-					method:"post", 					     				     	
-			     	action:"/employee/employeeRegist.do"
-				}).submit();
+				console.log("성공");
+//				$("#employeeRegistFrm").attr({
+//					method:"post", 					     				     	
+//			     	action:"/employee/employeeRegist.do"
+//				}).submit();
 			}
 			
 		});
@@ -29,9 +51,10 @@ var controller = $.extend(new $.CommonObj(), {
 		});
 		
 		
-	}, validationRegistCheck : function() {
+	}, emptyCheck : function() {
 		var employeeNo = $("#employeeNo").val();
 		var employeePassWord = $("#employeePassWord").val();
+		var employeePassWordConfirm = $("#employeePassWordConfirm").val();
 		var employeeName = $("#employeeName").val();
 		var employeePhoneNumber = $("#employeePhoneNumber").val();
 		var employeePostcode = $("#employeePostcode").val();
@@ -40,57 +63,139 @@ var controller = $.extend(new $.CommonObj(), {
 		var employeeCompanyPhoneNumber = $("#employeeCompanyPhoneNumber").val();
 		var employeeEmail = $("#employeeEmail").val();
 		var employeeJoinDate = $("#employeeJoinDate").val();
-		var departmentNo = $("#departmentNo").val();
+		var departmentName = $("#depName").val();
 		var positionNo = $("#positionNo").val();
 		
 		if ( employeeNo == "") {
 			alert("사원번호를 입력해주세요.");
-			return true;
+			return false;
 		}
+		
 		if ( employeePassWord == "") {
 			alert("비밀번호를 입력해주세요.");
-			return true;
+			return false;
 		}
+		
+		if ( employeePassWordConfirm == "") {
+			alert("비밀번호 확인을 입력해주세요.");
+			return false;
+		}
+
 		if ( employeeName == "") {
 			alert("사원이름를 입력해주세요.");
-			return true;
+			return false;
 		}
+		
 		if ( employeePhoneNumber == "") {
 			alert("전화번호를 입력해주세요.");
-			return true;
+			return false;
 		}
+		
 		if ( employeePostcode == "") {
 			alert("우편번호를 입력해주세요.");
-			return true;
+			return false;
 		}
+		
 		if ( employeeCommonaddress == "") {
 			alert("주소를 입력해주세요.");
-			return true;
+			return false;
 		}
+		
+		if ( employeeDetailaddress == "") {
+			alert("상세 주소를 입력해주세요.");
+			return false;
+		}
+		
 		if ( employeeCompanyPhoneNumber == "") {
 			alert("회사 전화번호를 입력해주세요.");
-			return true;
+			return false;
 		}
-		if ( employeeJoinDate == "") {
-			alert("사원번호를 입력해주세요.");
-			return true;
-		}
+		
+		
 		if ( employeeEmail == "") {
 			alert("이메일을 입력해주세요.");
-			return true;
+			return false;
 		}
+		
 		if ( employeeJoinDate == "") {
 			alert("입사일을 입력해주세요.");
-			return true;
-		}			
-		/*if ( departmentNo == "") {
-			alert("부서번호를 입력해주세요.");
-			return true;
+			return false;
 		}
+		
+		if ( employeeJoinDate == "") {
+			alert("입사일을 입력해주세요.");
+			return false;
+		}	
+		
+		if ( departmentName == "") {
+			alert("부서명을 조회해주세요.");
+			return false;
+		}
+		
 		if ( positionNo == "") {
 			alert("직급번호를 입력해주세요.");
-			return true;
-		}*/
+			return false;
+		}
+		
+	}, passwordConfirmCheck : function() {
+		
+		var employeePassWord = $("#employeePassWord").val();
+		var employeePassWordConfirm = $("#employeePassWordConfirm").val();
+		
+		if ( employeePassWord != employeePassWordConfirm ) {
+			alert("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+			return false;
+		}
+		
+	}, employeeNoDuplicateCheck : function() {
+		var employeeNoCheckFlag = false;
+		var employeeNo = $("#employeeNo").val();
+		
+		$.post("/employee/employeeNoDuplicate.do"
+				,  {									 
+					"employeeNo": $("#employeeNo").val()
+				}
+				, function(response) {
+					
+					if ( response.cnt > 0 ) {					 						
+						alert("이미 존재하는 사원번호 입니다.");
+						employeeNoCheckFlag = false;
+						alert("employeeNoCheckFlag"+employeeNoCheckFlag);
+//						return false;
+					}
+					else {
+						alert("사용가능한 사원번호 입니다.");
+						employeeNoCheckFlag = true;
+						alert("employeeNoCheckFlag"+employeeNoCheckFlag);
+//						return true;
+					}
+			});
+		return employeeNoCheckFlag;
+
+		
+	}, validationCheck : function() {
+		if ( controller.emptyCheck() == false) {
+			return false;
+		} else {
+				alert("submit클릭후 중복체크함수 리턴값 :"+controller.employeeNoDuplicateCheck());
+			if ( controller.employeeNoDuplicateCheck() == false ) {
+				alert("사원번호 중복체크를 해주시기 바랍니다.");
+				return false;
+			}
+
+			else if ( controller.passwordConfirmCheck() == false ) {
+				return false;
+			}
+			
+//			if ( employeeNoCheckFlag == true ) {
+//				isEmployeeDuplicateBtn = false;
+//				return true;
+//			}
+			else{
+				return true;
+			}
+		}
+		
 	}, exeDaumPostcode : function() {
 		new daum.Postcode({
             oncomplete: function(data) {
@@ -138,12 +243,13 @@ var controller = $.extend(new $.CommonObj(), {
 		
 	}, searchDepartment : function() {
 		window.open("/search/searchDepartment.do","Department 검색", "width=1000, height=800");
+		
 	}
-	
 	
 });
 
 
 $(document).ready(function() {
 	controller.init();
+	isEmployeeDuplicateBtn = false;
 });

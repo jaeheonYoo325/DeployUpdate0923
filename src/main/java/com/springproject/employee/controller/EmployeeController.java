@@ -72,6 +72,7 @@ public class EmployeeController {
 		}
 		
 		EmployeeDto loginEmployeeDto = this.employeeService.selectOneEmployeeService(employeeDto);
+
 		PrintWriter out;
 		if ( loginEmployeeDto != null ) {
 			loginEmployeeDto.setEmployeeNo(employeeDto.getEmployeeNo());
@@ -126,8 +127,15 @@ public class EmployeeController {
    }
 	
 	@PostMapping("/employee/employeeRegist.do")
-	public ModelAndView doEmployeeRegistAction(@ModelAttribute EmployeeDto employeeDto) {
+	public ModelAndView doEmployeeRegistAction(@Validated(value= {EmployeeValidator.Regist.class}) @ModelAttribute EmployeeDto employeeDto, Errors errors) {
+
 		ModelAndView mv = new ModelAndView("redirect:/employee/employeeLogin.do");
+		
+		if ( errors.hasErrors() ) {
+			mv.setViewName(HttpRequestHelper.getJspPath());
+			mv.addObject("employeeDto", employeeDto);
+			return mv;
+		}
 		boolean isSuccess = this.employeeService.insertOneEmployeeService(employeeDto);
 		return mv;
 	}
@@ -454,5 +462,20 @@ public class EmployeeController {
 	      ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
 	      mv.addObject("deployCompleted",deployCompleted);
 	      return mv;
+	}
+	
+	@RequestMapping("/employee/employeeNoDuplicate.do")
+	@ResponseBody
+	public Map<Object, Object> doCheckDuplicateOfRecruitMemberEmail(
+			@RequestParam String employeeNo) {
+		
+		int count = 0;
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		
+		count = this.employeeService.duplicateCheckOfEmployeeNoService(employeeNo);
+		System.out.println("count : " + count);
+		map.put("cnt", count);
+		
+		return map;
 	}
 }

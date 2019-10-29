@@ -56,50 +56,108 @@
                  <div class="card-body">
                     <div class="table-responsive">
                       <form:form id="employeeRegistFrm" modelAttribute="employeeDto">
+                       <div id="errorsDiv">
+							<form:errors id="errorsEmployeeNo" cssStyle="color: red;" path="employeeNo" />
+							<form:errors id="errorsEmployeePassWord" cssStyle="color: red;" path="employeePassWord" />
+							<form:errors id="errorsEmployeePassWordConfirm" cssStyle="color: red;" path="employeePassWordConfirm" />
+							<form:errors id="errorsEmployeeName" cssStyle="color: red;" path="employeeName" />
+							<form:errors id="errorsEmployeePhoneNumber" cssStyle="color: red;" path="employeePhoneNumber" />
+							<form:errors id="errorsEmployeePostcode" cssStyle="color: red;" path="employeePostcode" />
+							<form:errors id="errorsEmployeeCommonaddress" cssStyle="color: red;" path="employeeCommonaddress" />
+							<form:errors id="errorsEmployeeDetailaddress" cssStyle="color: red;" path="employeeDetailaddress" />
+							<form:errors id="errorsEmployeeCompanyPhoneNumber" cssStyle="color: red;" path="employeeCompanyPhoneNumber" />
+							<form:errors id="errorsEmployeeEmail" cssStyle="color: red;" path="employeeEmail" />
+							<form:errors id="errorsEmployeeJoinDate" cssStyle="color: red;" path="employeeJoinDate" />
+<%-- 							<form:errors id="errorsDepartmentNo" cssStyle="color: red;" path="departmentNo" /> --%>
+							<form:errors id="errorsPositionNo" cssStyle="color: red;" path="positionNo" />
+                       </div>
                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                           <thead>
                              <tr>
-                                <td>사원번호</td><td><input type="text" id="employeeNo" name="employeeNo" class="form-control" placeholder="사원번호"></td>
+                                <td>사원번호</td>
+                                <td>
+                                	<input type="text" id="employeeNo" name="employeeNo" class="form-control" placeholder="사원번호" value="${employeeDto.employeeNo}" />
+                                	<input type="button" id="employeeNoDuplicateBtn" name="employeeNoDuplicateBtn" class="btn btn-primary" value="중복체크"/> 
+                                </td>
                              </tr>
                              <tr>
-                                <td>비밀번호</td><td><input type="text" id="employeePassWord" name="employeePassWord" class="form-control" placeholder="비밀번호"></td>
+                                <td>비밀번호</td>
+                                <td>
+                                	<input type="text" id="employeePassWord" name="employeePassWord" class="form-control" placeholder="비밀번호" value="${employeeDto.employeePassWord}">
+                                </td>
                              </tr>
                              <tr>
-                                <td>사원이름</td><td><input type="text" id="employeeName" name="employeeName" class="form-control" placeholder="사원이름"></td>
+                                <td>비밀번호 확인</td>
+                                <td>
+                                	<input type="text" id="employeePassWordConfirm" name="employeePassWordConfirm" class="form-control" placeholder="비밀번호 확인" value="${employeeDto.employeePassWord}">
+                                </td>
+                             </tr>
+                             <tr>
+                                <td>사원이름</td>
+                                <td>
+                                	<input type="text" id="employeeName" name="employeeName" class="form-control" placeholder="사원이름" value="${employeeDto.employeeName}">
+                                </td>
                              </tr>
                              <tr>   
-                                <td>전화번호</td><td><input type="text" id="employeePhoneNumber" name="employeePhoneNumber" class="form-control" placeholder="전화번호"></td>
+                                <td>전화번호</td>
+                                <td>
+                                	<input type="text" id="employeePhoneNumber" name="employeePhoneNumber" class="form-control" placeholder="전화번호" value="${employeeDto.employeePhoneNumber}">
+                                </td>
                              </tr>
                              <tr>   
-                                <td>우편번호</td><td><input type="text" id="employeePostcode" name="employeePostcode" placeholder="우편번호" /><input type="button" id="addressBtn" name="addressBtn" class="btn btn-primary" value="우편번호 찾기" /></td>
+                                <td>우편번호</td>
+                                <td>
+                                	<input type="text" id="employeePostcode" name="employeePostcode" placeholder="우편번호" value="${employeeDto.employeePostcode}" />
+                                	<input type="button" id="addressBtn" name="addressBtn" class="btn btn-primary" value="우편번호 찾기" />
+                                </td>
                              </tr>
                              <tr>   
-                                <td>주소<td><input type="text" id="employeeCommonaddress" name="employeeCommonaddress" class="form-control" placeholder="주소" /></td>
+                                <td>주소<td>
+                                	<input type="text" id="employeeCommonaddress" name="employeeCommonaddress" class="form-control" placeholder="주소" value="${employeeDto.employeeCommonaddress}" />
+                                </td>
                              </tr>
                              <tr>   
-                                <td>상세주소</td><td><input type="text" id="employeeDetailaddress" name="employeeDetailaddress" class="form-control" placeholder="상세주소" /></td>
+                                <td>상세주소</td>
+                                <td>
+                                	<input type="text" id="employeeDetailaddress" name="employeeDetailaddress" class="form-control" placeholder="상세주소" value="${employeeDto.employeeDetailaddress}" />
+                                </td>
                              </tr>
                              <tr>   
-                                <td>회사전화번호</td><td><input type="text" id="employeeCompanyPhoneNumber" name="employeeCompanyPhoneNumber" class="form-control" placeholder="전화번호" /></td>
+                                <td>회사전화번호</td>
+                                <td>
+                                	<input type="text" id="employeeCompanyPhoneNumber" name="employeeCompanyPhoneNumber" class="form-control" placeholder="전화번호" value="${employeeDto.employeeCompanyPhoneNumber}" />
+                                </td>
                              </tr>
                              <tr>   
-                                <td>이메일</td><td><input type="text" id="employeeEmail" name="employeeEmail" class="form-control" placeholder="이메일" /></td>
+                                <td>이메일</td>
+                                <td>
+                                	<input type="text" id="employeeEmail" name="employeeEmail" class="form-control" placeholder="이메일" value="${employeeDto.employeeEmail}" />
+                                </td>
                              </tr>
                              <tr>   
-                                <td>입사일</td><td><input type="date" id="employeeJoinDate" name="employeeJoinDate" class="form-control" placeholder="입사일" /></td>
+                                <td>입사일</td>
+                                <td>
+                                	<input type="date" id="employeeJoinDate" name="employeeJoinDate" class="form-control" placeholder="입사일" value="${employeeDto.employeeJoinDate}" />
+                                </td>
                              </tr>
                              <tr>   
-                                <td>부서</td><td><input type="text" id="depName" name="depName" class="form-control" placeholder="부서명" />
-                                            <input type="button" class="btn btn-primary" value="부서 조회" id="searchDepartmentPopupBtn" />
-                                            <input type="hidden" id="depNo" name="depNo" value="부서번호" /></td>
+                                <td>부서</td>
+                                <td>
+                                	<input type="text" id="depName" name="depName" class="form-control" placeholder="부서명" />
+                                    <input type="button" class="btn btn-primary" value="부서 조회" id="searchDepartmentPopupBtn" />
+                                    <input type="hidden" id="depNo" name="depNo" value="부서번호" />
+                                </td>
                              </tr>
                              <tr>   
-                                <td>직급번호</td><td><input type="text" id="positionNo" name="positionNo" class="form-control" placeholder="직급번호" /></td>
+                                <td>직급번호</td>
+                                <td>
+                                	<input type="text" id="positionNo" name="positionNo" class="form-control" placeholder="직급번호" />
+                                </td>
                              </tr>   
                           </thead>
                        </table>
                        <div class="modal-footer" align="center">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                           <input type="button" id="employeeRegistBtn" class="btn btn-primary" value="사원등록">
                        </div>
                       </form:form>

@@ -290,4 +290,13 @@
 	    FROM authority
 	    WHERE employeeNo=#{employeeNo} AND roleCode="EmployeeRegist"
     </select>
+    
+    <select id="duplicateCheckOfEmployeeNoDao"
+  			parameterType="string"
+  			resultType="Integer">
+  		
+  		SELECT	COUNT(*)
+  		FROM	EMPLOYEE
+  		WHERE	employeeNo = #{employeeNo}  	
+  	</select>
   </mapper>

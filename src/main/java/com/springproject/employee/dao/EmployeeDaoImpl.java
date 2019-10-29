@@ -110,4 +110,9 @@ public class EmployeeDaoImpl extends SqlSessionDaoSupport implements EmployeeDao
 	public List<AuthorityDto> checkThisUserHaveAuthorityOfEmployeeRegist(EmployeeDto employeeDto) {
 		return this.getSqlSession().selectList("EmployeeDao.checkThisUserHaveAuthorityOfEmployeeRegistDao", employeeDto);
 	}
+
+	@Override
+	public int duplicateCheckOfEmployeeNoDao(String employeeNo) {
+		return this.getSqlSession().selectOne("EmployeeDao.duplicateCheckOfEmployeeNoDao", employeeNo);
+	}
 }

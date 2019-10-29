@@ -38,4 +38,6 @@ public interface EmployeeService {
 	public List<DeployApprovalDto> selectMyDeployCompletedService(EmployeeDto employeeDto);
 
 	public boolean checkisThisUserHaveAuthorityOfEmployeeRegistService(EmployeeDto employeeDto);
+	
+	public int duplicateCheckOfEmployeeNoService(String employeeNo);
 }

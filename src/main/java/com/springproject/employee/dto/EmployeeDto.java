@@ -5,23 +5,35 @@ import javax.validation.constraints.NotEmpty;
 import com.springproject.common.validator.employee.EmployeeValidator;
 
 public class EmployeeDto {
-
-	@NotEmpty(message = "사원번호는 필수 입력 값입니다.", groups = { EmployeeValidator.Login.class })
+	
+	@NotEmpty(message = "사원번호는 필수 입력 값입니다.", groups = { EmployeeValidator.Regist.class, EmployeeValidator.Login.class })
 	private String employeeNo;
+	@NotEmpty(message = "이름은 필수 입력 값입니다.", groups = { EmployeeValidator.Regist.class })
 	private String employeeName;
-	@NotEmpty(message = "비밀번호는 필수 입력 값입니다.", groups = { EmployeeValidator.Login.class })
+	@NotEmpty(message = "비밀번호는 필수 입력 값입니다.", groups = { EmployeeValidator.Regist.class, EmployeeValidator.Login.class }) // 
 	private String employeePassWord;
+	@NotEmpty(message = "비밀번호 확인 필수 입력 값입니다.", groups = { EmployeeValidator.Regist.class })
+	private String employeePassWordConfirm;
+	@NotEmpty(message = "휴대폰 번호는 필수 입력 값입니다.", groups = { EmployeeValidator.Regist.class })
 	private String employeePhoneNumber;
+	@NotEmpty(message = "우편번호는 필수 입력 값입니다.", groups = { EmployeeValidator.Regist.class })
 	private String employeePostcode;
+	@NotEmpty(message = "주소는 필수 입력 값입니다.", groups = { EmployeeValidator.Regist.class })
 	private String employeeCommonaddress;
+	@NotEmpty(message = "상세 주소는 필수 입력 값입니다.", groups = { EmployeeValidator.Regist.class })
 	private String employeeDetailaddress;
+	@NotEmpty(message = "회사 번호는 필수 입력 값입니다.", groups = { EmployeeValidator.Regist.class })
 	private String employeeCompanyPhoneNumber;
+	@NotEmpty(message = "이메일은 필수 입력 값입니다.", groups = { EmployeeValidator.Regist.class })
 	private String employeeEmail;
+	@NotEmpty(message = "입사일은 필수 입력 값입니다.", groups = { EmployeeValidator.Regist.class })
 	private String employeeJoinDate;
 	private String employeeRegisterDate;
 	private String employeeModifyDate;
 	private String salt;
+//	@NotEmpty(message = "부서 번호는 필수 입력 값입니다.", groups = { EmployeeValidator.Regist.class })
 	private String departmentNo;
+	@NotEmpty(message = "직급 번호는 필수 입력 값입니다.", groups = { EmployeeValidator.Regist.class })
 	private String positionNo;
 
 	public String getEmployeeNo() {
@@ -46,6 +58,14 @@ public class EmployeeDto {
 
 	public void setEmployeePassWord(String employeePassWord) {
 		this.employeePassWord = employeePassWord;
+	}
+
+	public String getEmployeePassWordConfirm() {
+		return employeePassWordConfirm;
+	}
+
+	public void setEmployeePassWordConfirm(String employeePassWordConfirm) {
+		this.employeePassWordConfirm = employeePassWordConfirm;
 	}
 
 	public String getEmployeePhoneNumber() {
