@@ -42,6 +42,11 @@
       window.open("/employee/showMyApprovalReturnedDetail.do/" + deployNo,"상세보기", "width=1000, height=800");
    }
 </script>
+<script>
+   function employeeNoChanging(obj){
+	   document.getElementById("employeeNoCheckFlag").value = "false";
+   }
+</script>
 <body id="page-top">
    <jsp:include page="/WEB-INF/pc/common/header.jsp" />
    <div id="wrapper">
@@ -76,8 +81,9 @@
                              <tr>
                                 <td>사원번호</td>
                                 <td>
-                                	<input type="text" id="employeeNo" name="employeeNo" class="form-control" placeholder="사원번호" value="${employeeDto.employeeNo}" />
+                                	<input type="text" id="employeeNo" name="employeeNo" class="form-control" placeholder="사원번호" value="${employeeDto.employeeNo}" onchange="employeeNoChanging(this)"/>
                                 	<input type="button" id="employeeNoDuplicateBtn" name="employeeNoDuplicateBtn" class="btn btn-primary" value="중복체크"/> 
+                                	<input type="hidden" id="employeeNoCheckFlag" value="false">
                                 </td>
                              </tr>
                              <tr>
@@ -168,5 +174,6 @@
       </div>
    </div>
    <jsp:include page="/WEB-INF/pc/common/footer.jsp" />
+   
 </body>
 </html>

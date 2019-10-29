@@ -20,10 +20,8 @@ var controller = $.extend(new $.CommonObj(), {
 			controller.employeeNoDuplicateCheck();
 			
 			if ( employeeNoCheckFlag == true ) {
-//				isEmployeeDuplicateBtn = true;		
 				return true;
 			} else {
-//				isEmployeeDuplicateBtn = false;
 				return false;
 			}
 			
@@ -33,11 +31,10 @@ var controller = $.extend(new $.CommonObj(), {
 			if ( controller.validationCheck() == false ) {
 				return;
 			} else {
-				console.log("성공");
-//				$("#employeeRegistFrm").attr({
-//					method:"post", 					     				     	
-//			     	action:"/employee/employeeRegist.do"
-//				}).submit();
+				$("#employeeRegistFrm").attr({
+					method:"post", 					     				     	
+			     	action:"/employee/employeeRegist.do"
+				}).submit();
 			}
 			
 		});
@@ -148,7 +145,6 @@ var controller = $.extend(new $.CommonObj(), {
 		}
 		
 	}, employeeNoDuplicateCheck : function() {
-		var employeeNoCheckFlag = false;
 		var employeeNo = $("#employeeNo").val();
 		
 		$.post("/employee/employeeNoDuplicate.do"
@@ -159,38 +155,31 @@ var controller = $.extend(new $.CommonObj(), {
 					
 					if ( response.cnt > 0 ) {					 						
 						alert("이미 존재하는 사원번호 입니다.");
-						employeeNoCheckFlag = false;
-						alert("employeeNoCheckFlag"+employeeNoCheckFlag);
-//						return false;
+						document.getElementById("employeeNoCheckFlag").value="false";
+
 					}
 					else {
 						alert("사용가능한 사원번호 입니다.");
-						employeeNoCheckFlag = true;
-						alert("employeeNoCheckFlag"+employeeNoCheckFlag);
-//						return true;
+						document.getElementById("employeeNoCheckFlag").value="true";
+
 					}
 			});
-		return employeeNoCheckFlag;
-
 		
 	}, validationCheck : function() {
 		if ( controller.emptyCheck() == false) {
 			return false;
 		} else {
-				alert("submit클릭후 중복체크함수 리턴값 :"+controller.employeeNoDuplicateCheck());
-			if ( controller.employeeNoDuplicateCheck() == false ) {
+
+			if ( document.getElementById("employeeNoCheckFlag").value=="false") {
 				alert("사원번호 중복체크를 해주시기 바랍니다.");
 				return false;
 			}
+			
 
 			else if ( controller.passwordConfirmCheck() == false ) {
 				return false;
 			}
-			
-//			if ( employeeNoCheckFlag == true ) {
-//				isEmployeeDuplicateBtn = false;
-//				return true;
-//			}
+
 			else{
 				return true;
 			}
