@@ -108,7 +108,7 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 </script>
 
 </head>
-<body id="page-top">
+<body id="page-top" style="overflow:hidden;">
 	<jsp:include page="/WEB-INF/pc/common/header.jsp" />
 	<div id="wrapper">
 		<jsp:include page="/WEB-INF/pc/common/sidebar.jsp" />
@@ -119,6 +119,7 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 			            <i class="fas fa-table"></i>
 			            	배포 요청 현황
 			        </div>
+			       <div style="white-space:nowrap; overflow:auto; height: 800px; width: 100%">
 			        <div class="card-body">
 			        	<form:form name="listFrm" id="listFrm">
 			        		<select name="searchType" id="searchType">
@@ -130,7 +131,7 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 							<input type="button" class="btn btn-primary" value="검색" id="searchBtn">
 							
 							<div class="table-responsive">
-				        		<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+				        		<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: small;">
 				        			<thead>
 										<tr>
 											<td>No</td>
@@ -151,21 +152,21 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 												</c:forEach>	
 											</select></td>
 											<td>요청시간</td>
-											<td>서비스요청ID</td>
+<!-- 											<td>서비스요청ID</td> -->
 											<td>작업자</td>
 											<td>변경내역</td>
 											<td>변경프로그램목록</td>
 											<td>변경소스명</td>
-											<td>요청자</td>
-											<td>Deploy담당자</td>
-											<td>확인(개발계)</td>
-											<td>확인(테스트계)</td>
-											<td>확인(운영계)</td>
-											<td><select name="categoryDivision" id="categoryDivision">
-												<c:forEach items="${categoryMasterCodes[categoryType.cateDivisionString]}" varStatus="status">
-													<option value="<c:out value='${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}'></c:out>" <c:if test="${categoryType.categoryDivision eq categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}</option>
-												</c:forEach>	
-											</select></td>
+<!-- 											<td>요청자</td> -->
+											<td>배포담당자</td>
+<!-- 											<td>확인(개발계)</td> -->
+<!-- 											<td>확인(테스트계)</td> -->
+<!-- 											<td>확인(운영계)</td> -->
+<!-- 											<td><select name="categoryDivision" id="categoryDivision"> -->
+<%-- 												<c:forEach items="${categoryMasterCodes[categoryType.cateDivisionString]}" varStatus="status"> --%>
+<%-- 													<option value="<c:out value='${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}'></c:out>" <c:if test="${categoryType.categoryDivision eq categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateDivisionString][status.index].codeName}</option> --%>
+<%-- 												</c:forEach>	 --%>
+<!-- 											</select></td> -->
 											<td><select name="categoryStatus" id="categoryStatus">
 												<c:forEach items="${categoryMasterCodes[categoryType.cateStatusString]}" varStatus="status">
 													<option value="<c:out value='${categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}'></c:out>" <c:if test="${categoryType.categoryStatus eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">selected="selected"</c:if>>${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName}</option>
@@ -181,7 +182,7 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 												<td>${deploy.workType}</td>	
 												<td>${deploy.requestDate}</td>	
 												<td>${deploy.requestTime}</td>	
-												<td>${deploy.serviceRequestId}</td>	
+<%-- 												<td>${deploy.serviceRequestId}</td>	 --%>
 												<td>${deploy.worker}</td>	
 												<td>${deploy.modifiedContents}</td>	
 												<td>
@@ -194,12 +195,12 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 														<c:out value="${modifiedResourcesMap[deploy.deployNo][status.index].modifiedResources_wSourceName}"></c:out><br>
 													</c:forEach>
 												</td>
-												<td>${deploy.employeeName} <input type="hidden" value="${deploy.requester}"></td>
+<%-- 												<td>${deploy.employeeName} <input type="hidden" value="${deploy.requester}"></td> --%>
 												<td>${deploy.deployer}</td>
-												<td>${deploy.developConfirmer}</td>
-												<td>${deploy.testConfirmer}</td>
-												<td>${deploy.productionConfirmer}</td>
-												<td>${deploy.division}</td>
+<%-- 												<td>${deploy.developConfirmer}</td> --%>
+<%-- 												<td>${deploy.testConfirmer}</td> --%>
+<%-- 												<td>${deploy.productionConfirmer}</td> --%>
+<%-- 												<td>${deploy.division}</td> --%>
 												<td>	
 													<c:forEach items="${categoryMasterCodes[categoryType.cateStatusString]}" begin="1" varStatus="status">
 														<input type="radio" name="statusCode${deploy.deployNo}"  <c:if test="${deploy.statusCode eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">checked="checked"</c:if>disabled="disabled">
@@ -214,10 +215,11 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 				        	</div>
 			        	</form:form>
 			        </div>
+			       </div> 
 				 </div>
+			   </div>
 			</div>
 		</div>
-	</div>
 <jsp:include page="/WEB-INF/pc/common/footer.jsp" />
 </body>
 </html>

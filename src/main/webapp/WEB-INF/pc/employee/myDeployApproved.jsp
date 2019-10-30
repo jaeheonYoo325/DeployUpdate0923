@@ -35,7 +35,7 @@
 	});
 	function showApprovalDetail(thisDeployNo,deployApprovalDetailCode){
 		   var deployNo=thisDeployNo;
-		   window.open("/employee/showDeployApprovalDetail.do/"+deployNo+"/"+deployApprovalDetailCode,"상세보기", "width=1000, height=800");
+		   window.open("/employee/showDeployApprovalDetail.do/"+deployNo+"/"+deployApprovalDetailCode,"상세보기", "width=1200, height=300");
 	}
 </script>
 <body id="page-top">

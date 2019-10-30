@@ -11,7 +11,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
 	<meta name="author" content="">	
-	<title>결재선 페이지</title>
+	<title>결재</title>
 	<!-- Custom fonts for this template-->
 	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/vendor/fontawesome-free/css/all.min.css' />">
   	<!-- Custom styles for this template-->
@@ -36,7 +36,7 @@
 	
 	function showApprovalDetail(thisDeployNo,deployApprovalDetailCode){
 	   var deployNo=thisDeployNo;
-	   window.open("/employee/showDeployApprovalDetail.do/"+deployNo+"/"+deployApprovalDetailCode,"상세보기", "width=1000, height=800");
+	   window.open("/employee/showDeployApprovalDetail.do/"+deployNo+"/"+deployApprovalDetailCode,"상세보기", "width=1200, height=300");
 	}
 
 </script>
@@ -49,7 +49,7 @@
 				<div class="card mb-3">
 					<div class="card-header">
 			            <i class="fas fa-table"></i>
-			            	결재선
+			            	결재
 			        </div>
 			        <div class="card-body">
 			        	<div class="table-responsive">

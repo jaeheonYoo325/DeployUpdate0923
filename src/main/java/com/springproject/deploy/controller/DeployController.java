@@ -51,8 +51,69 @@ public class DeployController {
 	private EmployeeService employeeService;
 	
 	@GetMapping("/main/main.do")
-	public String viewMainPage() {
-		return HttpRequestHelper.getJspPath();
+	public ModelAndView viewMainPage(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
+		List<ChainDto> chain = this.deployService.selectSearchAllChainService();
+		Map<Long, List<ModifiedProgramsDto>> modifiedProgramsMap = new HashMap<Long, List<ModifiedProgramsDto>>(); 
+		Map<Long, List<ModifiedResourcesDto>> modifiedResourcesMap = new HashMap<Long, List<ModifiedResourcesDto>>();
+		List<DeployRequestDto> deployRequests = new ArrayList<DeployRequestDto>();
+	    CategoryTypeDto categoryType = new CategoryTypeDto();
+	    List<MasterCodeDto> masterCodeOfCategory = this.deployService.selectMasterCodeOfCategoryService();
+	    Map<String, List<MasterCodeDto>> categoryMasterCodes = this.deployService.selectCategoryMasterCodesService(masterCodeOfCategory);
+	    List<ModifiedProgramsDto> modifiedProgramOfDeployNo = new ArrayList<ModifiedProgramsDto>();
+	    List<ModifiedResourcesDto> modifiedResourceOfDeployNo = new ArrayList<ModifiedResourcesDto>();
+	    Map<String, List<MasterCodeDto>> masterCodeOfSearchTypeMap = this.deployService.selectMasterCodeOfSearchTypeService(categoryType.getSearchTypeString());
+	    
+	    Long deployNo = 0L;
+		
+	    if(request.getParameter("searchType") != null && request.getParameter("searchKeyword") != null && request.getParameter("categoryChain") != null && request.getParameter("categoryWorktype") != null && request.getParameter("categoryRequestDate") != null && request.getParameter("categoryDivision") != null && request.getParameter("categoryStatus")!=null) {
+	    	  String searchType = request.getParameter("searchType"); 
+	    	  String searchKeyword = request.getParameter("searchKeyword");
+	    	  String categoryChain = request.getParameter("categoryChain");
+		      String categoryWorkType=request.getParameter("categoryWorktype");
+		      String categoryRequestDate = request.getParameter("categoryRequestDate");
+		      String categoryDivision = request.getParameter("categoryDivision");
+		      String categoryStatus = request.getParameter("categoryStatus");
+		      categoryType.setSearchType(searchType);
+		      categoryType.setSearchKeyword(searchKeyword);
+		      categoryType.setCategoryChain(categoryChain);
+		      categoryType.setCategoryWorktype(categoryWorkType);
+		      categoryType.setCategoryRequestDate(categoryRequestDate);
+		      categoryType.setCategoryDivision(categoryDivision);
+		      categoryType.setCategoryStatus(categoryStatus);
+		      deployRequests = this.deployService.selectCategoryDeployRequestService(categoryType);
+	    } else {
+	    	 categoryType.setSearchType("검색타입");
+	    	 categoryType.setSearchKeyword("");
+	         categoryType.setCategoryChain("부문");
+	         categoryType.setCategoryWorktype("작업유형");
+	         categoryType.setCategoryRequestDate("요청날짜");
+	         categoryType.setCategoryDivision("구분");
+	         categoryType.setCategoryStatus("상태");
+	         deployRequests = this.deployService.selectAllDeployRequestService();
+	      }
+	      	      
+		for(int i=0; i < deployRequests.size(); i++) {
+			deployNo = deployRequests.get(i).getDeployNo();
+			
+			modifiedProgramOfDeployNo = this.deployService.selectModifiedProgramOfDeploNoService(deployNo);
+			modifiedProgramsMap.put(deployNo, modifiedProgramOfDeployNo);
+			
+			modifiedResourceOfDeployNo = this.deployService.selectModifiedResourceOfDeploNoService(deployNo);
+			modifiedResourcesMap.put(deployNo, modifiedResourceOfDeployNo);
+		}
+		
+		
+		mv.addObject("deployRequests", deployRequests);
+		mv.addObject("chain", chain);
+		mv.addObject("categoryType", categoryType);
+		mv.addObject("categoryMasterCodes",categoryMasterCodes);
+		
+		mv.addObject("modifiedProgramsMap", modifiedProgramsMap);
+		mv.addObject("modifiedResourcesMap", modifiedResourcesMap);
+		
+		mv.addObject("masterCodeOfSearchTypeMap", masterCodeOfSearchTypeMap);
+		return mv;
 	}
 
 	@GetMapping("/search/searchEmployee.do")

@@ -50,17 +50,15 @@
 		        						<td>작업유형</td>
 		        						<td>요청날짜</td>
 		        						<td>요청시간</td>
-		        						<td>서비스요청 ID</td>
 		        						<td>작업자</td>
 		        						<td>변경내역</td>
 		        						<td>변경프로그램목록</td>
 		        						<td>변경소스명</td>
-		        						<td>요청자</td>
-		        						<td>Deploy 담당자</td>
-		        						<td>개발계 담당자</td>
-		        						<td>테스트계 담당자</td>
-		        						<td>운영계 담당자</td>
-		        						<td>구분</td>
+		        						<td>배포담당자</td>
+<!-- 		        						<td>개발계 담당자</td> -->
+<!-- 		        						<td>테스트계 담당자</td> -->
+<!-- 		        						<td>운영계 담당자</td> -->
+<!-- 		        						<td>구분</td> -->
 		        					</tr>
 		        					<tr>
 		        						<td>${deployRequestOfDeployNo.deployNo}</td>
@@ -68,7 +66,7 @@
 		        						<td>${deployRequestOfDeployNo.workType}</td>
 		        						<td>${deployRequestOfDeployNo.requestDate}</td>
 		        						<td>${deployRequestOfDeployNo.requestTime}</td>
-		        						<td>${deployRequestOfDeployNo.serviceRequestId}</td>
+<%-- 		        						<td>${deployRequestOfDeployNo.serviceRequestId}</td> --%>
 		        						<td>${deployRequestOfDeployNo.worker}</td>
 		        						<td>${deployRequestOfDeployNo.modifiedContents}</td>
 		        						<td>
@@ -81,12 +79,12 @@
 												${modifiedResourceOfDeployNo[status.index].modifiedResources_wSourceName}												                          
 											</c:forEach> 
 		        						</td>
-		        						<td>${deployRequestOfDeployNo.requester}</td>
+<%-- 		        						<td>${deployRequestOfDeployNo.requester}</td> --%>
 		        						<td>${deployRequestOfDeployNo.deployer}</td>
-		        						<td>${deployRequestOfDeployNo.developConfirmer}</td>
-		        						<td>${deployRequestOfDeployNo.testConfirmer}</td>
-		        						<td>${deployRequestOfDeployNo.productionConfirmer}</td>
-		        						<td>${deployRequestOfDeployNo.division}</td>
+<%-- 		        						<td>${deployRequestOfDeployNo.developConfirmer}</td> --%>
+<%-- 		        						<td>${deployRequestOfDeployNo.testConfirmer}</td> --%>
+<%-- 		        						<td>${deployRequestOfDeployNo.productionConfirmer}</td> --%>
+<%-- 		        						<td>${deployRequestOfDeployNo.division}</td> --%>
 		        					</tr>
 		        				</thead>
 		        			</table>

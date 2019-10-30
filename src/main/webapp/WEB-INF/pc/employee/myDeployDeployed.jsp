@@ -35,7 +35,7 @@
 	});
 	function showApprovalDetail(thisDeployNo,deployApprovalDetailCode){
 	   var deployNo=thisDeployNo;
-	   window.open("/employee/showDeployApprovalDetail.do/"+deployNo+"/"+deployApprovalDetailCode,"상세보기", "width=1000, height=800");
+	   window.open("/employee/showDeployApprovalDetail.do/"+deployNo+"/"+deployApprovalDetailCode,"상세보기", "width=1200, height=300");
 	}
 </script>
 <body id="page-top">
@@ -47,7 +47,7 @@
 				<div class="card mb-3">
 					<div class="card-header">
 			            <i class="fas fa-table"></i>
-			            	배포 결재 내역
+			            	배포  내역
 			        </div>
 			        <div class="card-body">
 			        	<div class="table-responsive">

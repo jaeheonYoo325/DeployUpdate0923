@@ -36,7 +36,7 @@
 	
 	function showApprovalDetail(thisDeployNo,deployApprovalDetailCode){
 	   var deployNo=thisDeployNo;
-	   window.open("/employee/showDeployApprovalDetail.do/"+deployNo+"/"+deployApprovalDetailCode,"상세보기", "width=1000, height=800");
+	   window.open("/employee/showDeployApprovalDetail.do/"+deployNo+"/"+deployApprovalDetailCode,"상세보기", "width=1200, height=300");
 	}
 
 </script>
@@ -49,7 +49,7 @@
 				<div class="card mb-3">
 					<div class="card-header">
 			            <i class="fas fa-table"></i>
-			            	배포 결재선
+			            	배포
 			        </div>
 			        <div class="card-body">
 			        	<div class="table-responsive">

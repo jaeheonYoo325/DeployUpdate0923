@@ -17,7 +17,7 @@ public class DeployRequestDto {
 	private String worker;
 	@NotEmpty(message = "변경내역은 필수 입력 값입니다.")
 	private String modifiedContents;
-	@NotEmpty(message = "요청자는 필수 입력 값입니다.")
+//	@NotEmpty(message = "요청자는 필수 입력 값입니다.")
 	private String requester;
 	private String deployer;
 	private String developConfirmer;
