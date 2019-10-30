@@ -55,27 +55,22 @@
 		});
 	   
        $("#categoryChain").change(function(){
-    	  var categoryChain = $(this).val();
     	  commonDeployListSubmit();    	  
        });
        
        $("#categoryWorktype").change(function(){
-     	  var categoryWorktype = $(this).val();
      	  commonDeployListSubmit();
         });
        
        $("#categoryRequestDate").change(function(){
-     	  var categoryChain = $(this).val();
      	  commonDeployListSubmit();
         });
        
-       $("#categoryDivision").change(function(){
-     	  var categoryChain = $(this).val();
-     	  commonDeployListSubmit();
-        });
+//        $("#categoryDivision").change(function(){
+//      	  commonDeployListSubmit();
+//         });
        
        $("#categoryStatus").change(function(){
-     	 var categoryChain = $(this).val();
      	 commonDeployListSubmit();
 			
         });

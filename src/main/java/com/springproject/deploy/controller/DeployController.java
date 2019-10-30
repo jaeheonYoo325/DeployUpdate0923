@@ -295,20 +295,20 @@ public class DeployController {
 	    
 	    Long deployNo = 0L;
 		
-	    if(request.getParameter("searchType") != null && request.getParameter("searchKeyword") != null && request.getParameter("categoryChain") != null && request.getParameter("categoryWorktype") != null && request.getParameter("categoryRequestDate") != null && request.getParameter("categoryDivision") != null && request.getParameter("categoryStatus")!=null) {
+	    if(request.getParameter("searchType") != null && request.getParameter("searchKeyword") != null && request.getParameter("categoryChain") != null && request.getParameter("categoryWorktype") != null && request.getParameter("categoryRequestDate") != null && request.getParameter("categoryStatus")!=null) {
 	    	  String searchType = request.getParameter("searchType"); 
 	    	  String searchKeyword = request.getParameter("searchKeyword");
 	    	  String categoryChain = request.getParameter("categoryChain");
 		      String categoryWorkType=request.getParameter("categoryWorktype");
 		      String categoryRequestDate = request.getParameter("categoryRequestDate");
-		      String categoryDivision = request.getParameter("categoryDivision");
+//		      String categoryDivision = request.getParameter("categoryDivision");
 		      String categoryStatus = request.getParameter("categoryStatus");
 		      categoryType.setSearchType(searchType);
 		      categoryType.setSearchKeyword(searchKeyword);
 		      categoryType.setCategoryChain(categoryChain);
 		      categoryType.setCategoryWorktype(categoryWorkType);
 		      categoryType.setCategoryRequestDate(categoryRequestDate);
-		      categoryType.setCategoryDivision(categoryDivision);
+//		      categoryType.setCategoryDivision(categoryDivision);
 		      categoryType.setCategoryStatus(categoryStatus);
 		      deployRequests = this.deployService.selectCategoryDeployRequestService(categoryType);
 	    } else {

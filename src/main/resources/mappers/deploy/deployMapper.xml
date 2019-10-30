@@ -263,7 +263,7 @@
 			</if>						 
 			AND d.chainId LIKE CONCAT(#{categoryChain}, '%')
 			AND d.workType LIKE CONCAT(#{categoryWorktype}, '%')
-			AND d.division LIKE CONCAT(#{categoryDivision}, '%')
+<!-- 			AND d.division LIKE CONCAT(#{categoryDivision}, '%') -->
 	        AND m.codeValue LIKE CONCAT(#{categoryStatus}, '%') 
 	        AND m.codeType="CTGY_STATUS"
 	    GROUP BY d.deployNo

@@ -188,11 +188,11 @@ public class DeployServiceImpl implements DeployService {
 			deployRequestForCatetory.setCategoryChain(deployCateListDto.getCategoryChain());
 		}
 
-		if (deployCateListDto.getCategoryDivision().equals("구분")) {
-			deployRequestForCatetory.setCategoryDivision("%");
-		} else {
-			deployRequestForCatetory.setCategoryDivision(deployCateListDto.getCategoryDivision());
-		}
+//		if (deployCateListDto.getCategoryDivision().equals("구분")) {
+//			deployRequestForCatetory.setCategoryDivision("%");
+//		} else {
+//			deployRequestForCatetory.setCategoryDivision(deployCateListDto.getCategoryDivision());
+//		}
 
 		if (deployCateListDto.getCategoryStatus().equals("00")) {
 			deployRequestForCatetory.setCategoryStatus("%");
