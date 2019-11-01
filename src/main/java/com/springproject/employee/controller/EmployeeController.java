@@ -88,6 +88,7 @@ public class EmployeeController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			mv = new ModelAndView("redirect:/main/main.do");
 			return mv;
 		} else {
 			try {
