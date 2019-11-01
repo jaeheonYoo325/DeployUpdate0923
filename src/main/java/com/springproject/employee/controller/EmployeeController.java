@@ -83,7 +83,6 @@ public class EmployeeController {
 				out = response.getWriter();
 				out.println("<script>");
 				out.println("alert('로그인 성공하였습니다.')");	
-				out.println("window.location.href = 'http://localhost:8080/main/main.do';");
 				out.println("</script>");
 			} catch (IOException e) {
 				e.printStackTrace();
