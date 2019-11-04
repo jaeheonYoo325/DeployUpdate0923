@@ -281,12 +281,12 @@ $(document).ready(function() {
 			        						</td>
 			        					</tr>
 			        					<tr>
-<!-- 			        						<td>요청자</td> -->
-<!-- 			        						<td colspan="6"> -->
+			        						<td>요청자</td>
+			        						<td colspan="6">
 			        							<input type="hidden" name="requesterName" id="requesterName" value="${sessionScope._USER_.employeeName}"><input type="hidden" id="requester" name="requester" value="${sessionScope._USER_.employeeNo}">
 <!-- 							    			 <input type="button" class="btn btn-primary" value="검색" onclick="searchEmployee('requester')"><br> -->
 <%-- 												 <form:errors id="errorsRequester" cssStyle="color: red;" path="requester" /><br> --%>
-<!-- 			        						</td> -->
+			        						</td>
 			        					</tr>
 			        					<tr>
 			        						<td>배포담당자</td>

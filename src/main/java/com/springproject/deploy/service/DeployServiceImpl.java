@@ -116,7 +116,7 @@ public class DeployServiceImpl implements DeployService {
 		DeployApprovalDto deployApprovalDto = this.employeeService.selectMyDeployApprovalOfdeployNoService(deployNo);
 	    deployApprovalDto.setDeployApprovalLineConfirm(deployRequestDto.getRequester());
 	    boolean isDoApprovalingSuccessOfCompleteNowApproval = this.employeeDao.myDeployDoApprovalingOfCompleteNowApprovalDao(deployApprovalDto)>0;
-	    deployApprovalDto.setDeployApprovalLine("14");
+	    deployApprovalDto.setDeployApprovalLine("3");
 	    deployApprovalDto.setDeployApprovalDescription("deployApprovalB0");
 	    boolean isDoApprovalingSuccessOfNextApproval = this.employeeDao.myDeployDoApprovalingOfAddNextApprovalDao(deployApprovalDto)>0;
 
