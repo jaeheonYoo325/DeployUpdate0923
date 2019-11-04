@@ -252,9 +252,9 @@
     	AND (d.deployNo=p.modifiedPrograms_deployNo)
     	AND (d.deployNo=s.modifiedResources_deployNo)
 		WHERE 1=1
-			<if test="searchType == '요청자' and searchKeyword != ''" >
-				AND e.employeeName LIKE CONCAT(#{searchKeyword}, '%')
-			</if>						 
+<!-- 			<if test="searchType == '요청자' and searchKeyword != ''" > -->
+<!-- 				AND e.employeeName LIKE CONCAT(#{searchKeyword}, '%') -->
+<!-- 			</if>						  -->
 			<if test="searchType == '변경된프로그램목록' and searchKeyword != ''">
 				AND p.modifiedPrograms_pageName LIKE CONCAT(#{searchKeyword}, '%')
 			</if>						 
@@ -310,7 +310,7 @@
 	       #{deployDrafter},
 	       now(),
 	       now(),
-	       "14",
+	       "3",
 	       "deployApprovalB0"
 	    )
     </insert>

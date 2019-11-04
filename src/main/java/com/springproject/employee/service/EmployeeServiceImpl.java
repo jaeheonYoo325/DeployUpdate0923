@@ -66,17 +66,17 @@ public class EmployeeServiceImpl implements EmployeeService{
     	  isDoApprovalingSuccessOfCompleteNowApproval=this.employeeDao.myDeployDoApprovalingOfCompleteNowApprovalDao(deployApprovalDto)>0;
 	      if(deployApprovalDto.getDeployApprovalDescription().equals("deployApprovalB0")) {
 		         deployApprovalDto.setDeployApprovalDescription("deployApprovalC0");
-		         deployApprovalDto.setDeployApprovalLine("15");
+		         deployApprovalDto.setDeployApprovalLine("2");
 		      }
 		      
 		      else if(deployApprovalDto.getDeployApprovalDescription().equals("deployApprovalC0")) {
 		         deployApprovalDto.setDeployApprovalDescription("deployApprovalD0");
-		         deployApprovalDto.setDeployApprovalLine("16");
+		         deployApprovalDto.setDeployApprovalLine("1");
 		      }
 		      
 		      else if(deployApprovalDto.getDeployApprovalDescription().equals("deployApprovalD0")) {
 		         deployApprovalDto.setDeployApprovalDescription("deployApprovalE0");
-		         deployApprovalDto.setDeployApprovalLine("17");
+		         deployApprovalDto.setDeployApprovalLine("6");
 		      }
 	      
 	      isDoApprovalingSuccessOfNextApproval = this.employeeDao.myDeployDoApprovalingOfAddNextApprovalDao(deployApprovalDto)>0;
