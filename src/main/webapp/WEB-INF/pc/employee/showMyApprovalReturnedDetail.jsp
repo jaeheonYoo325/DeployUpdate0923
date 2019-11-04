@@ -266,8 +266,12 @@ function searchEmployee(employeeSearchWhere){
 			        						</td>
 			        						<td>요청시간</td>
 			        						<td>
-			        							요청시간 : <input type="text" name="requestTime" id="requestTime" value="${deployRequestDto.requestTime}" readonly="readonly">
+			        							<input type="text" name="requestTime" id="requestTime" value="${deployRequestDto.requestTime}" readonly="readonly">
 			        						</td>
+			        					</tr>
+			        					<tr>
+			        						<td>변경작업자</td>
+			        						<td><input type="text" name="worker" id="worker" value="${deployRequestDto.worker}" readonly="readonly"></td>
 			        					</tr>
 			        					<tr>
 			        						<td>변경내역</td>
