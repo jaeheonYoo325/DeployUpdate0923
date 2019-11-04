@@ -328,6 +328,7 @@ $(document).ready(function() {
 <!-- 			        					</tr> -->
 			        				</thead>
 			        			</table>
+			        			test!!!!!!!!!!!
 			        			<input type="hidden" name="statusCode" value="요청">
 								<input type="button" class="btn btn-primary" id="deployRequestBtn" value="요청">
 		        			</form:form>		        		
