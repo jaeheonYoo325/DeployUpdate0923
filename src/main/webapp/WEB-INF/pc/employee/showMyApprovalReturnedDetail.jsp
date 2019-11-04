@@ -308,13 +308,13 @@ function searchEmployee(employeeSearchWhere){
 												</div>
 			        						</td>
 			        					</tr>
-<!-- 			        					<tr> -->
-<!-- 			        						<td>요청자</td> -->
-<!-- 			        						<td colspan="6"> -->
-<%-- 			        							<input type="text" name="requesterName" id="requesterName" value="${deployRequestDto.employeeName}" readonly="readonly"><input type="hidden" id="requester" name="requester" value="${deployRequestDto.requester}"> --%>
+			        					<tr>
+			        						<td>요청자</td>
+			        						<td colspan="6">
+			        							<input type="text" name="requesterName" id="requesterName" value="${deployRequestDto.employeeName}" readonly="readonly"><input type="hidden" id="requester" name="requester" value="${deployRequestDto.requester}">
 <!-- 	      										<input type="button" class="btn btn-primary" value="검색" onclick="searchEmployee('requester')"> -->
-<!-- 			        						</td> -->
-<!-- 			        					</tr> -->
+			        						</td>
+			        					</tr>
 			        					<tr>
 			        						<td>배포담당자</td>
 			        						<td colspan="6">

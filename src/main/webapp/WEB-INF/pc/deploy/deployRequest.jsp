@@ -283,7 +283,7 @@ $(document).ready(function() {
 			        					<tr>
 			        						<td>요청자</td>
 			        						<td colspan="6">
-			        							<input type="hidden" name="requesterName" id="requesterName" value="${sessionScope._USER_.employeeName}"><input type="hidden" id="requester" name="requester" value="${sessionScope._USER_.employeeNo}">
+			        							<input type="text" name="requesterName" id="requesterName" value="${sessionScope._USER_.employeeName}"><input type="hidden" id="requester" name="requester" value="${sessionScope._USER_.employeeNo}">
 <!-- 							    			 <input type="button" class="btn btn-primary" value="검색" onclick="searchEmployee('requester')"><br> -->
 <%-- 												 <form:errors id="errorsRequester" cssStyle="color: red;" path="requester" /><br> --%>
 			        						</td>
