@@ -107,7 +107,7 @@ public class EmployeeController {
    public String viewEmployeeRegistPage(HttpServletResponse response, HttpSession session) {
          response.setCharacterEncoding("UTF-8"); 
        response.setContentType("text/html; charset=UTF-8");          
-       boolean isThisUserHaveAuthorityOfEmployeeRegist=this.employeeService.checkisThisUserHaveAuthorityOfEmployeeRegistService((EmployeeDto)session.getAttribute(Session.USER));
+       boolean isThisUserHaveAuthorityOfEmployeeRegist = this.employeeService.checkisThisUserHaveAuthorityOfEmployeeRegistService((EmployeeDto)session.getAttribute(Session.USER));
        if(isThisUserHaveAuthorityOfEmployeeRegist) {
           return HttpRequestHelper.getJspPath();
        }

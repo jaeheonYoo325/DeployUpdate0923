@@ -42,6 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public EmployeeDto selectOneEmployeeService(EmployeeDto employeeDto) {
 		
 		String salt = this.employeeDao.getSaltByEmployeeNumber(employeeDto.getEmployeeNo());
+		
 //		if ( salt != null ) {
 //			String password = this.getHashedPassword(salt, employeeDto.getEmployeePassWord());
 //			employeeDto.setEmployeePassWord(password);
