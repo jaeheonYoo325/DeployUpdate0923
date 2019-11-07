@@ -299,4 +299,24 @@
   		FROM	EMPLOYEE
   		WHERE	employeeNo = #{employeeNo}  	
   	</select>
+  	
+  	<select id="insertOneProgramDao" parameterType="ProgramDto">
+  	INSERT INTO PROGRAMTABLE
+  							(
+  								pageId,
+  								pageName,
+  								chainId
+  							)
+  					 VALUES (
+  					 			#{pageId},
+  					 			#{pageName},
+  					 			#{chainId}
+  					 		) 		
+  	</select>
+  	
+  	<select id="searchThisProgramIdIsCanUsedDao" parameterType="ProgramDto" resultType="_int">
+  		SELECT COUNT(*)
+  		FROM	PROGRAMTABLE
+  		WHERE pageId=#{pageId}
+  	</select>
   </mapper>

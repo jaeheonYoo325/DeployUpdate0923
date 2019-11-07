@@ -11,6 +11,7 @@ import com.springproject.deploy.dto.DeployApprovalDto;
 import com.springproject.deploy.dto.DeployRequestDto;
 import com.springproject.employee.dto.AuthorityDto;
 import com.springproject.employee.dto.EmployeeDto;
+import com.springproject.program.dto.ProgramDto;
 
 @Repository
 public class EmployeeDaoImpl extends SqlSessionDaoSupport implements EmployeeDao{
@@ -114,5 +115,15 @@ public class EmployeeDaoImpl extends SqlSessionDaoSupport implements EmployeeDao
 	@Override
 	public int duplicateCheckOfEmployeeNoDao(String employeeNo) {
 		return this.getSqlSession().selectOne("EmployeeDao.duplicateCheckOfEmployeeNoDao", employeeNo);
+	}
+
+	@Override
+	public int insertOneProgramDao(ProgramDto programDto) {
+		return this.getSqlSession().insert("EmployeeDao.insertOneProgramDao",programDto);
+	}
+
+	@Override
+	public int SearchThisProgramIdIsCanUsedDao(ProgramDto programDto) {
+		return this.getSqlSession().selectOne("EmployeeDao.searchThisProgramIdIsCanUsedDao",programDto);
 	}
 }

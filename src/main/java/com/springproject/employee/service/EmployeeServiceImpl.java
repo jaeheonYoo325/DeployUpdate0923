@@ -2,6 +2,8 @@ package com.springproject.employee.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import com.springproject.deploy.dto.DeployRequestDto;
 import com.springproject.employee.dao.EmployeeDao;
 import com.springproject.employee.dto.AuthorityDto;
 import com.springproject.employee.dto.EmployeeDto;
+import com.springproject.program.dto.ProgramDto;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
@@ -208,5 +211,15 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public int duplicateCheckOfEmployeeNoService(String employeeNo) {
 		return this.employeeDao.duplicateCheckOfEmployeeNoDao(employeeNo);
+	}
+
+	@Override
+	public int insertOneProgramService(ProgramDto programDto) {
+		return this.employeeDao.insertOneProgramDao(programDto);
+	}
+
+	@Override
+	public boolean SearchThisProgramIdIsCanUsedService(ProgramDto programDto) {
+		return this.employeeDao.SearchThisProgramIdIsCanUsedDao(programDto)>0;
 	}
 }

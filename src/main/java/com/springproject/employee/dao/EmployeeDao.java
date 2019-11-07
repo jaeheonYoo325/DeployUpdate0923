@@ -6,6 +6,7 @@ import com.springproject.deploy.dto.DeployApprovalDto;
 import com.springproject.deploy.dto.DeployRequestDto;
 import com.springproject.employee.dto.AuthorityDto;
 import com.springproject.employee.dto.EmployeeDto;
+import com.springproject.program.dto.ProgramDto;
 
 public interface EmployeeDao {
 
@@ -46,4 +47,9 @@ public interface EmployeeDao {
 	public List<AuthorityDto> checkThisUserHaveAuthorityOfEmployeeRegist(EmployeeDto employeeDto);
 	
 	public int duplicateCheckOfEmployeeNoDao(String employeeNo);
+
+	public int insertOneProgramDao(ProgramDto programDto);
+
+	public int SearchThisProgramIdIsCanUsedDao(ProgramDto programDto);
+
 }

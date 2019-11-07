@@ -147,7 +147,7 @@
            chainId
           ,chainName
        FROM CHAINTABLE
-       WHERE chainName LIKE CONCAT('%',#{chainName},'%')
+       WHERE chainName LIKE CONCAT('%',#{chainName},'%') || chainId LIKE CONCAT('%',#{chainName},'%')
    </select>      
    
    <select id="selectSearchedModifiedProgramDao" parameterType="ProgramDto" resultType="ProgramDto">

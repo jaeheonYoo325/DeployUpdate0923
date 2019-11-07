@@ -67,7 +67,8 @@
 	        </a>
 	        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
 <!-- 	          <h6 class="dropdown-header">직원 관리</h6> -->
-	          <a class="dropdown-item" href="<c:url value='/employee/employeeRegist.do' />">직원 등록</a>	          
+	          <a class="dropdown-item" href="<c:url value='/employee/employeeRegist.do' />">직원 등록</a>	
+	          <a class="dropdown-item" href="<c:url value='/employee/programRegist.do' />">변경프로그램 등록</a>          
 	        </div>
 	      </li>	      
 		</ul>

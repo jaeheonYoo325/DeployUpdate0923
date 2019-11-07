@@ -14,6 +14,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.springproject.chain.dto.ChainDto;
 import com.springproject.common.session.Session;
 import com.springproject.common.utils.HttpRequestHelper;
 import com.springproject.common.validator.employee.EmployeeValidator;
@@ -39,6 +41,7 @@ import com.springproject.employee.service.EmployeeService;
 import com.springproject.mastercode.dto.MasterCodeDto;
 import com.springproject.modifiedprograms.dto.ModifiedProgramsDto;
 import com.springproject.modifiedresources.dto.ModifiedResourcesDto;
+import com.springproject.program.dto.ProgramDto;
 
 @Controller
 public class EmployeeController {
@@ -138,6 +141,88 @@ public class EmployeeController {
 		}
 		boolean isSuccess = this.employeeService.insertOneEmployeeService(employeeDto);
 		return mv;
+	}
+	
+	@GetMapping("/employee/programRegist.do")
+	public ModelAndView viewmodifiedProgramRegistPage(HttpServletResponse response, HttpSession session) {
+      response.setCharacterEncoding("UTF-8"); 
+      response.setContentType("text/html; charset=UTF-8");          
+      boolean isThisUserHaveAuthorityOfModifiedProgramRegist = this.employeeService.checkisThisUserHaveAuthorityOfEmployeeRegistService((EmployeeDto)session.getAttribute(Session.USER));
+      if(isThisUserHaveAuthorityOfModifiedProgramRegist) {
+    	 List<ChainDto> chain=this.deployService.selectSearchAllChainService();
+    	 ModelAndView mv=new ModelAndView(HttpRequestHelper.getJspPath());
+    	 mv.addObject("chain",chain);
+         return mv;
+      }
+      else {
+         try {
+           PrintWriter out;
+           out = response.getWriter();
+           out.println("<script>");
+           out.println("alert('변경프로그램등록권한이 없습니다')");
+           out.println("history.back()");
+           out.println("</script>");
+        } catch (IOException e) {
+           e.printStackTrace();
+        }
+        return null;
+      }
+	}
+	
+	@PostMapping("/employee/programRegist.do")
+	public ModelAndView doProgramRegistAction(@Valid @ModelAttribute ProgramDto programDto, Errors errors, HttpServletResponse response) {
+	    response.setCharacterEncoding("UTF-8"); 
+	    response.setContentType("text/html; charset=UTF-8");
+	    
+	    ModelAndView mv = null;
+	    List<ChainDto> chain=this.deployService.selectSearchAllChainService();
+	    if ( errors.hasErrors()) {
+	    	mv = new ModelAndView(HttpRequestHelper.getJspPath());
+	    	mv.addObject("programDto", programDto);
+	    	mv.addObject("chain",chain);
+	    	return mv;
+	    }
+	    
+	    boolean isThisProgramIdIsCanUsed=this.employeeService.SearchThisProgramIdIsCanUsedService(programDto);
+		PrintWriter out;
+		if(isThisProgramIdIsCanUsed) {
+	         try {
+	             out = response.getWriter();
+	             out.println("<script>");
+	             out.println("alert('프로그램번호 중복!')");
+	             out.println("window.location.href='/employee/programRegist.do'");
+	             out.println("</script>");
+	          } catch (IOException e) {
+	             e.printStackTrace();
+	          }
+	         return mv;
+		}
+	    
+		boolean isProgramRegistSuccess = this.employeeService.insertOneProgramService(programDto)>0;
+		if(isProgramRegistSuccess) {
+	         try {
+	             out = response.getWriter();
+	             out.println("<script>");
+	             out.println("alert('프로그램등록완료!')");
+	             out.println("window.location.href='/employee/programRegist.do'");
+	             out.println("</script>");
+	          } catch (IOException e) {
+	             e.printStackTrace();
+	          }
+	         return mv;
+		}
+		else {
+	         try {
+	             out = response.getWriter();
+	             out.println("<script>");
+	             out.println("alert('프로그램등록실패!')");
+	             out.println("history.back()");
+	             out.println("</script>");
+	          } catch (IOException e) {
+	             e.printStackTrace();
+	          }
+	         return mv;
+		}
 	}
 	
 	@GetMapping("/employee/employeeLogout.do")

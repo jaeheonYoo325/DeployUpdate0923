@@ -2,8 +2,11 @@ package com.springproject.employee.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.springproject.deploy.dto.DeployApprovalDto;
 import com.springproject.employee.dto.EmployeeDto;
+import com.springproject.program.dto.ProgramDto;
 
 public interface EmployeeService {
 
@@ -40,4 +43,8 @@ public interface EmployeeService {
 	public boolean checkisThisUserHaveAuthorityOfEmployeeRegistService(EmployeeDto employeeDto);
 	
 	public int duplicateCheckOfEmployeeNoService(String employeeNo);
+
+	public int insertOneProgramService(ProgramDto programDto);
+
+	public boolean SearchThisProgramIdIsCanUsedService(ProgramDto programDto);
 }

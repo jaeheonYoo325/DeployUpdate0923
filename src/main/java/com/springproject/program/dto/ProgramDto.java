@@ -1,8 +1,11 @@
 package com.springproject.program.dto;
 
-public class ProgramDto {
+import javax.validation.constraints.NotEmpty;
 
+public class ProgramDto {
+	@NotEmpty(message = "프로그램번호는 필수 입력값입니다")
 	private String pageId;
+	@NotEmpty(message = "프로그램이름은 필수 입력값입니다")
 	private String pageName;
 	private String chainId;
 	private String selectedchainId;

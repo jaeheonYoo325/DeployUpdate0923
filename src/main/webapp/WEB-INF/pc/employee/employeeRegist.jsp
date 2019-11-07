@@ -37,10 +37,6 @@
           $(".sidebar").toggleClass("toggled");
       });   
    });
-   function showMyApprovalReturnedDetail(thisDeployNo){
-      var deployNo=thisDeployNo;
-      window.open("/employee/showMyApprovalReturnedDetail.do/" + deployNo,"상세보기", "width=1000, height=800");
-   }
 </script>
 <script>
    function employeeNoChanging(obj){
