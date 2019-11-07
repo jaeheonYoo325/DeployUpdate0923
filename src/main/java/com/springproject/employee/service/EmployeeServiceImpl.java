@@ -43,10 +43,10 @@ public class EmployeeServiceImpl implements EmployeeService{
 		
 		String salt = this.employeeDao.getSaltByEmployeeNumber(employeeDto.getEmployeeNo());
 		
-		if ( salt != null ) {
-			String password = this.getHashedPassword(salt, employeeDto.getEmployeePassWord());
-			employeeDto.setEmployeePassWord(password);
-		}
+//		if ( salt != null ) {
+//			String password = this.getHashedPassword(salt, employeeDto.getEmployeePassWord());
+//			employeeDto.setEmployeePassWord(password);
+//		}
 		
 		EmployeeDto loginEmployeeDto = this.employeeDao.selectOneEmployeeDao(employeeDto);
 		return loginEmployeeDto;
