@@ -332,6 +332,13 @@ public class DeployController {
 			modifiedResourcesMap.put(deployNo, modifiedResourceOfDeployNo);
 		}
 		
+		//변경내역 멀티라인
+		for(int i=0; i< deployRequests.size(); i++) {
+			String BeforeModifiedContentsReplacedStringForMultiLine = deployRequests.get(i).getModifiedContents();
+			String AfterModifiedContentsReplacedStringForMultiLine=BeforeModifiedContentsReplacedStringForMultiLine.replace("\n", "<br>");
+			deployRequests.get(i).setModifiedContents(AfterModifiedContentsReplacedStringForMultiLine);
+		}
+		
 		
 		mv.addObject("deployRequests", deployRequests);
 		mv.addObject("chain", chain);

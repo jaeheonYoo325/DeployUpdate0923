@@ -44,12 +44,12 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public EmployeeDto selectOneEmployeeService(EmployeeDto employeeDto) {
 		
-		String salt = this.employeeDao.getSaltByEmployeeNumber(employeeDto.getEmployeeNo());
-		
-		if ( salt != null ) {
-			String password = this.getHashedPassword(salt, employeeDto.getEmployeePassWord());
-			employeeDto.setEmployeePassWord(password);
-		}
+//		String salt = this.employeeDao.getSaltByEmployeeNumber(employeeDto.getEmployeeNo());
+//		
+//		if ( salt != null ) {
+//			String password = this.getHashedPassword(salt, employeeDto.getEmployeePassWord());
+//			employeeDto.setEmployeePassWord(password);
+//		}
 		
 		EmployeeDto loginEmployeeDto = this.employeeDao.selectOneEmployeeDao(employeeDto);
 		return loginEmployeeDto;

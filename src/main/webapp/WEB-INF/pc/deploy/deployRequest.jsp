@@ -260,7 +260,8 @@ $(document).ready(function() {
 			        					<tr>
 			        						<td>변경내역</td>
 			        						<td colspan="6">
-			        							 <input type="text" name="modifiedContents" id="modifiedContents" value="${deployRequestDto.modifiedContents}" style="width: 1000px">
+			        								<textarea id="modifiedContents" name="modifiedContents" cols="100" rows="5" style="border: 0">${deployRequestDto.modifiedContents}</textarea>
+<%-- 			        							 <input type="text" name="modifiedContents" id="modifiedContents" value="${deployRequestDto.modifiedContents}" style="width: 1000px"> --%>
 												 <form:errors id="errorsModifiedContents" cssStyle="color: red;" path="modifiedContents" />
 			        						</td>
 			        					</tr>
