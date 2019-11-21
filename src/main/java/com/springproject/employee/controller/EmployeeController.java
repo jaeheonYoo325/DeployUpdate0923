@@ -285,7 +285,7 @@ public class EmployeeController {
 			try {
 				out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('결제완료')");
+				out.println("alert('결재 완료하였습니다.')");
 				out.println("window.opener.location.reload()");
 				out.println("window.close()");
 				out.println("</script>");
@@ -296,7 +296,7 @@ public class EmployeeController {
 			try {
 				out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('오류')");
+				out.println("alert('결재 실패하였습니다.')");
 				out.println("history.back()");
 				out.println("</script>");
 			} catch (IOException e) {
@@ -318,7 +318,7 @@ public class EmployeeController {
 			try {
 				out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('반려완료')");
+				out.println("alert('반려 완료하였습니다.')");
 				out.println("window.opener.location.reload()");
 				out.println("window.close()");
 				out.println("</script>");
@@ -329,7 +329,7 @@ public class EmployeeController {
 			try {
 				out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('반려실패')");
+				out.println("alert('반려 실패하였습니다.')");
 				out.println("history.back()");
 				out.println("</script>");
 			} catch (IOException e) {
@@ -365,7 +365,7 @@ public class EmployeeController {
  				PrintWriter out;
  				out = response.getWriter();
  				out.println("<script>");
- 				out.println("alert('배포권한이 없습니다')");
+ 				out.println("alert('배포 권한이 없습니다')");
  				out.println("history.back()");
  				out.println("</script>");
  			} catch (IOException e) {
@@ -392,7 +392,7 @@ public class EmployeeController {
 			try {
 				out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('배포완료')");
+				out.println("alert('배포 결재 완료하였습니다.')");
 				out.println("window.opener.location.reload()");
 				out.println("window.close()");
 				out.println("</script>");
@@ -403,7 +403,7 @@ public class EmployeeController {
 			try {
 				out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('배포실패')");
+				out.println("alert('배포 결재 실패하였습니다.')");
 				out.println("history.back()");
 				out.println("</script>");
 			} catch (IOException e) {
@@ -431,7 +431,7 @@ public class EmployeeController {
 				PrintWriter out;
 				out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('배포권한이 없습니다')");
+				out.println("alert('배포 권한이 없습니다')");
 				out.println("history.back()");
 				out.println("</script>");
 			} catch (IOException e) {
@@ -519,7 +519,7 @@ public class EmployeeController {
 			try {
 				out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('수정완료')");
+				out.println("alert('재요청 완료하였습니다.')");
 				out.println("window.opener.location.reload()");
 				out.println("window.close()");
 				out.println("</script>");
@@ -531,7 +531,7 @@ public class EmployeeController {
 			try {
 				out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('수정실패')");
+				out.println("alert('재요청 실패하였습니다.')");
 				out.println("history.back()");				
 				out.println("</script>");
 			} catch (IOException e) {
@@ -558,7 +558,6 @@ public class EmployeeController {
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		
 		count = this.employeeService.duplicateCheckOfEmployeeNoService(employeeNo);
-		System.out.println("count : " + count);
 		map.put("cnt", count);
 		
 		return map;

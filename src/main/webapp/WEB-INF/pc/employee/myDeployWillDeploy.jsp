@@ -59,8 +59,8 @@
 										<td>DeployNo</td>
 										<td>기안자</td>
 										<td>기안일</td>
-										<td>결제내용</td>
-										<td>결제요청일</td>
+										<td>결재내용</td>
+										<td>결재요청일</td>
 										<td>배포권한자</td>
 										<td>상세내역</td>
 									</tr>

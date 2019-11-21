@@ -125,7 +125,8 @@ $(document).ready(function() {
     var i = -1;
     $('.addModifiedPrograms').click (function () {
   	  if($("#chainId").val()==""){
-  		  alert("부문선택필수");
+  		  alert("부문을 먼저 선택해주세요.");
+		  $("#chainName").focus();
   		  return;
   	  }  	
   		i=i+1;
@@ -146,7 +147,8 @@ $(document).ready(function() {
     var j = -1;
     $('.addModifiedResources').click (function () {
     	if($("#chainId").val()==""){
-    		  alert("부문선택필수");
+    		  alert("부문을 먼저 선택해주세요.");
+    		  $("#chainName").focus();
     		  return;
     	} 
   	    j=j+1;
@@ -219,8 +221,8 @@ $(document).ready(function() {
 			        					<tr>
 											<td>부문</td>
 			        						<td colspan="6">
-			        							 <input type="text" name="chainId" id="chainId" readonly="readonly" value="${deployRequestDto.chainId}">
-							     				 <input type="text" name="chainName" id="chainName" readonly="readonly" value="${deployRequestDto.chainName}">
+			        							 <input type="hidden" name="chainId" id="chainId" readonly="readonly" value="${deployRequestDto.chainId}">
+							     				 <input type="text" name="chainName" id="chainName" placeholder="부문 선택" readonly="readonly" value="${deployRequestDto.chainName}">
 							    				 <input type="button" class="btn btn-primary" value="검색" onclick="searchChain()">
 							 				    <form:errors id="errorsChainId" cssStyle="color: red;" path="chainId" />
 			        						</td>		        						
@@ -239,14 +241,14 @@ $(document).ready(function() {
 			        					<tr>
 			        						<td>요청날짜</td>
 			        						<td>
-			        							<input type="text" name="requestDate" id="requestDate" value="${deployRequestDto.requestDate}" readonly="readonly">
+			        							<input type="text" name="requestDate" id="requestDate" value="${deployRequestDto.requestDate}" placeholder="작업유형 선택" readonly="readonly">
 												<form:errors id="errorsRequestDate" cssStyle="color: red;" path="requestDate" />
 			        						</td>
 			        					</tr>
 			        					<tr>
 			        							<td>요청시간</td>
 			        						<td>
-			        							<input type="text" name="requestTime" id="requestTime" value="${deployRequestDto.requestTime}" readonly="readonly">
+			        							<input type="text" name="requestTime" id="requestTime" value="${deployRequestDto.requestTime}" placeholder="작업유형 선택" readonly="readonly">
 												<form:errors id="errorsRequestTime" cssStyle="color: red;" path="requestTime" />
 			        						</td>
 			        					</tr>
@@ -260,7 +262,7 @@ $(document).ready(function() {
 			        					<tr>
 			        						<td>변경내역</td>
 			        						<td colspan="6">
-			        								<textarea id="modifiedContents" name="modifiedContents" cols="100" rows="5" style="border: 0">${deployRequestDto.modifiedContents}</textarea>
+			        								<textarea id="modifiedContents" name="modifiedContents" cols="100" rows="5" placeholder="변경내역을 입력해주세요.">${deployRequestDto.modifiedContents}</textarea>
 <%-- 			        							 <input type="text" name="modifiedContents" id="modifiedContents" value="${deployRequestDto.modifiedContents}" style="width: 1000px"> --%>
 												 <form:errors id="errorsModifiedContents" cssStyle="color: red;" path="modifiedContents" />
 			        						</td>
