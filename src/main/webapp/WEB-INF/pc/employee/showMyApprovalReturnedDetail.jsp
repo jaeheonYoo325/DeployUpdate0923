@@ -276,7 +276,7 @@ function searchEmployee(employeeSearchWhere){
 			        					<tr>
 			        						<td>변경내역</td>
 			        						<td colspan="6">
-			        							<input type="text" name="modifiedContents" id="modifiedContents" value="${deployRequestDto.modifiedContents}" style="width: 900px">
+			        							<textarea id="modifiedContents" name="modifiedContents" cols="100" rows="5" style="border: 0">${deployRequestDto.modifiedContents}</textarea>
 			        						</td>
 			        					</tr>
 			        					<tr>
