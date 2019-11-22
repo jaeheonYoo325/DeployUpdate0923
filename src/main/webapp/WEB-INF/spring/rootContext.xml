@@ -23,8 +23,8 @@
 <!-- 		<property name="password" value="root" /> -->
 <!-- 	</bean> -->
 
-<!--   <util:properties id="database" location="file:////home/donseoklee/src/properties/deploydb_prd.properties" /> -->
-  <util:properties id="database" location="file:////E:/DKUNC/properties/deploydb_local.properties" />
+  <util:properties id="database" location="file:////home/donseoklee/src/properties/deploydb_prd.properties" />
+<!--   <util:properties id="database" location="file:////E:/DKUNC/properties/deploydb_local.properties" /> -->
    
    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
       <property name="driverClassName" value="#{database['jdbc.driver']}" />
