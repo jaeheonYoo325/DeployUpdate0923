@@ -17,12 +17,23 @@
   	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/css/sb-admin.css' />">
   	<!-- Page level plugin CSS-->
   	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/vendor/datatables/dataTables.bootstrap4.css' />">
+  	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  	
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/jquery/jquery.min.js' />"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 	<script src="<c:url value='/bootstrapUiTemplate/js/sb-admin.min.js' />"></script>
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/jquery.dataTables.js' />"></script>
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/dataTables.bootstrap4.js' />"></script>
+	<script src="<c:url value='/js/common/jquery.bpopup.min.js' />"></script>
+	<style type="text/css">
+		#popupLayer {display:none;border:5px solid #cccccc;margin:0;padding:5px;background-color:#ffffff;z-index:5;}
+        #popupLayer .b-close {position:absolute;top:10px;right:25px;color:#f37a20;font-weight:bold;cursor:hand;}
+        #popupLayer .popupContent {margin:0;padding:0;text-align:center;border:0;}
+		#popupLayer .popupContent iframe {width:1000px;height:800px;border:0;padding:0px;margin:0;z-index:10;}
+	</style>
+		
 	<%-- <script src="<c:url value='/js/deploy/deployRequest.js' />"></script> --%>
 	
 <%-- <jsp:include page="/WEB-INF/pc/CommonScript/commonScript.jsp"/> --%>
@@ -182,9 +193,9 @@ $(document).ready(function() {
 		var selectedchainId=document.deployRequestFrm.chainId.value;
 	   window.open("/search/searchModifiedPrograms.do?selectedchainId="+selectedchainId+"&modifiedProgramsTextNo="+modifiedProgramsTextNo,"변경프로그램검색", "width=1000, height=800");
 	}
-	function searchModifiedResources(modifiedResourceTextNo){
-		window.open("/search/searchModifiedResource.do?modifiedResourceTextNo="+modifiedResourceTextNo,"변경소스검색", "width=1000, height=800");
-	}
+// 	function searchModifiedResources(modifiedResourceTextNo){
+// 		window.open("/search/searchModifiedResource.do?modifiedResourceTextNo="+modifiedResourceTextNo,"변경소스검색", "width=1000, height=800");
+// 	}
 	
 	function set(){
 		var workType=document.getElementById("workType").value;
@@ -215,12 +226,12 @@ $(document).ready(function() {
 			        </div>
 			        <div class="card-body">
 						<div class="table-responsive">
-		        			<form:form id="deployRequestFrm" modelAttribute="deployRequestDto" name="deployRequestFrm">
+		        			<form:form id="deployRequestFrm" modelAttribute="deployRequestDto" name="deployRequestFrm" autocomplete="off">
 			        			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 			        				<thead>
 			        					<tr>
 											<td>부문</td>
-			        						<td colspan="6">
+			        						<td colspan="6">			        							 
 			        							 <input type="hidden" name="chainId" id="chainId" readonly="readonly" value="${deployRequestDto.chainId}">
 							     				 <input type="text" name="chainName" id="chainName" placeholder="부문 선택" readonly="readonly" value="${deployRequestDto.chainName}">
 							    				 <input type="button" class="btn btn-primary" value="검색" onclick="searchChain()">

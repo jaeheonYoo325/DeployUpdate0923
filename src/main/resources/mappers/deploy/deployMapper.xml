@@ -252,11 +252,11 @@
     	AND (d.deployNo=p.modifiedPrograms_deployNo)
     	AND (d.deployNo=s.modifiedResources_deployNo)
 		WHERE 1=1
-<!-- 			<if test="searchType == '요청자' and searchKeyword != ''" > -->
-<!-- 				AND e.employeeName LIKE CONCAT(#{searchKeyword}, '%') -->
-<!-- 			</if>						  -->
+			<if test="searchType == '배포담당자' and searchKeyword != ''" >
+				AND e.employeeName LIKE CONCAT(#{searchKeyword}, '%')
+			</if>						 
 			<if test="searchType == '변경된프로그램목록' and searchKeyword != ''">
-				AND p.modifiedPrograms_pageName LIKE CONCAT(#{searchKeyword}, '%')
+				AND p.modifiedPrograms_pageName LIKE CONCAT(#{searchKeyword}, '%') || p.modifiedPrograms_pageId LIKE CONCAT(#{searchKeyword}, '%')
 			</if>						 
 			<if test="searchType == '변경된소스명' and searchKeyword != ''">
 				AND s.modifiedResources_wSourceName LIKE CONCAT(#{searchKeyword}, '%')

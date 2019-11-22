@@ -18,12 +18,22 @@
   	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/css/sb-admin.css' />">
   	<!-- Page level plugin CSS-->
   	<link rel="stylesheet" href="<c:url value='/bootstrapUiTemplate/vendor/datatables/dataTables.bootstrap4.css' />">
+  	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  	
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/jquery/jquery.min.js' />"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 	<script src="<c:url value='/bootstrapUiTemplate/js/sb-admin.min.js' />"></script>
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/jquery.dataTables.js' />"></script>
 	<script src="<c:url value='/bootstrapUiTemplate/vendor/datatables/dataTables.bootstrap4.js' />"></script>
+	<script src="<c:url value='/js/common/jquery.bpopup.min.js' />"></script>
+	<style type="text/css">
+		#popupLayer {display:none;border:5px solid #cccccc;margin:0;padding:5px;background-color:#ffffff;z-index:5;}
+        #popupLayer .b-close {position:absolute;top:10px;right:25px;color:#f37a20;font-weight:bold;cursor:hand;}
+        #popupLayer .popupContent {margin:0;padding:0;text-align:center;border:0;}
+		#popupLayer .popupContent iframe {width:1200px;height:450px;border:0;padding:0px;margin:0;z-index:10;}
+	</style>	
 </head>
 <script>
 	$(document).ready(function() {
@@ -33,10 +43,32 @@
 		    $(".sidebar").toggleClass("toggled");
 		});	
 	});
-	function showApprovalDetail(thisDeployNo,deployApprovalDetailCode){
-	   var deployNo=thisDeployNo;
-	   window.open("/employee/showDeployApprovalDetail.do/"+deployNo+"/"+deployApprovalDetailCode,"상세보기", "width=1200, height=300");
-	}
+	
+  	function openPopup(paramDeployNo, paramDeployApprovalDetailCode) {
+  		
+  		var url = "/employee/showDeployApprovalDetail.do/";  		
+        $("#popupLayer").bPopup({
+        	modalClose: false,
+            content:'iframe',
+            iframeAttr:'frameborder="auto"',
+            iframeAttr:'frameborder="0"',
+            contentContainer:'.popupContent',
+            loadUrl: url + paramDeployNo + "/" + paramDeployApprovalDetailCode,            
+            onOpen: function() {
+            	$("#popupLayer").append("<div class='popupContent'></div><div class='b-close'><img src='<c:url value='/images/employee/layerPopupCancel.jpg'/>' width='30' height='30'></div>");            	
+            }, 
+            onClose: function() {
+            	$("#popupLayer").html("");
+            }
+        },
+        function() {
+        });
+    }
+	
+// 	function showApprovalDetail(thisDeployNo,deployApprovalDetailCode){
+// 	   var deployNo=thisDeployNo;
+// 	   window.open("/employee/showDeployApprovalDetail.do/"+deployNo+"/"+deployApprovalDetailCode,"상세보기", "width=1200, height=300");
+// 	}
 </script>
 <body id="page-top">
 	<jsp:include page="/WEB-INF/pc/common/header.jsp" />
@@ -51,6 +83,7 @@
 			        </div>
 			        <div class="card-body">
 			        	<div class="table-responsive">
+			        		<div id="popupLayer"></div>
 			        		<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 			        			<thead>
 			        				<tr>
@@ -89,7 +122,8 @@
 															</c:otherwise>
 														</c:choose>
 													</td>													
-													<td><input type="button" value="상세내역" class="btn btn-primary" onclick="showApprovalDetail(${deployDeployed.deployNo},'myDeploy')"></td>
+													<td><input type="button" value="상세내역" class="btn btn-primary" onclick="openPopup(${deployDeployed.deployNo},'myDeploy')"></td>
+<%-- 													<td><input type="button" value="상세내역" class="btn btn-primary" onclick="showApprovalDetail(${deployDeployed.deployNo},'myDeploy')"></td> --%>
 												</tr>
 											</c:forEach>
 										</c:when>

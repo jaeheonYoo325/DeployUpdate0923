@@ -89,7 +89,7 @@
 		        				</thead>
 		        			</table>
 		        			<c:if test="${deployApprovalDetailCode eq 'myDeployApprovalDetail'}">
-								<input type="button" value="결제하기" class="btn btn-primary" onclick="location.href='/employee/MyDeployDoingApproval.do/${deployRequestOfDeployNo.deployNo}/Y'">
+								<input type="button" value="결재하기" class="btn btn-primary" onclick="location.href='/employee/MyDeployDoingApproval.do/${deployRequestOfDeployNo.deployNo}/Y'">
 								<input type="button" value="반려하기" class="btn btn-danger" onclick="location.href='/employee/MyDeployDoingReturn.do/${deployRequestOfDeployNo.deployNo}/N'">   
 							</c:if>    
 							 

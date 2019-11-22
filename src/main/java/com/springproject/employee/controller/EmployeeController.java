@@ -287,8 +287,9 @@ public class EmployeeController {
 				out = response.getWriter();
 				out.println("<script>");
 				out.println("alert('결재 완료하였습니다.')");
-				out.println("window.opener.location.reload()");
-				out.println("window.close()");
+				out.println("parent.location.reload();");
+				out.println("parent.$('#popupLayer').bPopup().close();");
+				out.println("parent.$('#popupLayer').html('');");
 				out.println("</script>");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -321,8 +322,9 @@ public class EmployeeController {
 				out = response.getWriter();
 				out.println("<script>");
 				out.println("alert('반려 완료하였습니다.')");
-				out.println("window.opener.location.reload()");
-				out.println("window.close()");
+				out.println("parent.location.reload();");
+				out.println("parent.$('#popupLayer').bPopup().close();");
+				out.println("parent.$('#popupLayer').html('');");
 				out.println("</script>");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -396,8 +398,9 @@ public class EmployeeController {
 				out = response.getWriter();
 				out.println("<script>");
 				out.println("alert('배포 결재 완료하였습니다.')");
-				out.println("window.opener.location.reload()");
-				out.println("window.close()");
+				out.println("parent.location.reload();");
+				out.println("parent.$('#popupLayer').bPopup().close();");
+				out.println("parent.$('#popupLayer').html('');");
 				out.println("</script>");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -523,8 +526,9 @@ public class EmployeeController {
 				out = response.getWriter();
 				out.println("<script>");
 				out.println("alert('재요청 완료하였습니다.')");
-				out.println("window.opener.location.reload()");
-				out.println("window.close()");
+				out.println("parent.location.reload();");
+				out.println("parent.$('#popupLayer').bPopup().close();");
+				out.println("parent.$('#popupLayer').html('');");
 				out.println("</script>");
 			} catch (IOException e) {
 				e.printStackTrace();
