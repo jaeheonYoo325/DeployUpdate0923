@@ -3,7 +3,7 @@
     
 		<ul class="sidebar navbar-nav">
 		  <li class="nav-item">
-	        <a class="nav-link" href="<c:url value='/main/main.do' />">
+	        <a class="nav-link" href="<c:url value='/deploy/deployList.do' />">
 	          <i class="fas fa-fw fa-tachometer-alt"></i>
 	          <span>메인</span>
 	        </a>

@@ -59,7 +59,7 @@
 										<td>기안일</td>
 										<td>결재내용</td>
 										<td>결재요청일</td>
-										<td>결재라인</td>
+										<td>결재라인</td>										
 										<td>상세내역</td>
 									</tr>
 			        			</thead>
@@ -73,7 +73,7 @@
 													<td>${deployReturned.deployDraftDate}</td>
 													<td>${deployReturned.codeName}</td>
 													<td>${deployReturned.deployApprovalRequestDate}</td>
-													<td>${deployReturned.deployApprovalLineName}</td>
+													<td>${deployReturned.deployApprovalLineName}</td>													
 													<td><input type="button" value="상세내역&재요청" class="btn btn-primary" onclick="showMyApprovalReturnedDetail(${deployReturned.deployNo})"></td>
 												</tr>
 											</c:forEach>

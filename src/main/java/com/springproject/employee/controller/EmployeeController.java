@@ -85,12 +85,12 @@ public class EmployeeController {
 			try {
 				out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('로그인 성공하였습니다.')");	
+				out.println("alert('로그인 성공하였습니다.')");
+				out.println("window.location.href='/deploy/deployList.do'");
 				out.println("</script>");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			mv = new ModelAndView("redirect:/main/main.do");
 			return mv;
 		} else {
 			try {
@@ -272,13 +272,14 @@ public class EmployeeController {
       return mv;
    }
    
-   @GetMapping("/employee/MyDeployDoingApproval.do/{deployNo}")
-   public void doMyDeployApprovalAction(@PathVariable Long deployNo,HttpSession session,HttpServletResponse response) {
+   @GetMapping("/employee/MyDeployDoingApproval.do/{deployNo}/{isDeployApproval}")
+   public void doMyDeployApprovalAction(@PathVariable Long deployNo, @PathVariable String isDeployApproval, HttpSession session,HttpServletResponse response) {
 	  response.setCharacterEncoding("UTF-8"); 
 	  response.setContentType("text/html; charset=UTF-8");
 	  
       DeployApprovalDto deployApprovalDto=this.employeeService.selectMyDeployApprovalOfdeployNoService(deployNo);
       deployApprovalDto.setDeployApprovalLineConfirm(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
+      deployApprovalDto.setIsDeployApproval(isDeployApproval);
       boolean isDoingApprovalSuccess =this.employeeService.myDeployDoApprovalingService(deployApprovalDto);
       PrintWriter out;
 		if (isDoingApprovalSuccess) {
@@ -305,13 +306,14 @@ public class EmployeeController {
 		}
    }
    
-   @GetMapping("/employee/MyDeployDoingReturn.do/{deployNo}")
-   public void doMyDeployReturnAction(@PathVariable Long deployNo,HttpSession session,HttpServletResponse response) {
+   @GetMapping("/employee/MyDeployDoingReturn.do/{deployNo}/{isDeployApproval}")
+   public void doMyDeployReturnAction(@PathVariable Long deployNo, @PathVariable String isDeployApproval, HttpSession session,HttpServletResponse response) {
 	  response.setCharacterEncoding("UTF-8"); 
 	  response.setContentType("text/html; charset=UTF-8");
 	  
       DeployApprovalDto deployApprovalDto=this.employeeService.selectMyDeployApprovalOfdeployNoService(deployNo);
       deployApprovalDto.setDeployApprovalLineConfirm(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
+      deployApprovalDto.setIsDeployApproval(isDeployApproval);
       boolean isDoingReturnSuccess=this.employeeService.myDeployDoReturningService(deployApprovalDto);
       PrintWriter out;
 		if (isDoingReturnSuccess) {
@@ -340,7 +342,7 @@ public class EmployeeController {
    
    @GetMapping("/employee/myDeployApproved.do")
    public ModelAndView viewMyDeployApprovedPage(HttpSession session) {
-      List<DeployApprovalDto> deployApproved = this.employeeService.selectMyDeployApprovedService((EmployeeDto)session.getAttribute(Session.USER));
+      List<DeployApprovalDto> deployApproved = this.employeeService.selectMyDeployApprovedService((EmployeeDto)session.getAttribute(Session.USER));          
       ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
       mv.addObject("deployApproved",deployApproved);
       return mv;
@@ -375,8 +377,8 @@ public class EmployeeController {
  		}
    }
    
-   @GetMapping("/employee/myDeployDoingDeploy.do/{deployNo}")
-   public void doMyDeployDoDeployingAction(@PathVariable Long deployNo,HttpSession session,HttpServletResponse response) {
+   @GetMapping("/employee/myDeployDoingDeploy.do/{deployNo}/{isDeployApproval}")
+   public void doMyDeployDoDeployingAction(@PathVariable Long deployNo, @PathVariable String isDeployApproval, HttpSession session,HttpServletResponse response) {
 	  response.setCharacterEncoding("UTF-8"); 
 	  response.setContentType("text/html; charset=UTF-8");
 	  
@@ -386,6 +388,7 @@ public class EmployeeController {
 	  
       DeployApprovalDto deployApprovalDto = this.employeeService.selectMyDeployDoingDeployOfdeployNoService(deployApprovalDtoForSearch);
       deployApprovalDto.setDeployApprovalLineConfirm(((EmployeeDto)session.getAttribute(Session.USER)).getEmployeeNo());
+      deployApprovalDto.setIsDeployApproval(isDeployApproval);
       boolean isDoDeployingSuccess =this.employeeService.myDeployDoDeployingService(deployApprovalDto);
       PrintWriter out;
 		if (isDoDeployingSuccess) {

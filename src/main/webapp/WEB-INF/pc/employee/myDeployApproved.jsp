@@ -62,6 +62,7 @@
 										<td>결재라인</td>
 										<td>결재일</td>
 										<td>결재확인(결재라인)</td>
+										<td>결재여부</td>
 										<td>상세내역</td>
 									</tr>
 			        			</thead>
@@ -78,13 +79,23 @@
 													<td>${deployApproved.deployApprovalLineName}</td>
 													<td>${deployApproved.deployApprovalDate}</td>
 													<td>${deployApproved.deployApprovalLineConfirmName}</td>
+													<td>
+														<c:choose>
+															<c:when test="${deployApproved.isDeployApproval eq 'Y'}">
+																승인
+															</c:when>
+															<c:otherwise>
+																반려
+															</c:otherwise>
+														</c:choose>
+													</td>
 													<td><input type="button" value="상세내역" class="btn btn-primary" onclick="showApprovalDetail(${deployApproved.deployNo},'myDeploy')"></td>
 												</tr>
 											</c:forEach>
 										</c:when>
 										<c:otherwise>
 											<tr>
-												<td colspan="9">내역이 없습니다</td>
+												<td colspan="10">내역이 없습니다</td>
 											</tr>
 										</c:otherwise>
 									</c:choose>

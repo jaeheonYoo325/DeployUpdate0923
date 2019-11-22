@@ -87,7 +87,8 @@
 	      UPDATE    DeployApproval
 	      SET     
 	              deployApprovalDate = now(),
-	              deployApprovalLineConfirm = #{deployApprovalLineConfirm}
+	              deployApprovalLineConfirm = #{deployApprovalLineConfirm},
+	              isDeployApproval = #{isDeployApproval}
 	      WHERE   deployNo = #{deployNo} AND deployApprovalDate is null
      </update>
      
@@ -111,13 +112,13 @@
     </insert>
     
     <insert id="myDeployDoReturningOfNextApprovalDao" parameterType="DeployApprovalDto">
-	     INSERT INTO DEPLOYApproval(
+	     INSERT INTO DEPLOYAPPROVAL(
 	     deployNo,
 	     deployDrafter,
 	     deployDraftDate,
 	     deployApprovalRequestDate,
 	     deployApprovalLine,
-	     deployApprovalDescription
+	     deployApprovalDescription	   
 	    ) 
 	    VALUES(
 	    #{deployNo},
@@ -125,7 +126,7 @@
 	    #{deployDraftDate},
 	    now(),
 	    #{deployApprovalLineConfirm},
-	    #{deployApprovalDescription}
+	    #{deployApprovalDescription}	    
 	    )
     </insert>
     
@@ -154,31 +155,32 @@
     
 <!--     1022추가 -->
     <select id="checkThisUserHaveAuthorityOfRequestDao" parameterType="EmployeeDto" resultType="AuthorityDto">
-    SELECT
-    	employeeNo,
-    	roleCode
-    FROM authority
-    WHERE employeeNo=#{employeeNo} AND roleCode="RequestOfDeploy"
+	    SELECT
+	    	employeeNo,
+	    	roleCode
+	    FROM authority
+	    WHERE employeeNo=#{employeeNo} AND roleCode="RequestOfDeploy"
     </select>
     
     <select id="selectMyDeployApprovedDao" parameterType="EmployeeDto" resultType="DeployApprovalDto">
-    SELECT 
-    	d.deployNo,
-    	d.deployDrafter,
-    	(select employeeName from employee where employeeNo = d.deployDrafter) as deployDrafterName,
-    	d.deployDraftDate,
-    	d.deployApprovalRequestDate,
-    	d.deployApprovalLine,
-    	(select employeeName from employee where employeeNo = d.deployApprovalLine) as deployApprovalLineName,
-    	d.deployApprovalDescription,
-    	m.codeName,
-    	d.deployApprovalDate,
-    	d.deployApprovalLineConfirm,
-    	(select employeeName from employee where employeeNo = d.deployApprovalLineConfirm) as deployApprovalLineConfirmName
-   	FROM DEPLOYApproval d
-    JOIN MASTERTABLE m
-    ON d.deployApprovalDescription=m.codeValue
-    WHERE d.deployApprovalLineConfirm=#{employeeNo} AND NOT deployApprovalDescription="deployApprovalE0" AND deployApprovalDate is NOT NULL
+	    SELECT 
+	    	d.deployNo,
+	    	d.deployDrafter,
+	    	(select employeeName from employee where employeeNo = d.deployDrafter) as deployDrafterName,
+	    	d.deployDraftDate,
+	    	d.deployApprovalRequestDate,
+	    	d.deployApprovalLine,
+	    	(select employeeName from employee where employeeNo = d.deployApprovalLine) as deployApprovalLineName,
+	    	d.deployApprovalDescription,
+	    	m.codeName,
+	    	d.deployApprovalDate,
+	    	d.deployApprovalLineConfirm,
+	    	(select employeeName from employee where employeeNo = d.deployApprovalLineConfirm) as deployApprovalLineConfirmName
+	    	, d.isDeployApproval
+	   	FROM DEPLOYApproval d
+	    JOIN MASTERTABLE m
+	    ON d.deployApprovalDescription=m.codeValue    
+	    WHERE d.deployApprovalLineConfirm=#{employeeNo} AND NOT deployApprovalDescription="deployApprovalE0" AND deployApprovalDate is NOT NULL
     </select>
     
     <select id="selectMyDeployWillDeployDao" parameterType="EmployeeDto" resultType="DeployApprovalDto">
@@ -219,11 +221,11 @@
     </select>
     
     <select id="checkThisUserHaveAuthorityOfDeployDao" parameterType="EmployeeDto" resultType="AuthorityDto">
-    SELECT
-    	employeeNo,
-    	roleCode
-    FROM authority
-    WHERE employeeNo=#{employeeNo} AND roleCode="DeployOfDeploy"
+	    SELECT
+	    	employeeNo,
+	    	roleCode
+	    FROM authority
+	    WHERE employeeNo=#{employeeNo} AND roleCode="DeployOfDeploy"
     </select>
     
     <select id="selectMyDeployDeployedDao" parameterType="EmployeeDto" resultType="DeployApprovalDto">
@@ -239,7 +241,8 @@
     	m.codeName,
     	d.deployApprovalDate,
     	d.deployApprovalLineConfirm,
-    	(select employeeName from employee where employeeNo = d.deployApprovalLineConfirm) as deployApprovalLineConfirmName
+    	(select employeeName from employee where employeeNo = d.deployApprovalLineConfirm) as deployApprovalLineConfirmName,
+    	d.isDeployApproval    	
    	FROM DEPLOYApproval d
     JOIN MASTERTABLE m
     ON d.deployApprovalDescription=m.codeValue
@@ -301,17 +304,16 @@
   	</select>
   	
   	<select id="insertOneProgramDao" parameterType="ProgramDto">
-  	INSERT INTO PROGRAMTABLE
-  							(
-  								pageId,
-  								pageName,
-  								chainId
-  							)
-  					 VALUES (
-  					 			#{pageId},
-  					 			#{pageName},
-  					 			#{chainId}
-  					 		) 		
+  		INSERT INTO PROGRAMTABLE	(
+  										pageId,
+  										pageName,
+  										chainId
+  									)
+		VALUES 						(
+  					 					#{pageId},
+  					 					#{pageName},
+  					 					#{chainId}
+  					 				) 		
   	</select>
   	
   	<select id="searchThisProgramIdIsCanUsedDao" parameterType="ProgramDto" resultType="_int">

@@ -170,41 +170,51 @@ function showPayDetail(thisDeployNo,deployPayDetailCode){
 										</tr>
 				        			</thead>
 				        			<tbody>
-										<c:forEach items="${deployRequests}" var="deploy">
-											<tr>
-												<td>${deploy.deployNo}</td>	
-												<td>${deploy.chainName}</td>	
-												<td>${deploy.workType}</td>	
-												<td>${deploy.requestDate}</td>	
-												<td>${deploy.requestTime}</td>	
-<%-- 												<td>${deploy.serviceRequestId}</td>	 --%>
-												<td>${deploy.worker}</td>	
-												<td>${deploy.modifiedContents}</td>	
-												<td>
-													<c:forEach items="${modifiedProgramsMap[deploy.deployNo]}" varStatus="status">
-														<c:out value="${modifiedProgramsMap[deploy.deployNo][status.index].modifiedPrograms_pageId}(${modifiedProgramsMap[deploy.deployNo][status.index].modifiedPrograms_pageName})"></c:out><br>
-													</c:forEach>
-												</td>
-												<td>
-													<c:forEach items="${modifiedResourcesMap[deploy.deployNo]}" varStatus="status">
-														<c:out value="${modifiedResourcesMap[deploy.deployNo][status.index].modifiedResources_wSourceName}"></c:out><br>
-													</c:forEach>
-												</td>
-<%-- 												<td>${deploy.employeeName} <input type="hidden" value="${deploy.requester}"></td> --%>
-												<td>${deploy.deployer}</td>
-<%-- 												<td>${deploy.developConfirmer}</td> --%>
-<%-- 												<td>${deploy.testConfirmer}</td> --%>
-<%-- 												<td>${deploy.productionConfirmer}</td> --%>
-<%-- 												<td>${deploy.division}</td> --%>
-												<td>	
-													<c:forEach items="${categoryMasterCodes[categoryType.cateStatusString]}" begin="1" varStatus="status">
-														<input type="radio" name="statusCode${deploy.deployNo}"  <c:if test="${deploy.statusCode eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">checked="checked"</c:if>disabled="disabled">
-                                          				<c:if test="${deploy.statusCode eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}"><font color="red">${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName}</font></c:if>
-                                          				<c:if test="${deploy.statusCode ne categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName}</c:if>
-													</c:forEach>		
-												</td>
-											</tr>
-										</c:forEach>				        			
+				        				<c:choose>
+				        					<c:when test="${not empty deployRequests}">
+												<c:forEach items="${deployRequests}" var="deploy">
+													<tr>
+														<td>${deploy.deployNo}</td>	
+														<td>${deploy.chainName}</td>	
+														<td>${deploy.workType}</td>	
+														<td>${deploy.requestDate}</td>	
+														<td>${deploy.requestTime}</td>	
+		<%-- 												<td>${deploy.serviceRequestId}</td>	 --%>
+														<td>${deploy.worker}</td>	
+														<td>${deploy.modifiedContents}</td>	
+														<td>
+															<c:forEach items="${modifiedProgramsMap[deploy.deployNo]}" varStatus="status">
+																<c:out value="${modifiedProgramsMap[deploy.deployNo][status.index].modifiedPrograms_pageId}(${modifiedProgramsMap[deploy.deployNo][status.index].modifiedPrograms_pageName})"></c:out><br>
+															</c:forEach>
+														</td>
+														<td>
+															<c:forEach items="${modifiedResourcesMap[deploy.deployNo]}" varStatus="status">
+																<c:out value="${modifiedResourcesMap[deploy.deployNo][status.index].modifiedResources_wSourceName}"></c:out><br>
+															</c:forEach>
+														</td>
+		<%-- 												<td>${deploy.employeeName} <input type="hidden" value="${deploy.requester}"></td> --%>
+														<td>${deploy.deployer}</td>
+		<%-- 												<td>${deploy.developConfirmer}</td> --%>
+		<%-- 												<td>${deploy.testConfirmer}</td> --%>
+		<%-- 												<td>${deploy.productionConfirmer}</td> --%>
+		<%-- 												<td>${deploy.division}</td> --%>
+														<td>	
+															<c:forEach items="${categoryMasterCodes[categoryType.cateStatusString]}" begin="1" varStatus="status">
+																<input type="radio" name="statusCode${deploy.deployNo}"  <c:if test="${deploy.statusCode eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">checked="checked"</c:if>disabled="disabled">
+		                                          				<c:if test="${deploy.statusCode eq categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}"><font color="red">${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName}</font></c:if>
+		                                          				<c:if test="${deploy.statusCode ne categoryMasterCodes[categoryType.cateStatusString][status.index].codeValue}">${categoryMasterCodes[categoryType.cateStatusString][status.index].codeName}</c:if>
+															</c:forEach>		
+														</td>
+													</tr>
+												</c:forEach>				        						
+				        					</c:when>
+				        					<c:otherwise>
+				        						<tr>
+													<td colspan="11">내역이 없습니다</td>
+												</tr>
+				        					</c:otherwise>
+				        				</c:choose>
+				        			
 				        			</tbody>
 				        		</table>
 				        	</div>

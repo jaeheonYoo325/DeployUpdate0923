@@ -303,7 +303,11 @@
 	       deployDraftDate,
 	       deployApprovalRequestDate,
 	       deployApprovalLine,
-	       deployApprovalDescription
+	       deployApprovalDescription,
+	       deployApprovalDate,
+	       deployApprovalLineConfirm,
+	       isDeployApproval
+	       
 	    ) 
 	    VALUES(
 	       #{deployNo},
@@ -311,7 +315,10 @@
 	       now(),
 	       now(),
 	       "3",
-	       "deployApprovalB0"
+	       "deployApprovalB0",
+	       null,
+	       null,
+	       null
 	    )
     </insert>
     

@@ -62,7 +62,7 @@
 										<td>결재요청일</td>
 										<td>결재라인</td>
 										<td>결재일</td>
-										<td>결재확인(결재라인)</td>
+										<td>결재확인(결재라인)</td>										
 										<td>상세내역</td>
 									</tr>
 			        			</thead>
@@ -78,7 +78,7 @@
 													<td>${deployCompleted.deployApprovalRequestDate}</td>
 													<td>${deployCompleted.deployApprovalLineName}</td>
 													<td>${deployCompleted.deployApprovalDate}</td>
-													<td>${deployCompleted.deployApprovalLineConfirmName}</td>
+													<td>${deployCompleted.deployApprovalLineConfirmName}</td>													
 													<td><input type="button" value="상세내역" class="btn btn-primary" onclick="showApprovalDetail(${deployCompleted.deployNo},'myDeploy')"></td>													
 												</tr>
 											</c:forEach>

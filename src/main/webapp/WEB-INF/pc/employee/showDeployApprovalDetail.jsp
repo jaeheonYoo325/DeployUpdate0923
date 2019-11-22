@@ -89,13 +89,13 @@
 		        				</thead>
 		        			</table>
 		        			<c:if test="${deployApprovalDetailCode eq 'myDeployApprovalDetail'}">
-								<input type="button" value="결제하기" class="btn btn-primary" onclick="location.href='/employee/MyDeployDoingApproval.do/${deployRequestOfDeployNo.deployNo}'">
-								<input type="button" value="반려하기" class="btn btn-danger" onclick="location.href='/employee/MyDeployDoingReturn.do/${deployRequestOfDeployNo.deployNo}'">   
+								<input type="button" value="결제하기" class="btn btn-primary" onclick="location.href='/employee/MyDeployDoingApproval.do/${deployRequestOfDeployNo.deployNo}/Y'">
+								<input type="button" value="반려하기" class="btn btn-danger" onclick="location.href='/employee/MyDeployDoingReturn.do/${deployRequestOfDeployNo.deployNo}/N'">   
 							</c:if>    
 							 
 							<c:if test="${deployApprovalDetailCode eq 'myDeployWillDeploy'}">
-								<input type="button" value="배포하기" class="btn btn-primary" onclick="location.href='/employee/myDeployDoingDeploy.do/${deployRequestOfDeployNo.deployNo}'">
-								<input type="button" value="반려하기" class="btn btn-danger" onclick="location.href='/employee/MyDeployDoingReturn.do/${deployRequestOfDeployNo.deployNo}'">   
+								<input type="button" value="배포하기" class="btn btn-primary" onclick="location.href='/employee/myDeployDoingDeploy.do/${deployRequestOfDeployNo.deployNo}/Y'">
+								<input type="button" value="반려하기" class="btn btn-danger" onclick="location.href='/employee/MyDeployDoingReturn.do/${deployRequestOfDeployNo.deployNo}/N'">   
 							</c:if>
 		        		</div>
 			        </div>
