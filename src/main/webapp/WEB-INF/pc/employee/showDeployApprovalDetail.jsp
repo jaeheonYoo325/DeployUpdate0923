@@ -71,7 +71,7 @@
 		        						<td>${deployRequestOfDeployNo.modifiedContents}</td>
 		        						<td>
 											<c:forEach items="${modifiedProgramOfDeployNo}" varStatus="status">
-												${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageId}(${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageName})
+												${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageId}(${modifiedProgramOfDeployNo[status.index].modifiedPrograms_pageName})<br>
 								            </c:forEach>  
 		        						</td>
 		        						<td>

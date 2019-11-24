@@ -32,7 +32,7 @@
 		#popupLayer {display:none;border:5px solid #cccccc;margin:0;padding:5px;background-color:#ffffff;z-index:5;}
         #popupLayer .b-close {position:absolute;top:10px;right:25px;color:#f37a20;font-weight:bold;cursor:hand;}
         #popupLayer .popupContent {margin:0;padding:0;text-align:center;border:0;}
-		#popupLayer .popupContent iframe {width:1200px;height:450px;border:0;padding:0px;margin:0;z-index:10;}
+		#popupLayer .popupContent iframe {width:1300px;height:450px;border:0;padding:0px;margin:0;z-index:10;}
 	</style>	
 </head>
 <script> 
