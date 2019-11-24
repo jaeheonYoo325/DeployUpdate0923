@@ -183,16 +183,59 @@ $(document).ready(function() {
 	 });
  });
  
+  	function searchChain() {
+  		var url = "/search/searchChain.do";
+
+  		$("#popupLayer").bPopup({
+        	modalClose: false,
+            content:'iframe',
+            iframeAttr:'frameborder="auto"',
+            iframeAttr:'frameborder="0"',
+            contentContainer:'.popupContent',
+            loadUrl: url,            
+            onOpen: function() {
+            	$("#popupLayer").append("<div class='popupContent'></div><div class='b-close'><img src='<c:url value='/images/employee/layerPopupCancel.jpg'/>' width='30' height='30'></div>");            	
+            }, 
+            onClose: function() {
+            	$("#popupLayer").html("");
+            }
+        },
+        function() {
+        });
+    }
+  	
+  	function searchModifiedPrograms(modifiedProgramsTextNo){
+  		var selectedchainId = $("#chainId").val();
+  		var url = "/search/searchModifiedPrograms.do?selectedchainId=" + selectedchainId + "&modifiedProgramsTextNo="+modifiedProgramsTextNo;
+  		
+  		$("#popupLayer").bPopup({
+        	modalClose: false,
+            content:'iframe',
+            iframeAttr:'frameborder="auto"',
+            iframeAttr:'frameborder="0"',
+            contentContainer:'.popupContent',
+            loadUrl: url,            
+            onOpen: function() {
+            	$("#popupLayer").append("<div class='popupContent'></div><div class='b-close'><img src='<c:url value='/images/employee/layerPopupCancel.jpg'/>' width='30' height='30'></div>");            	
+            }, 
+            onClose: function() {
+            	$("#popupLayer").html("");
+            }
+        },
+        function() {
+        });
+	}
+ 
 //   	function searchEmployee(employeeSearchWhere){
 // 	   window.open("/search/searchEmployee.do?employeeSearchWhere="+employeeSearchWhere,"임직원검색", "width=1000, height=800");
 // 	}
-	function searchChain(){
-	   window.open("/search/searchChain.do","부문검색", "width=1000, height=800");
-	}
-	function searchModifiedPrograms(modifiedProgramsTextNo){
-		var selectedchainId=document.deployRequestFrm.chainId.value;
-	   window.open("/search/searchModifiedPrograms.do?selectedchainId="+selectedchainId+"&modifiedProgramsTextNo="+modifiedProgramsTextNo,"변경프로그램검색", "width=1000, height=800");
-	}
+// 	function searchChain(){
+// 	   window.open("/search/searchChain.do","부문검색", "width=1000, height=800");
+// 	}
+// 	function searchModifiedPrograms(modifiedProgramsTextNo){
+// 		var selectedchainId=document.deployRequestFrm.chainId.value;
+// 	   window.open("/search/searchModifiedPrograms.do?selectedchainId="+selectedchainId+"&modifiedProgramsTextNo="+modifiedProgramsTextNo,"변경프로그램검색", "width=1000, height=800");
+// 	}
 // 	function searchModifiedResources(modifiedResourceTextNo){
 // 		window.open("/search/searchModifiedResource.do?modifiedResourceTextNo="+modifiedResourceTextNo,"변경소스검색", "width=1000, height=800");
 // 	}
@@ -226,16 +269,17 @@ $(document).ready(function() {
 			        </div>
 			        <div class="card-body">
 						<div class="table-responsive">
+							<div id="popupLayer"></div>
 		        			<form:form id="deployRequestFrm" modelAttribute="deployRequestDto" name="deployRequestFrm" autocomplete="off">
 			        			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 			        				<thead>
 			        					<tr>
 											<td>부문</td>
-			        						<td colspan="6">			        							 
-			        							 <input type="hidden" name="chainId" id="chainId" readonly="readonly" value="${deployRequestDto.chainId}">
-							     				 <input type="text" name="chainName" id="chainName" placeholder="부문 선택" readonly="readonly" value="${deployRequestDto.chainName}">
+			        						<td colspan="6">
+		        								<input type="hidden" name="chainId" id="chainId" readonly="readonly" value="${deployRequestDto.chainId}">
+						     					<input type="text" name="chainName" id="chainName" placeholder="부문 선택" readonly="readonly" value="${deployRequestDto.chainName}">
 							    				 <input type="button" class="btn btn-primary" value="검색" onclick="searchChain()">
-							 				    <form:errors id="errorsChainId" cssStyle="color: red;" path="chainId" />
+						 				    	<form:errors id="errorsChainId" cssStyle="color: red;" path="chainId" />
 			        						</td>		        						
 			        					</tr>
 			        					<tr>

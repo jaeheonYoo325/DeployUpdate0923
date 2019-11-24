@@ -148,5 +148,4 @@ public class DeployDaoImpl extends SqlSessionDaoSupport implements DeployDao {
 	public List<MasterCodeDto> selectMasterCodeOfSearchTypeDao(String searchTypeString) {
 		return getSqlSession().selectList("DeployDao.selectMasterCodeOfSearchTypeDao", searchTypeString);
 	}
-	
 }

@@ -331,12 +331,12 @@
       WHERE   CODETYPE=#{searchTypeString}
    </select>
    
-       <select id="selectSearchAllEmployeesDao" resultType="EmployeeDto">
+   <select id="selectSearchAllEmployeesDao" resultType="EmployeeDto">
 	      SELECT
 	            employeeNo
 	           , employeeName
 	      FROM EMPLOYEE
-    </select>
-    
+   </select>
+      
 </mapper>                         
                                   

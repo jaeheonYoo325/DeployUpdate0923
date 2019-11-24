@@ -45,7 +45,7 @@
 		        			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 		        				<thead>
 		        					<tr>
-		        						<td>No</td>
+		        						<td>요청 No</td>
 		        						<td>부문</td>
 		        						<td>작업유형</td>
 		        						<td>요청날짜</td>

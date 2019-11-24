@@ -87,7 +87,7 @@
 			        		<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 			        			<thead>
 			        				<tr>
-										<td>DeployNo</td>
+										<td>요청 No</td>
 										<td>기안자</td>
 										<td>기안일</td>
 										<td>결재내용</td>

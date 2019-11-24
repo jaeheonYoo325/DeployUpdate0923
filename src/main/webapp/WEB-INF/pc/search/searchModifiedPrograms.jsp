@@ -36,11 +36,17 @@ $(document).ready(function() {
  });
  
  function useThismodifiedPrograms(modifiedPrograms_pageId,modifiedPrograms_pageName){
-	  var modifiedProgramsTextNo=document.getElementById("modifiedProgramsTextNo").value;
-	  
-     opener.document.getElementById("modifiedPrograms_pageId"+modifiedProgramsTextNo).value=modifiedPrograms_pageId;
-     opener.document.getElementById("modifiedPrograms_pageName"+modifiedProgramsTextNo).value=modifiedPrograms_pageName;
-     window.close();
+	 
+	 var modifiedProgramsTextNo = $("#modifiedProgramsTextNo").val();
+	 parent.$("#modifiedPrograms_pageId" + modifiedProgramsTextNo).val(modifiedPrograms_pageId);
+	 parent.$("#modifiedPrograms_pageName" + modifiedProgramsTextNo).val(modifiedPrograms_pageName);
+	 parent.$('#popupLayer').bPopup().close();
+	 parent.$('#popupLayer').html('');
+	 
+// 	  var modifiedProgramsTextNo=document.getElementById("modifiedProgramsTextNo").value;
+//      opener.document.getElementById("modifiedPrograms_pageId"+modifiedProgramsTextNo).value=modifiedPrograms_pageId;
+//      opener.document.getElementById("modifiedPrograms_pageName"+modifiedProgramsTextNo).value=modifiedPrograms_pageName;
+//      window.close();
   }
 </script>
 	<body id="page-top">

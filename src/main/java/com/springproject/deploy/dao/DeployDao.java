@@ -64,5 +64,4 @@ public interface DeployDao {
 
 	public List<MasterCodeDto> selectMasterCodeOfSearchTypeDao(String searchTypeString);
 
-
 }

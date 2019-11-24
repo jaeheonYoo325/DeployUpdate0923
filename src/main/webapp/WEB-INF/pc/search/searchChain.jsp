@@ -38,9 +38,13 @@ $(document).ready(function() {
  });
  
  function useThisChain(chainId,chainName){
-     opener.document.getElementById("chainId").value=chainId
-     opener.document.getElementById("chainName").value=chainName
-     window.close();
+	 parent.$("#chainId").val(chainId);
+	 parent.$("#chainName").val(chainName);
+	 parent.$('#popupLayer').bPopup().close();
+	 parent.$('#popupLayer').html('');
+//      opener.document.getElementById("chainId").value=chainId
+//      opener.document.getElementById("chainName").value=chainName
+//      window.close();
   }
 </script>
 	<body id="page-top">

@@ -259,11 +259,17 @@ public class EmployeeController {
    
    @GetMapping("/employee/showDeployApprovalDetail.do/{deployNo}/{deployApprovalDetailCode}")
    public ModelAndView viewMyDeployApprovalDetail(@PathVariable Long deployNo,@PathVariable String deployApprovalDetailCode,HttpServletRequest request) {
-      ModelAndView mv=new ModelAndView(HttpRequestHelper.getJspPath());
+      ModelAndView mv = new ModelAndView(HttpRequestHelper.getJspPath());
       DeployRequestDto deployRequestOfDeployNo = this.deployService.selectDeployRequestOfDeployNoService(deployNo);
       List<ModifiedProgramsDto> modifiedProgramOfDeployNo = this.deployService.selectModifiedProgramOfDeploNoService(deployNo);
       List<ModifiedResourcesDto> modifiedResourceOfDeployNo = this.deployService.selectModifiedResourceOfDeploNoService(deployNo);
       List<MasterCodeDto> statusCodeList = this.deployService.selectAllMasterTableByStatusService();
+      
+      
+      String BeforeModifiedContentsReplacedStringForMultiLine = deployRequestOfDeployNo.getModifiedContents();
+      String AfterModifiedContentsReplacedStringForMultiLine=BeforeModifiedContentsReplacedStringForMultiLine.replace("\n", "<br>");
+      deployRequestOfDeployNo.setModifiedContents(AfterModifiedContentsReplacedStringForMultiLine);
+      
       mv.addObject("modifiedProgramOfDeployNo",modifiedProgramOfDeployNo);
       mv.addObject("modifiedResourceOfDeployNo", modifiedResourceOfDeployNo);
       mv.addObject("deployRequestOfDeployNo", deployRequestOfDeployNo);
