@@ -11,11 +11,11 @@
 	      <li class="nav-item dropdown">
 	        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	          <i class="fas fa-fw fa fa-file"></i>
-	          <span>배포</span>
+	          <span>배포 요청</span>
 	        </a>
 	        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
 <!-- 	          <h6 class="dropdown-header">배포</h6> -->
-	          <a class="dropdown-item" href="<c:url value='/deploy/deployRequest.do' />">배포요청</a>
+	          <a class="dropdown-item" href="<c:url value='/deploy/deployRequest.do' />">배포 요청 등록</a>
 	          <a class="dropdown-item" href="<c:url value='/deploy/deployList.do' />">배포 요청 현황</a>
 	        </div>
 	      </li>
